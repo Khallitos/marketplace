@@ -4,6 +4,7 @@ import { PersonIcon, LockIcon, AccountCircleIcon } from "@mui/icons-material/";
 import { useAppContext } from "../context/AppContext";
 import { Alert } from "../components/Alert";
 import bg from '../../public/images/bg.jpg'
+import Link from "next/link";
 // import {Link} from "react-router-dom"
 // import { useNavigate } from "react-router-dom";
 
@@ -152,7 +153,7 @@ export default function login() {
         </Box>
       </form>
       {/* <Link to = "/forgotpassword" >Forgot password</Link>
-      <Link to = "/register" >Register</Link> */}
+      <Link to = "/register" >Register</Link>  */}
     </Box>
     </Box>
  

@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  red,
-  SearchIcon,
-  InputBase,
-  Typography,
-  IconButton,
-  Toolbar,
-  Box,
-  AppBar,
-  Button,
-  Hidden,
-  Divider,
-  styled,
-  alpha,
-} from "@mui/material/";
-import MenuIcon from '@mui/icons-material/Menu';
-
-import {
-  GpsFixed,
-  AccountCircleIcon,
-  CloudDownloadIcon,
-  SettingsIcon,
-} from "@mui/icons-material/";
-
-import { useAppContext } from "../context/AppContext";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import MenuIcon from "@mui/icons-material/Menu";
+import SearchIcon from "@mui/icons-material/Search";
+import { red } from "@mui/material/colors";
+import { Button, Hidden, Divider } from "@mui/material";
+import { GpsFixed } from "@mui/icons-material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { useAppContext } from "@/context/AppContext";
+import { useRouter } from "next/router";
 import Head from "next/head";
-import NextLink from "next/link";
+import Link from "next/link";
 import links from "../utils/links";
 
 const phoneNavbar = {
@@ -97,51 +89,122 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
 const Navbar = () => {
-  const { username, logUserOff,token } = useAppContext();
+  const { username, logUserOff, token } = useAppContext();
+  const router = useRouter();
   const logoutUser = () => {
-      logUserOff()
-      window.location.reload();
-    };
+    logUserOff();
+    window.location.reload();
+  };
 
   return (
     <>
       <Box sx={MainBox}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-        
-        <NextLink href="/">
-          <Typography
-            variant="h6"
-            noWrap
-            sx={{
-              flexGrow: 1,
-              display: { xs: "none", sm: "block" },
-              textDecoration: "none",
-              color: "white",
-              fontSize: "20px",
-              fontWeight: "bold",
-            }}
-          >
-            KANMUSIC
-          </Typography>
-          </NextLink>
-        </Toolbar>
-      </AppBar>
-    </Box>
-     
-    </> 
-  );
-}
+        <AppBar position="fixed">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
 
-export default Navbar
+            <Link href="/">
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", sm: "block" },
+                  textDecoration: "none",
+                  color: "white",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                }}
+              >
+                KANMUSIC
+              </Typography>
+            </Link>
+
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {links.map((link) => (
+                <Link href={link.path} style={{ textDecoration: "none" }}>
+                  <Button
+                    key={link.id}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {link.title}
+                  </Button>
+                </Link>
+              ))}
+            </Box>
+            {token && (
+              <>
+                <Typography variant="h5">
+                  <AccountCircleIcon fontSize="small" /> {username}
+                </Typography>
+
+                <Button
+                  variant="outlined"
+                  onClick={logoutUser}
+                  sx={{
+                    backgroundColor: "white",
+                    marginX: "30px",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    padding: "2px",
+                  }}
+                >
+                  Logout
+                </Button>
+                <Button
+                  variant="text"
+                  color="primary"
+                  onClick={() => router.push("/")}
+                >
+                  <SettingsIcon fontSize="large" sx={{ color: "white" }} />
+                </Button>
+              </>
+            )}
+
+            {!token && (
+              <>
+                <Button
+                  variant="outlined"
+                  onClick={() => router.push("/login")}
+                  sx={{
+                    backgroundColor: "white",
+                    marginX: "30px",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    padding: "2px",
+                    "&:hover": {
+                      borderRadius:"10px solid blue",
+                      color:"black",
+                      background:"white",
+                      width:"100px"
+                    }
+
+                  }}
+                >
+                  Login
+                </Button>
+              </>
+            )}
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
+  );
+};
+
+export default Navbar;
