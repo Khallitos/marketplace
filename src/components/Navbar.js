@@ -25,7 +25,7 @@ import {
 
 import { useAppContext } from "../context/AppContext";
 import Head from "next/head";
-import Link from "next/link";
+import NextLink from "next/link";
 import links from "../utils/links";
 
 const phoneNavbar = {
@@ -120,11 +120,10 @@ const Navbar = () => {
             <MenuIcon />
           </IconButton>
         
+        <NextLink href="/">
           <Typography
             variant="h6"
             noWrap
-            component={Link}
-            to="/"
             sx={{
               flexGrow: 1,
               display: { xs: "none", sm: "block" },
@@ -136,6 +135,7 @@ const Navbar = () => {
           >
             KANMUSIC
           </Typography>
+          </NextLink>
         </Toolbar>
       </AppBar>
     </Box>
