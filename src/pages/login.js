@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material/";
+import { Box, Typography, TextField, Button, Divider } from "@mui/material/";
 import { PersonIcon, LockIcon, AccountCircleIcon } from "@mui/icons-material/";
 import { useAppContext } from "../context/AppContext";
 import { Alert } from "../components/Alert";
@@ -152,8 +152,11 @@ export default function login() {
         </Button>
         </Box>
       </form>
-      {/* <Link to = "/forgotpassword" >Forgot password</Link>
-      <Link to = "/register" >Register</Link>  */}
+      <Box sx={{marginBottom:"5px"}}><p>Need an account  ?   <Link href="/register">Sign Up</Link></p></Box>
+      <Divider orientation="horizontal"/>
+      <Divider orientation="horizontal"/>
+      <Box sx={{display:"flex" , justifyContent: "flex-start"}}> <Link href= "/forgotpassword" >Forgot password</Link></Box>
+      
     </Box>
     </Box>
  
