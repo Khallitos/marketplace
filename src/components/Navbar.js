@@ -119,7 +119,23 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-
+        
+          <Typography
+            variant="h6"
+            noWrap
+            component={Link}
+            to="/"
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              textDecoration: "none",
+              color: "white",
+              fontSize: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            KANMUSIC
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
