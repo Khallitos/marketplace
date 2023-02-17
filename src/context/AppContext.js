@@ -43,12 +43,9 @@ import {
   SET_LOADER,
   UNSET_USERNAME,
   SET_INITIALSTATE
-  
-  
 } from "./actions";
 
-const initialState={
-  
+const initialState={ 
   name: "",
   password: "",
   showAlert: false,
@@ -79,6 +76,12 @@ export const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+
+  //set localstates
+
+  const setLocalStorage = () =>{
+    dispatch({type: SET_INITIALSTATE})
+  }
 
   const isPageReloaded = () => {
     dispatch({type: SET_RELOADED})
@@ -520,11 +523,6 @@ export const AppProvider = ({ children }) => {
         }
       }
 
-useEffect(()=>{
- dispatch({type: SET_INITIALSTATE})
-
-},[])
-
   return (
     <AppContext.Provider
       value={{ ...state,
@@ -556,6 +554,7 @@ useEffect(()=>{
         getAdminDashboard,
         getAllTrendingSongs,
         getAllRandomSongs,
+        setLocalStorage
       }}
     >
       {children}

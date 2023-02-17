@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import links from "../utils/links";
+// import SET_INITIALSTATE from "../context/"
 
 const phoneNavbar = {
   flexGrow: 1,
@@ -90,12 +91,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const { username, logUserOff, token } = useAppContext();
+  const { username, logUserOff, token, setLocalStorage } = useAppContext();
   const router = useRouter();
   const logoutUser = () => {
     logUserOff();
     window.location.reload();
   };
+
+  
+useEffect(()=>{
+  setLocalStorage()
+ },[])
 
   return (
     <>

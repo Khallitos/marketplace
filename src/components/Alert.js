@@ -1,11 +1,10 @@
 import React from "react"
 import { useAppContext } from "../context/AppContext"
 
-const Alert = () => {
+export default function Alert() {
     const {alertType,alertText} = useAppContext();
   return (
     <div className = {`alert ${alertType}`}> {alertText}</div>
   )
 }
 
-export default Alert
