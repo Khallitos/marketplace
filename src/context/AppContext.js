@@ -1,9 +1,8 @@
 import React, { useContext, createContext, useState, useReducer,useEffect } from "react";
+import axios from "axios";
 import { AppReducer } from "./AppReducer";
-
 import {
-  EMPTY_ERR,
-  
+  EMPTY_ERR, 
   PASSWORD_ERR,
   CLEAR_TEXT,
   SETUP_USER_SUCCESS,
@@ -44,6 +43,9 @@ import {
   UNSET_USERNAME,
   SET_INITIALSTATE
 } from "./actions";
+
+// const token = localStorage.getItem("token");
+// const verified = localStorage.getItem("verified");
 
 const initialState={ 
   name: "",

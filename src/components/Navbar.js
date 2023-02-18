@@ -99,9 +99,7 @@ const Navbar = () => {
   };
 
   
-useEffect(()=>{
-  setLocalStorage()
- },[])
+ 
 
   return (
     <>

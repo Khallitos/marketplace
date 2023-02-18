@@ -95,7 +95,7 @@ export default function register() {
   };
   const RegisterUser = (e) => {
     e.preventDefault();
-    console.log("hello");
+
 
     const { email, password, username } = values;
 
