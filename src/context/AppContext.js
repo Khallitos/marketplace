@@ -149,7 +149,7 @@ export const AppProvider = ({ children }) => {
       //login user
       const loginUser = async ({ userDetails, alertText }) => {
         try {
-          const { data } = await axios.post(`https://kanmusic.onrender.com`, userDetails);
+          const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/auth/login`, userDetails);
           const { username, email, verified, token } = data;
           const isUserLoggedIn = true
           addUserToLocalStorage(username, token, email, verified,isUserLoggedIn);
@@ -158,7 +158,7 @@ export const AppProvider = ({ children }) => {
         } catch (error) {
           dispatch({
             type: LOGIN_USER_ERROR,
-            payload: { msg: error.response.data.message },
+            payload: { msg: error.response.data.msg},
           });
         }
         clearText();
