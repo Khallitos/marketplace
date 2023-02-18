@@ -95,10 +95,7 @@ export default function register() {
   };
   const RegisterUser = (e) => {
     e.preventDefault();
-
-
     const { email, password, username } = values;
-
     if (!email || !password || !username) {
       displayEmptyErr();
       return;

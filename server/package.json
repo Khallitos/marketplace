@@ -16,12 +16,13 @@
     "install-dependencies": " npm run install-clients && npm run install-server ",
     "install-client": "cd clients && npm install",
     "server": "nodemon server --ignore clients",
-    "start":  "npm run server"
+    "start": "npm run server"
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.4",
     "aws-sdk": "^2.1214.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "email-validator": "^2.0.4",
     "express": "^4.18.1",

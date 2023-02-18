@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Typography, TextField, Button, Divider } from "@mui/material/";
 import { PersonIcon, LockIcon, AccountCircleIcon } from "@mui/icons-material/";
 import { useAppContext } from "../context/AppContext";
-import { Alert } from "../components/Alert";
+import { Alert } from "../components";
 import bg from '../../public/images/bg.jpg'
 import Link from "next/link";
 // import {Link} from "react-router-dom"
@@ -35,10 +35,7 @@ const RegisterBox = {
     lg: "600px",
     xl: "800px",
   },
-  
-
-
-};
+  };
 
 
 //textfield
