@@ -133,7 +133,7 @@ export const AppProvider = ({ children }) => {
       
       const setupUser = async ({ userDetails, alertText }) => {
         try {
-          const { data } = await axios.post(`/api/v1/auth/register`, userDetails);
+          const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/auth/register`, userDetails);
           const { email, username } = data;
           console.log(` Appcontext is ${data}`);
           dispatch({ type: SETUP_USER_SUCCESS, payload: { email } });
@@ -199,7 +199,7 @@ export const AppProvider = ({ children }) => {
     
       const RestorePassword = async (email, alertText) => {
         try {
-          const { data } = await axios.post(`/api/v1/auth/forgotpassword`, email);
+          const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/auth/forgotpassword`, email);
           dispatch({ type: USER_EMAIL_FOUND });
         } catch (error) {
           dispatch({
@@ -354,7 +354,7 @@ export const AppProvider = ({ children }) => {
           const page = state.page;
           
           const { data } = await axios.get(
-            `/api/v1/upload/getallsongs?page=${page}`
+            `https://kanmusic.onrender.com/api/v1/upload/getallsongs?page=${page}`
           );
           const { allSongs, numOfPages, totalSongs} = data;
           dispatch({
@@ -502,7 +502,7 @@ export const AppProvider = ({ children }) => {
       // get trending songs
       const getAllTrendingSongs = async() => {
         try {
-          const {data} = await axios.get(`/api/v1/upload/getTrendingSongs`)   
+          const {data} = await axios.get(`https://kanmusic.onrender.com/api/v1/upload/getTrendingSongs`)   
           const {TrendingSongs} = data
           dispatch({ type: GET_TRENDING_SONGS,payload:{
             TrendingSongs:TrendingSongs

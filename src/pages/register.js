@@ -33,9 +33,6 @@ const RegisterBox = {
       lg: "600px",
       xl: "800px",
     },
-    
-  
-  
   };
   
   
