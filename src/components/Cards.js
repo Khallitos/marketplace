@@ -24,6 +24,15 @@ const cardDesign = {
     lg: "100%",
     xl: "80%",
   },
+  img :{
+  
+    borderRadius: "1rem",
+    left: "0",
+    objectFit: "cover",
+    filter: "brightness(70%)",
+    width: "100px",
+    height: "100px",
+  },
   marginBottom: "20px",
 
   p: {
@@ -31,15 +40,7 @@ const cardDesign = {
     textDecoration: "none",
   },
 };
-const img = {
-  
-  borderRadius: "5rem",
-  left: "0",
-  objectFit: "cover",
-  filter: "brightness(70%)",
-  width: "70px",
-  height: "80px",
-}
+
 const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
   const {
     getAllSongs,
@@ -77,13 +78,7 @@ const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
   };
   return (
     <Card sx={cardDesign}>
-      <Image
-        sx={img}
-        src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`} // Route of the image file
-        height={130} // Desired size with correct aspect ratio
-        width={130} // Desired size with correct aspect ratio
-        alt="Your Name"
-      />
+      <img src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`} alt="" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {artist} - {title}

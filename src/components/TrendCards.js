@@ -24,15 +24,15 @@ const cardDesign = {
     xl: "80%"
   },
   marginBottom:"20px",
-  "img" : {
+  img :{
+  
     borderRadius: "1rem",
     left: "0",
-    width: "70px",
-    height: "80px",
     objectFit: "cover",
     filter: "brightness(70%)",
-  }
-  ,
+    width: "100px",
+    height: "100px",
+  },
   "p": {
     fontWeight:"bold",
     textDecoration: "none",
