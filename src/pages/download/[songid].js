@@ -44,8 +44,8 @@ const dsgSingleSong = {
     borderRadius: "1rem",
     marginTop: "2%",
     left: "0",
-    width: "500px",
-    height: "500px",
+    width: "250px",
+    height: "250px",
     objectFit: "cover",
     filter: "brightness(70%)",
   },
@@ -116,14 +116,16 @@ export default function singleSong() {
     <Box sx={{ marginTop: "100px", display: "flex" }}>
     
         <Box key={song._id} sx={dsgSingleSong}>
-          <Typography variant="h4" color="initial">
-            {song.title}
-          </Typography>
 
           <img
             src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song.Key}`}
             alt=""
+            
           />
+          <Typography variant="h5" color="initial" sx={{marginTop:"10px"}}>
+            {song.title} 
+          </Typography>
+
           <p sx={{ marginBottom: "10px" }}> {song.description}</p>
           <Stack>
             <Stack direction="row" spacing={1}>
