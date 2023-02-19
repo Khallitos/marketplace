@@ -151,7 +151,7 @@ export default function singleSong() {
         <audio controls>
           <source
             src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`}
-            type="audio/ogg"
+            type="audio/mpeg"
           />
         </audio>
         <Button onClick={() => downloadCount(song?._id)} variant="contained">
