@@ -44,6 +44,7 @@ import {
   SET_INITIALSTATE
 } from "./actions";
 
+//https://kanmusic.onrender.com
 // const token = localStorage.getItem("token");
 // const verified = localStorage.getItem("verified");
 
@@ -324,10 +325,10 @@ export const AppProvider = ({ children }) => {
     
       // get Single Song
     
-      const getAllSingleSong = async (musicId) => {
+      const getAllSingleSong = async (songId) => {
         try {
-          const { data } = await axios.post(`/api/v1/upload/singleMusicInfo`, {
-            id: musicId,
+          const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/upload/singleMusicInfo`, {
+            id: songId,
           });
           dispatch({type: LOAD_PAGE})
           dispatch({type: SET_SINGLE_SONG,payload:{data:data}})
