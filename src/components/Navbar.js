@@ -98,9 +98,6 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  
- 
-
   return (
     <>
       <Box sx={MainBox}>

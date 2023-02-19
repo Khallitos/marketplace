@@ -331,8 +331,6 @@ export const AppProvider = ({ children }) => {
             id: songId,
           });
           dispatch({type: LOAD_PAGE})
-          dispatch({type: SET_SINGLE_SONG,payload:{data:data}})
-          console.log(data);
           return data.data;
         } catch (error) {
           dispatch({ type: SET_SINGLE_SONG_ERROR });
@@ -568,5 +566,4 @@ export const AppProvider = ({ children }) => {
 export function useAppContext() {
   return useContext(AppContext);
 }
-
 
