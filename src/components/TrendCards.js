@@ -12,7 +12,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useAppContext } from "../context/AppContext";
 import PageBtn from "./PageBtn";
-import Image from 'next/Image';
+import Image from 'next/image';
 import { Box, Button, Modal, Typography } from "@mui/material";
 
 const cardDesign = {
@@ -25,27 +25,20 @@ const cardDesign = {
     xl: "80%"
   },
   marginBottom:"20px",
-  // "img" : {
-  //   borderRadius: "1rem",
-  //   left: "0",
-  //   width: "120px",
-  //   height: "100px",
-  //   objectFit: "cover",
-  //   filter: "brightness(70%)",
-  // }
-  
+  "img" : {
+    borderRadius: "1rem",
+    left: "0",
+    width: "70px",
+    height: "80px",
+    objectFit: "cover",
+    filter: "brightness(70%)",
+  }
+  ,
   "p": {
     fontWeight:"bold",
     textDecoration: "none",
   }
 }
-const img = {
-  
-    borderRadius: "5rem",
-    left: "0",
-    objectFit: "cover",
-    filter: "brightness(70%)",
-  }
 const TrendCards = ({title,artist,Genre,description,songId,ImageKey}) => {
   const { getAllSongs, AllSongs, page, searchSong,deleteThisSong,approveThisSong,isPageReloaded} =
   useAppContext();
@@ -76,14 +69,8 @@ const approveSong = (id) => {
   
 };
   return (
-    <Card sx={cardDesign}>
-    <Image
-    sx={img}
-    src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`}  // Route of the image file
-    height={100} // Desired size with correct aspect ratio
-    width={100} // Desired size with correct aspect ratio
-    alt="Your Name"
-  />
+    <Card sx={cardDesign}>     
+    <img src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`} alt="" />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div">
         {artist} - {title}

@@ -37,6 +37,8 @@ const img = {
   left: "0",
   objectFit: "cover",
   filter: "brightness(70%)",
+  width: "70px",
+  height: "80px",
 }
 const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
   const {
