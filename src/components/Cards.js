@@ -13,7 +13,7 @@ import DirectionsIcon from "@mui/icons-material/Directions";
 import { useAppContext } from "../context/AppContext";
 import PageBtn from "../components/PageBtn";
 import { Box, Button, Modal, Typography } from "@mui/material";
-import Image from "next/Image";
+
 
 const cardDesign = {
   minHeight: "4rem",

@@ -12,7 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { useAppContext } from "../context/AppContext";
 import PageBtn from "./PageBtn";
-import Image from 'next/image';
 import { Box, Button, Modal, Typography } from "@mui/material";
 
 const cardDesign = {
