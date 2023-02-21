@@ -18,6 +18,7 @@ const sidebar = {
   marginTop: "300px",
   backgroundColor: "#fff",
   padding: "10px",
+  marginLeft: "100px",
   // display:{
   //   sm:"none",
   //   xs:"none",
@@ -28,6 +29,7 @@ const sidebar = {
   "@media (max-width: 1000px)": {
     display: "none",
   },
+  width: "300px"
 };
 const dsgSingleSong = {
   marginTop: "30%",
@@ -38,7 +40,8 @@ const dsgSingleSong = {
     lg: 30,
     md: 20,
     xl: 35,
-    sm: 2,
+    sm: 10,
+    xs: 1
   },
   img: {
     borderRadius: "1rem",
@@ -64,7 +67,12 @@ const dsgSingleSong = {
     height: "70px",
     color: "#fff",
   },
-  width: "800px",
+  width:
+  {
+    lg:"400px",
+    xs:"576px"
+
+  } 
 };
 
 export default function singleSong() {
@@ -103,7 +111,6 @@ export default function singleSong() {
   };
 
   useEffect(() => {
-    console.log(songid)
     getSingleSongDetails(songid);
     getAllTrendingSongs();
     getAllRandomSongs();
@@ -133,7 +140,7 @@ export default function singleSong() {
           {song?.title}
         </Typography>
 
-        <p sx={{ marginBottom: "10px" }}> {song?.description}</p>
+        <p sx={{ marginBottom: "10px", textAlign:"left !important" }}> {song?.description}</p>
         <Stack>
           <Stack direction="row" spacing={1}>
             Total Downloads
@@ -154,9 +161,9 @@ export default function singleSong() {
             type="audio/mpeg"
           />
         </audio>
-        <Button onClick={() => downloadCount(song?._id)} variant="contained">
+        <Button onClick={() => downloadCount(song?._id)} variant="contained" sx={{marginTop:"20px", width:"250px !important"}}>
           <a href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`} download={song?.title}>
-            Download Song
+            Download 
           </a>
         </Button>
 

@@ -24,6 +24,7 @@ const sidebar = {
   marginTop: "300px",
   backgroundColor: "#fff",
   padding: "10px",
+  marginLeft: "100px",
   // display:{
   //   sm:"none",
   //   xs:"none",
@@ -34,16 +35,17 @@ const sidebar = {
   "@media (max-width: 1000px)": {
     display: "none",
   },
+  width: "300px"
 };
 const pageDesign = {
   marginTop: "20px",
   marginX: {
-    lg: 35,
-    md: 20,
-    xl: 35,
+    lg: 15,
+    md: 10,
+    xl: 25,
     sm: 2,
   },
-  width: "800px",
+  width: "600px",
 };
 const Dsgsearch = {
   p: "2px 4px",
@@ -172,7 +174,7 @@ export default function home() {
 
           {AllSongs.map((song) => (
             <Link href={"/download/" + song._id} style={linkStyle}>
-              <div>
+             
                 <Cards
                   key={song._id}
                   title={song.title}
@@ -181,7 +183,7 @@ export default function home() {
                   description={song.description}
                   ImageKey={song.Key}
                 />
-              </div>
+             
             </Link>
           ))}
         </div>

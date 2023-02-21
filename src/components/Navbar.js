@@ -45,6 +45,10 @@ const MainBox = {
 
   backgroundColor: red,
 };
+
+const loginButtonDesign = {
+  
+}
 const pages = ["Afrobeats", "Hiphop", "Amapiano", "Highlife", "Gospel"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -98,6 +102,9 @@ const Navbar = () => {
     window.location.reload();
   };
 
+  
+ 
+
   return (
     <>
       <Box sx={MainBox}>
@@ -119,7 +126,7 @@ const Navbar = () => {
                 noWrap
                 sx={{
                   flexGrow: 1,
-                  display: { xs: "none", sm: "block" },
+                  display: { xs: "", sm: "block" },
                   textDecoration: "none",
                   color: "white",
                   fontSize: "20px",
@@ -179,6 +186,7 @@ const Navbar = () => {
 
             {!token && (
               <>
+              <Box sx={loginButtonDesign}>
                 <Button
                   variant="outlined"
                   onClick={() => router.push("/login")}
@@ -199,6 +207,7 @@ const Navbar = () => {
                 >
                   Login
                 </Button>
+                </Box>
               </>
             )}
           </Toolbar>

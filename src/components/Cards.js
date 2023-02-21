@@ -18,12 +18,7 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 const cardDesign = {
   minHeight: "4rem",
   display: "flex",
-  width: {
-    md: "100%",
-    sm: "100%",
-    lg: "100%",
-    xl: "80%",
-  },
+
   img :{
   
     borderRadius: "1rem",

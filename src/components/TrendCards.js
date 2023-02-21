@@ -25,8 +25,6 @@ const cardDesign = {
   },
   marginBottom:"20px",
   img :{
-  
-    borderRadius: "1rem",
     left: "0",
     objectFit: "cover",
     filter: "brightness(70%)",
@@ -71,7 +69,7 @@ const approveSong = (id) => {
     <Card sx={cardDesign}>     
     <img src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`} alt="" />
     <CardContent>
-      <Typography gutterBottom variant="h5" component="div">
+      <Typography gutterBottom variant="p" component="div">
         {artist} - {title}
       </Typography>
       <Typography variant="body2" color="text.secondary">
