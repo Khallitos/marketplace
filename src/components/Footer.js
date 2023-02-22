@@ -34,17 +34,17 @@ const Footer = () => {
        
         <Box sx={footerButtonDesign}>
             <LocalFireDepartmentIcon sx={{fontSize:"30px", color:"orange"}}  />
-            <Typography variant='p'>Trends</Typography>
+            <Typography variant='p' sx={{fontSize:"13px"}}>Trends</Typography>
         </Box>
 
         <Box sx={footerButtonDesign}>
             <LanguageIcon sx={{fontSize:"30px"}}  />
-            <Typography variant='p'>Search</Typography>
+            <Typography variant='p' sx={{fontSize:"13px"}}>Search</Typography>
         </Box>
 
         <Box sx={footerButtonDesign}>
             <DashboardIcon sx={{fontSize:"30px"}}  />
-            <Typography variant='p'>Dashboard</Typography>
+            <Typography variant='p' sx={{fontSize:"13px"}}>Dashboard</Typography>
         </Box>
         
     </Box>
