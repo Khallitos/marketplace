@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState, useReducer,useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 import { AppReducer } from "./AppReducer";
 import {
   EMPTY_ERR, 
@@ -79,6 +80,7 @@ export const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
+  const router = useRouter()
 
   //set localstates
 
@@ -136,8 +138,8 @@ export const AppProvider = ({ children }) => {
         try {
           const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/auth/register`, userDetails);
           const { email, username } = data;
-          console.log(` Appcontext is ${data}`);
           dispatch({ type: SETUP_USER_SUCCESS, payload: { email } });
+          router.push("/login")   
         } catch (error) {
           dispatch({
             type: REGISTER_USER_ERROR,
@@ -149,13 +151,16 @@ export const AppProvider = ({ children }) => {
     
       //login user
       const loginUser = async ({ userDetails, alertText }) => {
+        
         try {
           const { data } = await axios.post(`https://kanmusic.onrender.com/api/v1/auth/login`, userDetails);
           const { username, email, verified, token } = data;
           const isUserLoggedIn = true
           addUserToLocalStorage(username, token, email, verified,isUserLoggedIn);
           dispatch({ type: LOGIN_USER_SUCCESS, payload: { username } });
-          window.location.reload();
+          router.push("/user/dashboard")
+          
+          
         } catch (error) {
           dispatch({
             type: LOGIN_USER_ERROR,
@@ -393,7 +398,7 @@ export const AppProvider = ({ children }) => {
       const searchSong = async (search) => {
         try {
           const { data } = await axios.get(
-            `/api/v1/upload/searchSong?song=${search}`
+            `https://kanmusic.onrender.com/api/v1/upload/searchSong?song=${search}`
           );
           const { numOfPages, SearchedSong, totalSongs } = data;
           dispatch({

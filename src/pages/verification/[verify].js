@@ -21,7 +21,7 @@ export default function verify () {
     getVerified();
     setTimeout(() => {
       if (isVerified) {
-        // navigate("/login");
+        router.push('/login')
       }
     }, 3000);
   }, [isVerified]);

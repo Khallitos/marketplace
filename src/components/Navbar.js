@@ -108,6 +108,9 @@ const Navbar = () => {
   return (
     <>
       <Box sx={MainBox}>
+      <Head>
+      
+      </Head>
         <AppBar position="fixed">
           <Toolbar>
             <IconButton
@@ -139,7 +142,7 @@ const Navbar = () => {
 
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {links.map((link) => (
-                <Link href={link.path} style={{ textDecoration: "none" }}>
+                <Link href={link.path} style={{ textDecoration: "none" }} key={link.id}>
                   <Button
                     key={link.id}
                     sx={{

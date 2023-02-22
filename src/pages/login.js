@@ -5,6 +5,7 @@ import { useAppContext } from "../context/AppContext";
 import { Alert } from "../components";
 import bg from '../../public/images/bg.jpg'
 import Link from "next/link";
+import { useRouter } from "next/router";
 // import {Link} from "react-router-dom"
 // import { useNavigate } from "react-router-dom";
 
@@ -83,6 +84,7 @@ export default function login() {
   //   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
   const { displayEmptyErr, showAlert, loginUser } = useAppContext();
+  const router = useRouter();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
@@ -98,8 +100,8 @@ export default function login() {
 
     const userDetails = { email, password };
     loginUser({ userDetails, alertText: "login successful" });
-
-    // navigate("/")
+    
+ 
   };
   return (
    

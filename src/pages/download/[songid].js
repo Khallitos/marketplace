@@ -69,7 +69,7 @@ const dsgSingleSong = {
   },
   width:
   {
-    lg:"400px",
+    lg:"520px",
     xs:"576px"
 
   } 

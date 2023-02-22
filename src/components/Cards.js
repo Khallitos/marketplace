@@ -14,19 +14,26 @@ import { useAppContext } from "../context/AppContext";
 import PageBtn from "../components/PageBtn";
 import { Box, Button, Modal, Typography } from "@mui/material";
 
-
 const cardDesign = {
   minHeight: "4rem",
   display: "flex",
+  padding: "5px",
+  backgroundColor: "#332e2e",
 
-  img :{
-  
+  width: {
+    xs: "90%",
+  },
+  marginX: {
+    xs: "auto"
+  },
+
+  img: {
     borderRadius: "1rem",
     left: "0",
     objectFit: "cover",
     filter: "brightness(70%)",
-    width: "100px",
-    height: "100px",
+    width: "70px",
+    height: "70px",
   },
   marginBottom: "20px",
 
@@ -72,20 +79,37 @@ const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
     ApprovalPromptClose();
   };
   return (
-    <Card sx={cardDesign}>
-      <img src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`} alt="" />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+    <Box sx={cardDesign}>
+      <img
+        src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${ImageKey}`}
+        alt=""
+        sx={{width:"60px", height:"60px"}}
+      />
+      <Box>
+        <Typography
+          gutterBottom
+          variant="p"
+          component="div"
+          sx={{ marginLeft: "4px", color: "white" ,fontSize:"16px"}}
+        >
           {artist} - {title}
         </Typography>
+        <Typography
+          gutterBottom
+          variant="p"
+          component="div"
+          sx={{ marginLeft: "4px", color: "white", fontSize:"13px" }}
+        >
+          Duration 3:12
+        </Typography>
         <Typography variant="body2" color="text.secondary"></Typography>
-      </CardContent>
+      </Box>
       {/* <CardActions>
       <Button size="small">Share</Button>
       <Button size="small">like</Button>
     </CardActions> */}
       {/* Review song */}
-    </Card>
+    </Box>
   );
 };
 

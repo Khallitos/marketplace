@@ -14,11 +14,21 @@ import { margin } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import TrendCards from "../components/TrendCards";
 import CircularProgress from "@mui/material/CircularProgress";
-import Link from "next/link"
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const linkStyle = {
   textDecoration: "none",
+  backgroundColor: "#3c3939"
 };
+
+const searchDesign={
+  ml: 1, 
+  flex: 1,
+  width: {
+    xs: "70px"
+  }
+}
 
 const sidebar = {
   marginTop: "300px",
@@ -35,7 +45,7 @@ const sidebar = {
   "@media (max-width: 1000px)": {
     display: "none",
   },
-  width: "300px"
+  width: "300px",
 };
 const pageDesign = {
   marginTop: "20px",
@@ -45,7 +55,10 @@ const pageDesign = {
     xl: 25,
     sm: 2,
   },
-  width: "600px",
+  width: {
+    xl: "600px",
+    xs: "640px"
+  }
 };
 const Dsgsearch = {
   p: "2px 4px",
@@ -99,6 +112,14 @@ export default function home() {
     getAllSongs();
   };
 
+  const handleKeypress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      Search();
+    }
+    
+  };
+
   const getRandomSongs = () => {
     getAllRandomSongs();
   };
@@ -143,11 +164,13 @@ export default function home() {
 
         <Paper component="form" sx={Dsgsearch}>
           <InputBase
-            sx={{ ml: 1, flex: 1 }}
+            sx={searchDesign}
             placeholder="Search......"
             inputProps={{ "aria-label": "Search for a song" }}
             name="search"
             value={search}
+            // onKeyDown= {Search}
+            onKeyPress={handleKeypress}
             onChange={(e) => setSearch(e.target.value)}
           />
           <IconButton
@@ -173,17 +196,15 @@ export default function home() {
           )}
 
           {AllSongs.map((song) => (
-            <Link href={"/download/" + song._id} style={linkStyle}>
-             
-                <Cards
-                  key={song._id}
-                  title={song.title}
-                  artist={song.artist}
-                  Genre={song.Genre}
-                  description={song.description}
-                  ImageKey={song.Key}
-                />
-             
+            <Link href={"/download/" + song._id} style={linkStyle} key={song._id}>
+              <Cards
+                key={song._id}
+                title={song.title}
+                artist={song.artist}
+                Genre={song.Genre}
+                description={song.description}
+                ImageKey={song.Key}
+              />
             </Link>
           ))}
         </div>
@@ -247,6 +268,4 @@ export default function home() {
       </Box>
     </Box>
   );
-};
-
-
+}
