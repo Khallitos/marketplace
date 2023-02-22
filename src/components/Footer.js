@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import SearchIcon from '@mui/icons-material/Search';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import LanguageIcon from '@mui/icons-material/Language';
 
 const footerDesign = {
     position: "fixed",
@@ -20,27 +21,32 @@ const footerDesign = {
 
 const footerButtonDesign = {
     display:"flex",
-    flexDirection:"column"
+    flexDirection:"column",
+    alignItems:"center",
+    justifyContent:"center"
+
 }
 
 const Footer = () => {
 
   return (
     <Box sx={footerDesign}>
-        <Box>
-            <Box sx={{marginBottom:"1px"}}><LocalFireDepartmentIcon sx={{color:"orange"}}/></Box>
+       
+        <Box sx={footerButtonDesign}>
+            <LocalFireDepartmentIcon sx={{fontSize:"30px", color:"orange"}}  />
             <Typography variant='p'>Trends</Typography>
         </Box>
 
-        <Box>
-            <Box sx={{marginBottom:"1px"}}><SearchIcon/></Box>
+        <Box sx={footerButtonDesign}>
+            <LanguageIcon sx={{fontSize:"30px"}}  />
             <Typography variant='p'>Search</Typography>
         </Box>
 
-        <Box>
-            <Box sx={{marginBottom:"1px"}}><DashboardIcon/></Box>
+        <Box sx={footerButtonDesign}>
+            <DashboardIcon sx={{fontSize:"30px"}}  />
             <Typography variant='p'>Dashboard</Typography>
         </Box>
+        
     </Box>
   )
 }
