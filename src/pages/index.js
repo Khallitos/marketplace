@@ -48,7 +48,7 @@ const sidebar = {
   width: "300px",
 };
 const pageDesign = {
-  marginTop: "20px",
+  marginTop: "60px",
   marginX: {
     lg: 15,
     md: 10,
@@ -65,7 +65,7 @@ const Dsgsearch = {
   display: "flex",
   alignItems: "center",
   width: {
-    xs: "90%",
+    xs: "80%",
   },
   marginBottom: "20px",
   marginX: {

@@ -48,6 +48,11 @@ const MainBox = {
   alignItems: "center",
   flexDirection: "row",
   justifyContent: "space-around",
+  position:"fixed",
+  zIndex:"1",
+  width:"100%"
+  
+
 };
 
 const loginButtonDesign = {};
