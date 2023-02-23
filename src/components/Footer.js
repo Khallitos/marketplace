@@ -44,7 +44,7 @@ const Footer = () => {
 
         <Box sx={footerButtonDesign}>
             <DashboardIcon sx={{fontSize:"30px"}}  />
-            <Typography variant='p' sx={{fontSize:"13px"}}>Dashboard</Typography>
+            <Typography variant='p' sx={{fontSize:"13px"}}>Lib</Typography>
         </Box>
         
     </Box>

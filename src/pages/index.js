@@ -19,16 +19,16 @@ import { useRouter } from "next/router";
 
 const linkStyle = {
   textDecoration: "none",
-  backgroundColor: "#3c3939"
+  backgroundColor: "#3c3939",
 };
 
-const searchDesign={
-  ml: 1, 
+const searchDesign = {
+  ml: 1,
   flex: 1,
   width: {
-    xs: "70px"
-  }
-}
+    xs: "70px",
+  },
+};
 
 const sidebar = {
   marginTop: "300px",
@@ -57,20 +57,23 @@ const pageDesign = {
   },
   width: {
     xl: "600px",
-    xs: "640px"
-  }
+    xs: "640px",
+  },
 };
 const Dsgsearch = {
   p: "2px 4px",
   display: "flex",
   alignItems: "center",
-  width: 400,
+  width: {
+    xs: "90%",
+  },
   marginBottom: "20px",
   marginX: {
     lg: "40%",
     sm: "",
     xl: "45%",
     md: "30%",
+    xs: "auto",
   },
 };
 
@@ -117,7 +120,6 @@ export default function home() {
       e.preventDefault();
       Search();
     }
-    
   };
 
   const getRandomSongs = () => {
@@ -157,10 +159,10 @@ export default function home() {
   return (
     <Box sx={{ display: "flex" }}>
       <Box sx={pageDesign}>
-        <Typography variant="h6" color="initial" sx={DsgsearchText}>
+        {/* <Typography variant="h6" color="initial" sx={DsgsearchText}>
           {" "}
           Find a song..
-        </Typography>
+        </Typography> */}
 
         <Paper component="form" sx={Dsgsearch}>
           <InputBase
@@ -196,7 +198,11 @@ export default function home() {
           )}
 
           {AllSongs.map((song) => (
-            <Link href={"/download/" + song._id} style={linkStyle} key={song._id}>
+            <Link
+              href={"/download/" + song._id}
+              style={linkStyle}
+              key={song._id}
+            >
               <Cards
                 key={song._id}
                 title={song.title}

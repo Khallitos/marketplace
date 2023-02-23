@@ -29,26 +29,28 @@ const phoneNavbar = {
   "@media (max-width: 900px)": {},
 };
 
+const linkDesign = {
+  display: {
+    xs: "none",
+    md: "flex",
+    sm: "flex",
+    xl: "flex",
+  },
+};
+
 const linkStyle = {
   textDecoration: "none",
 };
 const MainBox = {
-  marginX: {
-    lg: 15,
-    xl: 30,
-  },
-  marginBottom: {
-    lg: 10,
-    xl: 10,
-    md: 15,
-  },
-
-  backgroundColor: red,
+  display: "flex",
+  background: "#666",
+  height: "50px",
+  alignItems: "center",
+  flexDirection: "row",
+  justifyContent: "space-around",
 };
 
-const loginButtonDesign = {
-  
-}
+const loginButtonDesign = {};
 const pages = ["Afrobeats", "Hiphop", "Amapiano", "Highlife", "Gospel"];
 
 const Search = styled("div")(({ theme }) => ({
@@ -102,119 +104,111 @@ const Navbar = () => {
     window.location.reload();
   };
 
-  
- 
-
   return (
     <>
+    
       <Box sx={MainBox}>
-      <Head>
-      
-      </Head>
-        <AppBar position="fixed">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
+      <MenuIcon />
+        <Box sx={{ display: "flex" }}>
+        
+          <Link href="/">
+            
+            <Typography
+              variant="p"
+              noWrap
+              sx={{
+                flexGrow: 1,
+                display: { xs: "", sm: "block" },
+                textDecoration: "none",
+                color: "white",
+                fontSize: "20px",
+                fontWeight: "bold",
+                marginRight:"100px",
+                
+              }}
             >
-              <MenuIcon />
-            </IconButton>
+              Kanmuzic
+            </Typography>
+          </Link>
+        </Box>
 
-            <Link href="/">
-              <Typography
-                variant="h6"
-                noWrap
+        <Box sx={linkDesign}>
+          {links.map((link) => (
+            <Link
+              href={link.path}
+              style={{ textDecoration: "none" }}
+              key={link.id}
+            >
+              <Button
+                key={link.id}
                 sx={{
-                  flexGrow: 1,
-                  display: { xs: "", sm: "block" },
-                  textDecoration: "none",
+                  my: 2,
                   color: "white",
+                  display: "block",
                   fontSize: "20px",
                   fontWeight: "bold",
                 }}
               >
-                KANMUSIC
-              </Typography>
+                {link.title}
+              </Button>
             </Link>
+          ))}
+        </Box>
 
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              {links.map((link) => (
-                <Link href={link.path} style={{ textDecoration: "none" }} key={link.id}>
-                  <Button
-                    key={link.id}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {link.title}
-                  </Button>
-                </Link>
-              ))}
-            </Box>
-            {token && (
-              <>
-                <Typography variant="h5">
-                  <AccountCircleIcon fontSize="small" /> {username}
-                </Typography>
+        {token && (
+          <Box>
+            <Typography variant="h5">
+              <AccountCircleIcon fontSize="small" /> {username}
+            </Typography>
 
-                <Button
-                  variant="outlined"
-                  onClick={logoutUser}
-                  sx={{
-                    backgroundColor: "white",
-                    marginX: "30px",
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                    padding: "2px",
-                  }}
-                >
-                  Logout
-                </Button>
-                <Button
-                  variant="text"
-                  color="primary"
-                  onClick={() => router.push("/")}
-                >
-                  <SettingsIcon fontSize="large" sx={{ color: "white" }} />
-                </Button>
-              </>
-            )}
+            <Button
+              variant="outlined"
+              onClick={logoutUser}
+              sx={{
+                backgroundColor: "white",
+                marginX: "30px",
+                fontWeight: "bold",
+                fontSize: "1rem",
+                padding: "2px",
+              }}
+            >
+              Logout
+            </Button>
+            <Button
+              variant="text"
+              color="primary"
+              onClick={() => router.push("/")}
+            >
+              <SettingsIcon fontSize="large" sx={{ color: "white" }} />
+            </Button>
+          </Box>
+        )}
 
-            {!token && (
-              <>
-              <Box sx={loginButtonDesign}>
-                <Button
-                  variant="outlined"
-                  onClick={() => router.push("/login")}
-                  sx={{
-                    backgroundColor: "white",
-                    marginX: "30px",
-                    fontWeight: "bold",
-                    fontSize: "1rem",
-                    padding: "2px",
-                    "&:hover": {
-                      borderRadius:"10px solid blue",
-                      color:"black",
-                      background:"white",
-                      width:"100px"
-                    }
+        {!token && (
+          <Box sx={loginButtonDesign}>
+            <Button
+              variant="outlined"
+              onClick={() => router.push("/login")}
+              sx={{
+                backgroundColor: "orange",
+                marginX: "30px",
+                fontWeight: "bold",
+                fontSize: "13pxs",
+                color: "white",
+                width: "70px",
 
-                  }}
-                >
-                  Login
-                </Button>
-                </Box>
-              </>
-            )}
-          </Toolbar>
-        </AppBar>
+                padding: "2px",
+                "&:hover": {
+                  borderRadius: "10px solid black",
+                  color: "white",
+                  background: "#e9b150",
+                },
+              }}
+            >
+              Login
+            </Button>
+          </Box>
+        )}
       </Box>
     </>
   );
