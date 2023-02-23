@@ -3,7 +3,7 @@ import { Box, Typography, TextField, Button, Divider } from "@mui/material/";
 import { PersonIcon, LockIcon, AccountCircleIcon } from "@mui/icons-material/";
 import { useAppContext } from "../context/AppContext";
 import { Alert } from "../components";
-import bg from '../../public/images/bg.jpg'
+import bg from "../../public/images/bg.jpg";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // import {Link} from "react-router-dom"
@@ -23,6 +23,7 @@ const RegisterBox = {
     md: "25%",
     xl: "25%",
     sm: "20",
+    xs:"auto"
   },
   marginTop: {
     lg: "10%",
@@ -36,42 +37,48 @@ const RegisterBox = {
     lg: "600px",
     xl: "800px",
   },
-  };
-
+};
 
 //textfield
 const formText = {
   fontSize: "100px",
-  width:"300px"
+  width: "300px",
+  textColor: "white",
+
+  backgroundColor: "white",
 };
 
 //
-const FormOuterCover = {
- 
-
-}
+const FormOuterCover = {};
 
 //
-const formDesign= {
-  borderRadius:"10px solid #1976d2 !important",
-  border:"3px solid #1976d2 !important",
+const formDesign = {
+  borderRadius: "10px solid #1976d2 !important",
+  borderTop: "3px solid orange",
+  margin:"auto",
   padding: "20px",
-  backgroundColor:"white"
-}
-
+  color: "white",
+  backgroundColor: "#666",
+};
 
 //login button
-const loginbutton ={
-  width:"300px",
-  marginTop:"10px"
-}
+const loginbutton = {
+  width: "300px",
+  marginTop: "10px",
+  fontWeight: "bold",
+  backgroundColor: "orange",
+
+  "&:hover": {
+    backgroundColor: "#e4b55e",
+  },
+};
 
 //
 const LoginText = {
-  display :"flex",
-  alignItems:"center",
-  justifyContent:"center"
-}
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
 
 // state for form
 
@@ -100,64 +107,92 @@ export default function login() {
 
     const userDetails = { email, password };
     loginUser({ userDetails, alertText: "login successful" });
-    
- 
   };
   return (
-   
     <Box sx={RegisterBox}>
       {showAlert && <Alert />}
       <Box sx={formDesign}>
-      <form >
-        <Typography variant="h4" sx={LoginText}>Login</Typography>
+        <form>
+          <Typography variant="h4" sx={LoginText}>
+            Login
+          </Typography>
 
-        {/* email */}
-        <Box>
-        <TextField
-          sx={formText}
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email "
-          name="email"
-          value={values.email}
-          autoComplete="email"
-          onChange={handleChange}
-          autoFocus
-        />
-        </Box>
+          {/* email */}
+          <Box>
+            <TextField
+              sx={formText}
+              margin="normal"
+              required
+              variant="standard"
+              fullWidth
+              id="email"
+              label="Email "
+              name="email"
+              value={values.email}
+              autoComplete="email"
+              onChange={handleChange}
+              // autoFocus
+              InputLabelProps={{
+                style: { color: "black" },
+              }}
+              InputProps={{
+                style: {
+                  color: "black",
+                },
+              }}
+            />
+          </Box>
 
-        {/* password */}
+        
 
-        <Box>
-        <TextField
-          sx={formText}
-          margin="normal"
-          required
-          fullWidth
-          id="password"
-          label="Password"
-          name="password"
-          value={values.password}
-          autoComplete="password"
-          autoFocus
-          onChange={handleChange}
-        />
+          {/* password */}
+
+          <Box>
+            <TextField
+              sx={formText}
+              margin="normal"
+              required
+              variant ="standard"
+              color="warning"
+              fullWidth
+              id="password"
+              label="Password"
+              name="password"
+              value={values.password}
+              autoComplete="password"
+              // autoFocus
+              onChange={handleChange}
+              InputLabelProps={{
+                style: { color: "black" },
+              }}
+              InputProps={{
+                style: {
+                  color: "black",
+                },
+              }}
+            />
+          </Box>
+          <Box>
+            <Button variant="contained" onClick={logUser} sx={loginbutton}>
+              Login
+            </Button>
+          </Box>
+        </form>
+        <Box sx={{ marginBottom: "5px" ,a:{
+          color:"#fdebc8" ,fontWeight:"bold"}}}>
+          <p>
+            Need an account ? <Link href="/register" sx={{textDecoration:"none", color:"#fdebc8"}}>Sign Up</Link>
+          </p>
         </Box>
-        <Box>
-        <Button variant="contained" onClick={logUser} sx={loginbutton}>
-          Login
-        </Button>
+        <Divider orientation="horizontal" />
+        <Divider orientation="horizontal" />
+        <Box sx={{ display: "flex", justifyContent: "flex-start", a:{
+          color:"#fdebc8",fontWeight:"bold"
+        } }}>
+          {" "}
+          <Link href="/forgotpassword" >Forgot password</Link>
         </Box>
-      </form>
-      <Box sx={{marginBottom:"5px"}}><p>Need an account  ?   <Link href="/register">Sign Up</Link></p></Box>
-      <Divider orientation="horizontal"/>
-      <Divider orientation="horizontal"/>
-      <Box sx={{display:"flex" , justifyContent: "flex-start"}}> <Link href= "/forgotpassword" >Forgot password</Link></Box>
-      
+      </Box>
     </Box>
-    </Box>
- 
   );
 }

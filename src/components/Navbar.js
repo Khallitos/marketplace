@@ -50,7 +50,10 @@ const MainBox = {
   justifyContent: "space-around",
   position:"fixed",
   zIndex:"1",
-  width:"100%"
+  width:"100%",
+  top: "0px"
+// right: 0px; 
+// left: 0px;
   
 
 };
@@ -198,7 +201,7 @@ const Navbar = () => {
                 backgroundColor: "orange",
                 marginX: "30px",
                 fontWeight: "bold",
-                fontSize: "13pxs",
+                fontSize: "13px",
                 color: "white",
                 width: "70px",
 
