@@ -123,7 +123,6 @@ export default function forgotpassword() {
           value={values.email}
           autoComplete="email"
           onChange={handleChange}
-          autoFocus
           InputLabelProps={{
             style: { color: "black" },
           }}
