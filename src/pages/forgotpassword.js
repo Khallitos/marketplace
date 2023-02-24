@@ -41,7 +41,10 @@ const RegisterBox = {
 //textfield
 const formText = {
   fontSize: "100px",
-  width:"300px"
+  width: "300px",
+  textColor: "white",
+
+  backgroundColor: "white",
 };
 
 //
@@ -51,19 +54,27 @@ const FormOuterCover = {
 }
 
 //
-const formDesign= {
-  borderRadius:"10px solid #1976d2 !important",
-  border:"3px solid #1976d2 !important",
+const formDesign = {
+  borderRadius: "10px solid #1976d2 !important",
+  borderTop: "3px solid orange",
+  margin: "auto",
   padding: "20px",
-  backgroundColor:"white"
-}
-
+  color: "white",
+  backgroundColor: "#666",
+};
 
 //login button
-const loginbutton ={
-  width:"300px",
-  marginTop:"10px"
-}
+const loginbutton = {
+  width: "300px",
+  marginTop: "10px",
+  fontWeight: "bold",
+  backgroundColor: "orange",
+
+  "&:hover": {
+    backgroundColor: "#e4b55e",
+  },
+};
+
 
 //
 const LoginText = {
@@ -104,6 +115,7 @@ export default function forgotpassword() {
           sx={formText}
           margin="normal"
           required
+          variant="standard"
           fullWidth
           id="email"
           label="Email "
@@ -112,9 +124,18 @@ export default function forgotpassword() {
           autoComplete="email"
           onChange={handleChange}
           autoFocus
+          InputLabelProps={{
+            style: { color: "black" },
+          }}
+          InputProps={{
+            style: {
+              color: "black",
+             
+            },
+          }}
         />
         <Box>
-        <Button variant="contained" onClick={ForgotPwd}>
+        <Button variant="contained"  sx={loginbutton} onClick={ForgotPwd}>
           Reset Password
         </Button>
         </Box>
