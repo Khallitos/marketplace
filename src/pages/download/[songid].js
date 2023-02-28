@@ -14,6 +14,17 @@ const linkStyle = {
   textDecoration: "none",
 };
 
+const downloadPageMain = {
+  marginTop: {
+    xs:"30px"
+  },
+  display: "flex",
+  marginX:{
+    xs:"20"
+  }
+
+}
+
 const sidebar = {
   marginTop: "300px",
   backgroundColor: "#fff",
@@ -32,7 +43,9 @@ const sidebar = {
   width: "300px"
 };
 const dsgSingleSong = {
-  marginTop: "30%",
+  marginTop: {
+    xs:"10px"
+  },
   display: "flex",
   flexDirection: "column",
   marginBottom: "20%",
@@ -41,19 +54,22 @@ const dsgSingleSong = {
     md: 20,
     xl: 35,
     sm: 10,
-    xs: 1
+    xs: "auto",
   },
   img: {
-    borderRadius: "1rem",
-    marginTop: "2%",
-    left: "0",
-    width: "250px",
-    height: "250px",
-    objectFit: "cover",
-    filter: "brightness(70%)",
+    xs:{
+      borderRadius: "1rem",
+      marginX:"auto",
+      marginTop: "2%",
+      width: "575px",
+      height: "400px",
+      objectFit: "cover",
+      filter: "brightness(70%)"
+    }
+   
   },
   p: {
-    marginTop: "%5",
+    marginTop: "",
     fontSize: "20px",
   },
   a: {
@@ -72,7 +88,8 @@ const dsgSingleSong = {
     lg:"520px",
     xs:"576px"
 
-  } 
+  } ,
+  padding:"30px"
 };
 
 export default function singleSong() {
@@ -124,19 +141,21 @@ export default function singleSong() {
           position: "fixed",
           top: "50%",
           left: "50%",
+          color:"orange",
           transform: "translate(-50%, -50%)",
         }}
       />
     );
   
   return (
-    <Box sx={{ marginTop: "100px", display: "flex" }}>
+    
+    <Box sx={downloadPageMain}>
       <Box key={song?._id} sx={dsgSingleSong}>
         <img
           src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key}`}
           alt=""
         />
-        <Typography variant="h5" color="initial" sx={{ marginTop: "10px" }}>
+        <Typography variant="h4" color="initial" sx={{ marginTop: "5px" ,color:"white"}}>
           {song?.title}
         </Typography>
 
@@ -146,13 +165,13 @@ export default function singleSong() {
             Total Downloads
             <Chip
               label={song?.downloadCount}
-              color="success"
-              sx={{ marginLeft: "10px" }}
+              
+              sx={{ marginLeft: "10px",backgroundColor:"#7e6638",color:"white"}}
             />
           </Stack>
         </Stack>
         <p>
-          Listen to music here <HeadphonesIcon></HeadphonesIcon>
+          Listen to music here 
         </p>
 
         <audio controls>
@@ -161,8 +180,8 @@ export default function singleSong() {
             type="audio/mpeg"
           />
         </audio>
-        <Button onClick={() => downloadCount(song?._id)} variant="contained" sx={{marginTop:"20px", width:"250px !important"}}>
-          <a href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`} download={song?.title}>
+        <Button onClick={() => downloadCount(song?._id)} variant="outlined" sx={{width:"100px",marginTop:"20px", backgroundColor:"#7e6638" }} >
+          <a href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`} download={song?.title} sx={{fontSize:"30px"}}>
             Download 
           </a>
         </Button>

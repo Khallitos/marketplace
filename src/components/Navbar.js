@@ -116,6 +116,10 @@ const Navbar = () => {
     <>
     
       <Box sx={MainBox}>
+        <Head>
+        <link href="https://fonts.cdnfonts.com/css/nexa-bold" rel="stylesheet" />
+                
+        </Head>
       <MenuIcon />
         <Box sx={{ display: "flex" }}>
         
@@ -131,7 +135,10 @@ const Navbar = () => {
                 color: "white",
                 fontSize: "20px",
                 fontWeight: "bold",
-                marginRight:"100px",
+                marginRight:
+                {
+                  xs:"100px"
+                }
                 
               }}
             >
