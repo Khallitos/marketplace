@@ -34,7 +34,8 @@ const sidebar = {
   marginTop: "300px",
   backgroundColor: "#fff",
   padding: "10px",
-  marginLeft: "100px",
+  
+
   // display:{
   //   sm:"none",
   //   xs:"none",
@@ -59,6 +60,7 @@ const pageDesign = {
     xl: "600px",
     xs: "640px",
   },
+  bottom: "0"
 };
 const Dsgsearch = {
   p: "2px 4px",
@@ -255,10 +257,10 @@ export default function home() {
         >
           TRENDING SONGS
         </Typography>
-        <div>
+        <Box>
           {TrendingSongs.map((song) => (
             <Link href={"/download/" + song._id} style={linkStyle}>
-              <div>
+              <Box>
                 <TrendCards
                   key={song._id}
                   title={song.title}
@@ -267,10 +269,10 @@ export default function home() {
                   description={song.description}
                   ImageKey={song.Key}
                 />
-              </div>
+              </Box>
             </Link>
           ))}
-        </div>
+        </Box>
       </Box>
     </Box>
   );

@@ -57,6 +57,14 @@ const MainBox = {
   
 
 };
+const MenuDesign = {
+  display:{
+    lg:"none",
+    md:"none",
+    xl:"none",
+    
+  }
+}
 
 const loginButtonDesign = {};
 const pages = ["Afrobeats", "Hiphop", "Amapiano", "Highlife", "Gospel"];
@@ -120,7 +128,7 @@ const Navbar = () => {
         <link href="https://fonts.cdnfonts.com/css/nexa-bold" rel="stylesheet" />
                 
         </Head>
-      <MenuIcon />
+      <MenuIcon  sx={MenuDesign}/>
         <Box sx={{ display: "flex" }}>
         
           <Link href="/">

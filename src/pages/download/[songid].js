@@ -13,17 +13,47 @@ import Link from "next/link";
 const linkStyle = {
   textDecoration: "none",
 };
-
-const downloadPageMain = {
-  marginTop: {
-    xs:"30px"
+const pageDesign = {
+  marginTop: "60px",
+  padding: {
+    xs:"20px"
   },
-  display: "flex",
-  marginX:{
-    xs:"20"
-  }
+  marginX: {
+    lg: 15,
+    md: 10,
+    xl: 25,
+    sm: 2,
+    xs:"auto"
+  },
+  width: {
+    xl: "600px",
+    xs: "640px",
+  },
+  bottom: "0",
+  img: {
+        xs:{
+          borderRadius: "1rem",
+          marginX:"auto",
+          marginTop: "2%",
+          width: "575px",
+          height: "400px",
+          objectFit: "cover",
+          filter: "brightness(70%)"
+        },
+      lg:{
 
-}
+        borderRadius: "1rem",
+          marginX:"auto",
+          marginTop: "2%",
+          width: "400px",
+          height: "400px",
+          objectFit: "cover",
+          filter: "brightness(70%)"
+      }
+       
+      },
+};
+
 
 const sidebar = {
   marginTop: "300px",
@@ -40,57 +70,52 @@ const sidebar = {
   "@media (max-width: 1000px)": {
     display: "none",
   },
-  width: "300px"
+  width: "300px",
 };
-const dsgSingleSong = {
-  marginTop: {
-    xs:"10px"
-  },
-  display: "flex",
-  flexDirection: "column",
-  marginBottom: "20%",
-  marginX: {
-    lg: 30,
-    md: 20,
-    xl: 35,
-    sm: 10,
-    xs: "auto",
-  },
-  img: {
-    xs:{
-      borderRadius: "1rem",
-      marginX:"auto",
-      marginTop: "2%",
-      width: "575px",
-      height: "400px",
-      objectFit: "cover",
-      filter: "brightness(70%)"
-    }
+// const dsgSingleSong = {
+//   marginTop: {
+//     xs:"10px"
+//   },
+//   display: "flex",
+//   flexDirection: "column",
+//   marginBottom: "20%",
+//   marginX: {
+//     xs: "auto",
+//   },
+//   img: {
+//     xs:{
+//       borderRadius: "1rem",
+//       marginX:"auto",
+//       marginTop: "2%",
+//       width: "575px",
+//       height: "400px",
+//       objectFit: "cover",
+//       filter: "brightness(70%)"
+//     }
    
-  },
-  p: {
-    marginTop: "",
-    fontSize: "20px",
-  },
-  a: {
-    textDecoration: "none",
-    color: "white",
-    fontWeight: "bold",
-  },
+//   },
+//   p: {
+//     marginTop: "",
+//     fontSize: "20px",
+//   },
+//   a: {
+//     textDecoration: "none",
+//     color: "white",
+//     fontWeight: "bold",
+//   },
 
-  button: {
-    width: "400px",
-    height: "70px",
-    color: "#fff",
-  },
-  width:
-  {
-    lg:"520px",
-    xs:"576px"
+//   button: {
+//     width: "400px",
+//     height: "70px",
+//     color: "#fff",
+//   },
+//   width:
+//   {
+    
 
-  } ,
-  padding:"30px"
-};
+//   } ,
+//   padding:"30px"
+// };
 
 export default function singleSong() {
   const router = useRouter();
@@ -149,8 +174,9 @@ export default function singleSong() {
   
   return (
     
-    <Box sx={downloadPageMain}>
-      <Box key={song?._id} sx={dsgSingleSong}>
+    <Box sx={{ display: "flex" }}>
+    <Box sx={pageDesign}>
+      <Box key={song?._id}>
         <img
           src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key}`}
           alt=""
@@ -215,6 +241,7 @@ export default function singleSong() {
           </Box>
         </Box>
       </Box>
+      </Box>
       <Box sx={sidebar}>
         <Typography
           variant="h5"
@@ -241,5 +268,7 @@ export default function singleSong() {
         </div>
       </Box>
     </Box>
+    
+    
   );
 }
