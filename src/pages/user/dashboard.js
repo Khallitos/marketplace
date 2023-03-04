@@ -14,7 +14,7 @@ const pageDesign = {
   marginTop: "60px",
   marginX: {
     lg: 10,
-    md: "auto",
+    md: 10,
     xl: 10,
     sm: 2,
   },
@@ -23,6 +23,14 @@ const pageDesign = {
     xs: "640px",
   },
   bottom: "0",
+  display:"flex",
+  flexDirection: {
+    xs:"column",
+    lg:"row",
+    md:"row",
+    xl:"row",
+    sm:"row"
+  }
 };
 const mobileDesign = {
   flexDirection: "row",
@@ -52,9 +60,13 @@ const style = {
 };
 
 const sideMenu = {
- display: {
-  xs:"none"
- }
+  display: {
+    xs: "none",
+    xl: "flex",
+    md: "flex",
+    sm: "flex",
+    lg: "flex",
+  },
 };
 const mainpage = {
   display: "flex",
@@ -175,6 +187,63 @@ const Dashboard = () => {
                 </ListItem>
               </Link>
             </List>
+          </Box>
+          <Box sx={{display:"flex", marginTop:"30px", marginLeft:"50px"}}>
+            <Box
+              sx={{
+                border: "10px solid #1976d2",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "#1976d2",
+                marginRight: "10px",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "nexa",
+                color: "white",
+                borderRadius: "10px ",
+              }}
+            >
+              Total Downloads
+            </Box>
+            <Box
+              sx={{
+                border: "10px solid #7fe792",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "#7fe792",
+                marginRight: "10px",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "nexa",
+                color: "black",
+                borderRadius: "10px",
+              }}
+            >
+              {" "}
+              Pending songs
+            </Box>
+            <Box
+              sx={{
+                border: "10px solid #f96161",
+                width: "100px",
+                height: "100px",
+                backgroundColor: "#f96161",
+                marginRight: "10px",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "nexa",
+                color: "white",
+                borderRadius: "10px",
+              }}
+            >
+              Live songs
+            </Box>
           </Box>
         </Box>
       </Box>
