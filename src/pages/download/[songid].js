@@ -13,17 +13,23 @@ import Link from "next/link";
 const linkStyle = {
   textDecoration: "none",
 };
+
+const DownloadBtnDesign = {
+  width: "300px",
+  backgroundColor: "orange",
+  color: "white",
+};
 const pageDesign = {
   marginTop: "60px",
   padding: {
-    xs:"20px"
+    xs: "20px",
   },
   marginX: {
     lg: 15,
     md: 10,
     xl: 25,
     sm: 2,
-    xs:"auto"
+    xs: "auto",
   },
   width: {
     xl: "600px",
@@ -31,35 +37,36 @@ const pageDesign = {
   },
   bottom: "0",
   img: {
-        xs:{
-          borderRadius: "1rem",
-          marginX:"auto",
-          marginTop: "2%",
-          width: "575px",
-          height: "400px",
-          objectFit: "cover",
-          filter: "brightness(70%)"
-        },
-      lg:{
-
-        borderRadius: "1rem",
-          marginX:"auto",
-          marginTop: "2%",
-          width: "400px",
-          height: "400px",
-          objectFit: "cover",
-          filter: "brightness(70%)"
-      }
-       
-      },
+    xs: {
+      borderRadius: "1rem",
+      marginX: "auto",
+      marginTop: "2%",
+      width: "575px",
+      height: "400px",
+      objectFit: "cover",
+      filter: "brightness(70%)",
+    },
+    lg: {
+      borderRadius: "1rem",
+      marginX: "auto",
+      marginTop: "2%",
+      width: "400px",
+      height: "400px",
+      objectFit: "cover",
+      filter: "brightness(70%)",
+    },
+  },
 };
-
 
 const sidebar = {
   marginTop: "300px",
-  backgroundColor: "#fff",
+  backgroundColor: "#332E2E",
   padding: "10px",
-  marginLeft: "100px",
+  marginLeft: {
+    xl: "100px",
+    lg: "50px",
+    md: "50px",
+  },
   // display:{
   //   sm:"none",
   //   xs:"none",
@@ -92,7 +99,7 @@ const sidebar = {
 //       objectFit: "cover",
 //       filter: "brightness(70%)"
 //     }
-   
+
 //   },
 //   p: {
 //     marginTop: "",
@@ -111,7 +118,6 @@ const sidebar = {
 //   },
 //   width:
 //   {
-    
 
 //   } ,
 //   padding:"30px"
@@ -119,8 +125,8 @@ const sidebar = {
 
 export default function singleSong() {
   const router = useRouter();
-  const {songid } = router.query;
-  const [song,setSong] = useState({})
+  const { songid } = router.query;
+  const [song, setSong] = useState({});
 
   const {
     getAllSingleSong,
@@ -144,8 +150,8 @@ export default function singleSong() {
   };
   const getSingleSongDetails = async (songid) => {
     const songRes = await getAllSingleSong(songid);
-    
-   setSong(songRes);
+
+    setSong(songRes);
   };
 
   const downloadCount = (id) => {
@@ -157,7 +163,6 @@ export default function singleSong() {
     getAllTrendingSongs();
     getAllRandomSongs();
   }, [songid]);
-  
 
   if (isloading)
     return (
@@ -166,86 +171,101 @@ export default function singleSong() {
           position: "fixed",
           top: "50%",
           left: "50%",
-          color:"orange",
+          color: "orange",
           transform: "translate(-50%, -50%)",
         }}
       />
     );
-  
+
   return (
-    
     <Box sx={{ display: "flex" }}>
-    <Box sx={pageDesign}>
-      <Box key={song?._id}>
-        <img
-          src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key}`}
-          alt=""
-        />
-        <Typography variant="h4" color="initial" sx={{ marginTop: "5px" ,color:"white"}}>
-          {song?.title}
-        </Typography>
-
-        <p sx={{ marginBottom: "10px", textAlign:"left !important" }}> {song?.description}</p>
-        <Stack>
-          <Stack direction="row" spacing={1}>
-            Total Downloads
-            <Chip
-              label={song?.downloadCount}
-              
-              sx={{ marginLeft: "10px",backgroundColor:"#7e6638",color:"white"}}
-            />
-          </Stack>
-        </Stack>
-        <p>
-          Listen to music here 
-        </p>
-
-        <audio controls>
-          <source
-            src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`}
-            type="audio/mpeg"
+      <Box sx={pageDesign}>
+        <Box key={song?._id}>
+          <img
+            src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key}`}
+            alt=""
           />
-        </audio>
-        <Button onClick={() => downloadCount(song?._id)} variant="outlined" sx={{width:"100px",marginTop:"20px", backgroundColor:"#7e6638" }} >
-          <a href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`} download={song?.title} sx={{fontSize:"30px"}}>
-            Download 
-          </a>
-        </Button>
-
-        {/* Random songs */}
-
-        <Box sx={{ marginTop: "100px" }}>
           <Typography
-            variant="h5"
+            variant="h4"
             color="initial"
-            sx={{ marginBottom: "10px" }}
+            sx={{ marginTop: "5px", color: "white" }}
           >
-            YOU MAY ALSO LIKE <Divider light />
+            {song?.title}
           </Typography>
 
-          <Box sx={{ marginBottom: "10px" }}>
-            {RandomSongs.map((song) => (
-              <Link href={"/download/" + song._id} style={linkStyle}>
-                <div>
-                  <TrendCards
-                    key={song._id}
-                    title={song.title}
-                    artist={song.artist}
-                    Genre={song.Genre}
-                    description={song.description}
-                    ImageKey={song.Key}
-                  />
-                </div>
-              </Link>
-            ))}
+          <p sx={{ marginBottom: "10px", textAlign: "left !important" }}>
+            {" "}
+            {song?.description}
+          </p>
+          <Stack>
+            <Stack direction="row" spacing={1}>
+              Total Downloads
+              <Chip
+                label={song?.downloadCount}
+                sx={{
+                  marginLeft: "10px",
+                  backgroundColor: "#7e6638",
+                  color: "white",
+                }}
+              />
+            </Stack>
+          </Stack>
+          <p>Listen to music here</p>
+
+          <audio controls>
+            <source
+              src={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`}
+              type="audio/mpeg"
+            />
+          </audio>
+          <Link
+            href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`}
+            download={song?.title}
+            sx={{ fontSize: "30px" }}
+          >
+            <Button
+              onClick={() => downloadCount(song?._id)}
+              variant="contained"
+              sx={DownloadBtnDesign}
+            >
+              Download
+            </Button>
+          </Link>
+
+          {/* Random songs */}
+
+          <Box sx={{ marginTop: "100px" }}>
+            <Typography
+              variant="h4"
+              color="white"
+              sx={{ marginBottom: "10px" }}
+            >
+              YOU MAY ALSO LIKE <Divider light />
+            </Typography>
+
+            <Box sx={{ marginBottom: "10px" }}>
+              {RandomSongs.map((song) => (
+                <Link href={"/download/" + song._id} style={linkStyle}>
+                  <div>
+                    <TrendCards
+                      key={song._id}
+                      title={song.title}
+                      artist={song.artist}
+                      Genre={song.Genre}
+                      description={song.description}
+                      ImageKey={song.Key}
+                    />
+                  </div>
+                </Link>
+              ))}
+            </Box>
           </Box>
         </Box>
-      </Box>
       </Box>
       <Box sx={sidebar}>
         <Typography
           variant="h5"
-          color="initial"
+          color="white"
           sx={{ marginBottom: "20px", marginTop: "20px", fontWeight: "bold" }}
         >
           TRENDING SONGS
@@ -268,7 +288,5 @@ export default function singleSong() {
         </div>
       </Box>
     </Box>
-    
-    
   );
 }

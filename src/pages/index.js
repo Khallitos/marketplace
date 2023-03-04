@@ -16,6 +16,7 @@ import TrendCards from "../components/TrendCards";
 import CircularProgress from "@mui/material/CircularProgress";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Subfooter from "@/components/Subfooter";
 
 const linkStyle = {
   textDecoration: "none",
@@ -32,10 +33,13 @@ const searchDesign = {
 
 const sidebar = {
   marginTop: "300px",
-  backgroundColor: "#fff",
+  backgroundColor: "#332E2E",
   padding: "10px",
-  
-
+  marginLeft: {
+    xl:"100px",
+    lg:"50px",
+    md:"100px"
+  },
   // display:{
   //   sm:"none",
   //   xs:"none",
@@ -51,9 +55,9 @@ const sidebar = {
 const pageDesign = {
   marginTop: "60px",
   marginX: {
-    lg: 15,
-    md: 10,
-    xl: 25,
+    lg: "auto",
+    md: "auto",
+    xl: 40,
     sm: 2,
   },
   width: {
@@ -159,6 +163,7 @@ export default function home() {
     );
 
   return (
+    <>
     <Box sx={{ display: "flex" }}>
       <Box sx={pageDesign}>
         {/* <Typography variant="h6" color="initial" sx={DsgsearchText}>
@@ -173,6 +178,7 @@ export default function home() {
             inputProps={{ "aria-label": "Search for a song" }}
             name="search"
             value={search}
+            autoFocus
             // onKeyDown= {Search}
             onKeyPress={handleKeypress}
             onChange={(e) => setSearch(e.target.value)}
@@ -248,11 +254,12 @@ export default function home() {
             </Box>
           </Box>
         )}
+        
       </Box>
       <Box sx={sidebar}>
         <Typography
           variant="h5"
-          color="initial"
+          color="white"
           sx={{ marginBottom: "20px", marginTop: "20px", fontWeight: "bold" }}
         >
           TRENDING SONGS
@@ -274,6 +281,8 @@ export default function home() {
           ))}
         </Box>
       </Box>
+     
     </Box>
+     <Subfooter/></>
   );
 }

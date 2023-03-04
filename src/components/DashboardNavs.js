@@ -5,26 +5,26 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { Button } from "@mui/material";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Box, Button } from "@mui/material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const style = {
   width: "100%",
   maxWidth: 360,
-  bgcolor: "background.paper",
+  bgcolor: "#3c3939",
 };
 
 const DashboardLinkDesign = {
-  display: "flex",
   height: "50px",
-  backgroundColor:"red"
-
- 
+  "&:hover": {
+    backgroundColor: "#black",
+  },
 };
+
 export default function DashboardNavs() {
   return (
-    <div sx={DashboardLinkDesign}>
+    <Box sx={DashboardLinkDesign}>
       {/* <Box><Link href="/user/uploadsong">Upload Song</Link></Box>
         
        <Box><Link href="/user/profile">Profile</Link></Box> 
@@ -33,40 +33,49 @@ export default function DashboardNavs() {
 
       <List sx={style} component="nav" aria-label="mailbox folders">
         <Divider />
-
-        <ListItem button divider>
-          <Link href="/user/dashboard">
-             <Button variant="" startIcon={<DashboardIcon />}>
+        <Link
+          href="/user/dashboard"
+          style={{ textDecoration: "none", color: "orange" }}
+        >
+          <ListItem button divider>
+            <Button variant="" startIcon={<DashboardIcon />}>
               Dashboard
             </Button>
-          </Link>
-        </ListItem>
-
-        <ListItem button divider>
-          <Link href="/user/uploadsong">
-             <Button variant="" startIcon={<UploadFileIcon />}>
+          </ListItem>
+        </Link>
+        <Link
+          href="/user/uploadsong"
+          style={{ textDecoration: "none", color: "orange" }}
+        >
+          <ListItem button divider>
+            <Button variant="" startIcon={<UploadFileIcon />}>
               Upload Song
             </Button>
-          </Link>
-        </ListItem>
-        
-        <ListItem button>
-        <Link href="/user/profile">
-             <Button variant="" startIcon={<AccountCircleIcon />} >
+          </ListItem>
+        </Link>
+        <Link
+          href="/user/profile"
+          style={{ textDecoration: "none", color: "orange" }}
+        >
+          <ListItem button>
+            <Button variant="" startIcon={<AccountCircleIcon />}>
               Profile
             </Button>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
 
         <Divider light />
-        <ListItem button>
-        <Link href="/user/editsong">
-             <Button variant="" startIcon={<UploadFileIcon />} >
+        <Link
+          href="/user/editsong"
+          style={{ textDecoration: "none", color: "orange" }}
+        >
+          <ListItem button>
+            <Button variant="" startIcon={<UploadFileIcon />}>
               Edit Song
             </Button>
-          </Link>
-        </ListItem>
+          </ListItem>
+        </Link>
       </List>
-    </div>
+    </Box>
   );
 }

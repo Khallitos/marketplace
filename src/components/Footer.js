@@ -4,10 +4,11 @@ import LocalFireDepartmentIcon from "@mui/icons-material/LocalFireDepartment";
 import SearchIcon from "@mui/icons-material/Search";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LanguageIcon from "@mui/icons-material/Language";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import Link from "next/link";
 
 const footerDesign = {
   position: "fixed",
@@ -23,6 +24,11 @@ const footerDesign = {
   backgroundColor: "#3c3939",
 };
 
+
+  const footerLink = {
+    textDecoration: "none",
+    color:"white"
+  };
 const footerButtonDesign = {
   display: "flex",
   flexDirection: "column",
@@ -31,51 +37,53 @@ const footerButtonDesign = {
 };
 const footerTop = {
   marginTop: "45px",
-  display:"flex",
-  backgroundColor:"#3c3939",
-  flexDirection:"column",
+  left: "0",
+  bottom: "0",
+  position: "static",
+  display: "flex",
+  backgroundColor: "#3c3939",
+  flexDirection: "column",
   marginBottom: "70px",
   alignItems: "center",
-  justifyContent:"center",
+  justifyContent: "center",
   padding: {
-    xs: "20px"
+    xs: "20px",
   },
   marginX: {
-    xs:"auto"
-  }
-  
-
+    xs: "auto",
+  },
 };
 
 const Footer = () => {
   return (
     <Box>
-        <Box sx={footerTop}>
-        
-            <Typography variant="p"> Copyright © Kanmusiz 2023.</Typography>
+      
+      <Box sx={footerDesign}>
+        <Link href ="/trends" style={footerLink}>
+        <Box sx={footerButtonDesign}>
+          <LocalFireDepartmentIcon sx={{ fontSize: "30px", color: "orange" }} />
+          <Typography variant="p" sx={{ fontSize: "13px" }}>
+            Trends
+          </Typography>
         </Box>
-    <Box sx={footerDesign}>
-      <Box sx={footerButtonDesign}>
-        <LocalFireDepartmentIcon sx={{ fontSize: "30px", color: "orange" }} />
-        <Typography variant="p" sx={{ fontSize: "13px" }}>
-          Trends
-        </Typography>
+        </Link>
+        <Link href ="/" style={footerLink}>
+        <Box sx={footerButtonDesign}>
+          <LanguageIcon sx={{ fontSize: "30px" }} />
+          <Typography variant="p" sx={{ fontSize: "13px" }}>
+            Search
+          </Typography>
+        </Box>
+        </Link>
+        <Link href ="/login" style={footerLink}>
+        <Box sx={footerButtonDesign}>
+          <DashboardIcon sx={{ fontSize: "30px" }} />
+          <Typography variant="p" sx={{ fontSize: "13px" }}>
+            Lib
+          </Typography>
+        </Box>
+        </Link>
       </Box>
-
-      <Box sx={footerButtonDesign}>
-        <LanguageIcon sx={{ fontSize: "30px" }} />
-        <Typography variant="p" sx={{ fontSize: "13px" }}>
-          Search
-        </Typography>
-      </Box>
-
-      <Box sx={footerButtonDesign}>
-        <DashboardIcon sx={{ fontSize: "30px" }} />
-        <Typography variant="p" sx={{ fontSize: "13px" }}>
-          Lib
-        </Typography>
-      </Box>
-    </Box>
     </Box>
   );
 };

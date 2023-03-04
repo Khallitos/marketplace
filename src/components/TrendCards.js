@@ -34,7 +34,9 @@ const cardDesign = {
   "p": {
     fontWeight:"bold",
     textDecoration: "none",
-  }
+  },
+  backgroundColor:"#332e2e",
+  color:"#fff"
 }
 const TrendCards = ({title,artist,Genre,description,songId,ImageKey}) => {
   const { getAllSongs, AllSongs, page, searchSong,deleteThisSong,approveThisSong,isPageReloaded} =

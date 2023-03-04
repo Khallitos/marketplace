@@ -124,7 +124,7 @@ import {
         ...state,
         showAlert: true,
         alertText: "Login successful",
-        alertType: "danger",
+        alertType: "success",
         username: action.payload.username,
       };
     }

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material/";
-import { PersonIcon, LockIcon } from "@mui/icons-material/";
-import { AccountCircleIcon } from "@mui/icons-material/AccountCircle";
+import { Box, Typography, TextField, Button, Divider } from "@mui/material/";
+import { PersonIcon, LockIcon, AccountCircleIcon } from "@mui/icons-material/";
 import { useAppContext } from "../context/AppContext";
-import { Alert, Subfooter } from "../components";
+import { Alert } from "../components";
+import bg from "../../public/images/bg.jpg";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import CircularProgress from "@mui/material/CircularProgress";
+
+// import {Link} from "react-router-dom"
+// import { useNavigate } from "react-router-dom";
 
 const RegisterBox = {
   display: "flex",
@@ -20,6 +25,7 @@ const RegisterBox = {
     md: "25%",
     xl: "25%",
     sm: "20",
+    xs: "auto",
   },
   marginTop: {
     lg: "10%",
@@ -44,7 +50,7 @@ const formText = {
   backgroundColor: "white",
 };
 
-//s
+//
 const FormOuterCover = {};
 
 //
@@ -75,75 +81,61 @@ const LoginText = {
   alignItems: "center",
   justifyContent: "center",
 };
+
 // state for form
 
 const initialState = {
-  username: "",
   email: "",
   password: "",
 };
 
-export default function register() {
+export default function login() {
+  //   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const {
-    displayEmptyErr,
-    displayPasswordMismatchErr,
-    showAlert,
-    setupUser,
-    invalidUsernameErr,
-  } = useAppContext();
+  const { displayEmptyErr, showAlert, loginUser, isloading } = useAppContext();
+  const router = useRouter();
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const RegisterUser = (e) => {
+
+  const logUser = (e) => {
     e.preventDefault();
-    const { email, password, username } = values;
-    if (!email || !password || !username) {
+    const { email, password } = values;
+    if (!email) {
       displayEmptyErr();
       return;
     }
-    // if(username === "admin"){
-    //   invalidUsernameErr();
-    //   return;
-    // }
 
-    const userDetails = { email, password, username };
-    setupUser({ userDetails, alertText: "Registration successful" });
+    const userDetails = { email, password };
+    loginUser({ userDetails, alertText: "login successful" });
   };
+  // if(token)
+  //   return (
+  //     <CircularProgress
+  //       sx={{
+  //         position: "fixed",
+  //         top: "50%",
+  //         left: "50%",
+  //         transform: "translate(-50%, -50%)",
+  //       }}
+  //     />
+  //   );
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      router.push("/user/dashboard");
+    }
+  });
   return (
-    <>
     <Box sx={RegisterBox}>
-      {showAlert && <Alert />}
       <Box sx={formDesign}>
         <form>
-          <Typography variant="h4">Register</Typography>
-
-          {/* username */}
-          <Box>
-            <TextField
-              sx={formText}
-              margin="normal"
-              required
-              variant="standard"
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              value={values.username}
-              autoComplete="Username"
-              // autoFocus
-              onChange={handleChange}
-              InputLabelProps={{
-                style: { color: "black" },
-              }}
-              InputProps={{
-                style: {
-                  color: "black",
-                },
-              }}
-            />
-          </Box>
+          <Typography variant="h4" sx={LoginText}>
+            Login
+          </Typography>
+          {showAlert && <Alert />}
 
           {/* email */}
           <Box>
@@ -172,15 +164,17 @@ export default function register() {
           </Box>
 
           {/* password */}
+
           <Box>
             <TextField
               sx={formText}
               margin="normal"
               required
               variant="standard"
+              color="warning"
               fullWidth
               id="password"
-              label="Password "
+              label="Password"
               name="password"
               value={values.password}
               autoComplete="password"
@@ -196,23 +190,47 @@ export default function register() {
               }}
             />
           </Box>
-          {/*confirm password */}
           <Box>
-            <Button variant="contained" sx={loginbutton} onClick={RegisterUser}>
-              Submit
+            <Button variant="contained" onClick={logUser} sx={loginbutton}>
+              Login
             </Button>
           </Box>
         </form>
-
-        <Box sx={{a:{
-          color:"#fdebc8" ,fontWeight:"bold"}}}>
+        <Box
+          sx={{
+            marginBottom: "5px",
+            a: {
+              color: "#fdebc8",
+              fontWeight: "bold",
+            },
+          }}
+        >
           <p>
-            Have an account ? <Link href="/login">login</Link>
+            Need an account ?{" "}
+            <Link
+              href="/register"
+              sx={{ textDecoration: "none", color: "#fdebc8" }}
+            >
+              Sign Up
+            </Link>
           </p>
+        </Box>
+        <Divider orientation="horizontal" />
+        <Divider orientation="horizontal" />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            a: {
+              color: "#fdebc8",
+              fontWeight: "bold",
+            },
+          }}
+        >
+          {" "}
+          <Link href="/forgotpassword">Forgot password</Link>
         </Box>
       </Box>
     </Box>
-    <Subfooter/>
-    </>
   );
 }
