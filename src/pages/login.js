@@ -92,7 +92,7 @@ const initialState = {
 export default function login() {
   //   const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  const [istoken, setIstoken] = useState(true)
+  const [istoken, setIstoken] = useState(true);
   const { displayEmptyErr, showAlert, loginUser, isloading } = useAppContext();
   const router = useRouter();
 
@@ -113,17 +113,13 @@ export default function login() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-
-
+    const token = localStorage.getItem("token");
 
     if (token) {
-
       router.push("/user/dashboard");
-    }
-    else {
-      setIstoken(false)
-      console.log(istoken)
+    } else {
+      setIstoken(false);
+      console.log(istoken);
     }
   });
 
@@ -142,110 +138,110 @@ export default function login() {
 
   return (
     <>
-    <Box sx={RegisterBox}>
-      <Box sx={formDesign}>
-        <form>
-          <Typography variant="h4" sx={LoginText}>
-            Login
-          </Typography>
-          {showAlert && <Alert />}
-
-          {/* email */}
-          <Box>
-            <TextField
-              sx={formText}
-              margin="normal"
-              required
-              variant="standard"
-              fullWidth
-              id="email"
-              label="Email "
-              name="email"
-              value={values.email}
-              autoComplete="email"
-              onChange={handleChange}
-              // autoFocus
-              InputLabelProps={{
-                style: { color: "black" },
-              }}
-              InputProps={{
-                style: {
-                  color: "black",
-                },
-              }}
-            />
-          </Box>
-
-          {/* password */}
-
-          <Box>
-            <TextField
-              sx={formText}
-              margin="normal"
-              required
-              variant="standard"
-              color="warning"
-              fullWidth
-              id="password"
-              label="Password"
-              name="password"
-              value={values.password}
-              autoComplete="password"
-              // autoFocus
-              onChange={handleChange}
-              InputLabelProps={{
-                style: { color: "black" },
-              }}
-              InputProps={{
-                style: {
-                  color: "black",
-                },
-              }}
-            />
-          </Box>
-          <Box>
-            <Button variant="contained" onClick={logUser} sx={loginbutton}>
+      <Box sx={RegisterBox}>
+        <Box sx={formDesign}>
+          <form>
+            <Typography variant="h4" sx={LoginText}>
               Login
-            </Button>
+            </Typography>
+            {showAlert && <Alert />}
+
+            {/* email */}
+            <Box>
+              <TextField
+                sx={formText}
+                margin="normal"
+                required
+                variant="standard"
+                fullWidth
+                id="email"
+                label="Email "
+                name="email"
+                value={values.email}
+                autoComplete="email"
+                onChange={handleChange}
+                // autoFocus
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
+                InputProps={{
+                  style: {
+                    color: "black",
+                  },
+                }}
+              />
+            </Box>
+
+            {/* password */}
+
+            <Box>
+              <TextField
+                sx={formText}
+                margin="normal"
+                required
+                variant="standard"
+                color="warning"
+                fullWidth
+                id="password"
+                label="Password"
+                name="password"
+                value={values.password}
+                autoComplete="password"
+                // autoFocus
+                onChange={handleChange}
+                InputLabelProps={{
+                  style: { color: "black" },
+                }}
+                InputProps={{
+                  style: {
+                    color: "black",
+                  },
+                }}
+              />
+            </Box>
+            <Box>
+              <Button variant="contained" onClick={logUser} sx={loginbutton}>
+                Login
+              </Button>
+            </Box>
+          </form>
+          <Box
+            sx={{
+              marginBottom: "5px",
+              a: {
+                color: "#fdebc8",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            <p>
+              Need an account ?{" "}
+              <Link
+                href="/register"
+                sx={{ textDecoration: "none", color: "#fdebc8" }}
+              >
+                Sign Up
+              </Link>
+            </p>
           </Box>
-        </form>
-        <Box
-          sx={{
-            marginBottom: "5px",
-            a: {
-              color: "#fdebc8",
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <p>
-            Need an account ?{" "}
-            <Link
-              href="/register"
-              sx={{ textDecoration: "none", color: "#fdebc8" }}
-            >
-              Sign Up
-            </Link>
-          </p>
-        </Box>
-        <Divider orientation="horizontal" />
-        <Divider orientation="horizontal" />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            a: {
-              color: "#fdebc8",
-              fontWeight: "bold",
-            },
-          }}
-        >
-          {" "}
-          <Link href="/forgotpassword">Forgot password</Link>
+          <Divider orientation="horizontal" />
+          <Divider orientation="horizontal" />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              a: {
+                color: "#fdebc8",
+                fontWeight: "bold",
+              },
+            }}
+          >
+            {" "}
+            <Link href="/forgotpassword">Forgot password</Link>
+          </Box>
         </Box>
       </Box>
-    </Box>
-    <Subfooter/>
+      <Subfooter />
     </>
   );
 }

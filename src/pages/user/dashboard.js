@@ -6,9 +6,9 @@ import Divider from "@mui/material/Divider";
 import Link from "next/link";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Subfooter } from "@/components";
+import { DashboardNavs, MobileNav, Subfooter } from "@/components";
 
 const pageDesign = {
   marginTop: "60px",
@@ -32,6 +32,17 @@ const pageDesign = {
     sm:"row"
   }
 };
+const dashboardInfo = {
+  display:"flex", 
+  marginTop:"30px",
+   marginLeft:{
+    xl:"400px",
+    md:"50px",
+    lg:"100px",
+    xs:"70px",
+    sm:"70px"
+   }
+}
 const mobileDesign = {
   flexDirection: "row",
   marginX: "auto",
@@ -80,119 +91,20 @@ const Dashboard = () => {
     <>
       <Box sx={{ display: "flex" }}>
         <Box sx={pageDesign}>
-          <Box sx={mobileDesign}>
-            <Box sx={{ marginRight: "10px" }}>
-              <Link href="/user/dashboard" style={{ textDecoration: "none" }}>
-                <Button
-                  sx={{
-                    color: "orange",
-                    backgroundColor: "#3c3939",
-                    variant: "contained",
-                  }}
-                  startIcon={<DashboardIcon />}
-                >
-                  Dashboard
-                </Button>
-              </Link>
-            </Box>
+        <MobileNav/>
 
-            <Box sx={{ marginRight: "10px" }}>
-              <Link href="/upload" style={{ textDecoration: "none" }}>
-                <Button
-                  startIcon={<UploadFileIcon />}
-                  sx={{
-                    color: "orange",
-                    backgroundColor: "#3c3939",
-                    variant: "contained",
-                  }}
-                >
-                  Upload
-                </Button>
-              </Link>
-            </Box>
-
-            <Box sx={{ marginRight: "10px" }}>
-              <Link href="/profile" style={{ textDecoration: "none" }}>
-                <Button
-                  startIcon={<AccountCircleIcon />}
-                  sx={{
-                    color: "orange",
-                    backgroundColor: "#3c3939",
-                    variant: "contained",
-                  }}
-                >
-                  profile
-                </Button>
-              </Link>
-            </Box>
-            <Box sx={{ marginRight: "10px" }}>
-              <Link href="/editsong" style={{ textDecoration: "none" }}>
-                <Button
-                  startIcon={<UploadFileIcon />}
-                  sx={{
-                    color: "orange",
-                    backgroundColor: "#3c3939",
-                    variant: "contained",
-                  }}
-                >
-                  Edit
-                </Button>
-              </Link>
-            </Box>
-          </Box>
-
-          <Box sx={sideMenu}>
-            <List sx={style} component="nav" aria-label="mailbox folders">
-              <Divider />
-              <Link
-                href="/user/dashboard"
-                style={{ textDecoration: "none", color: "orange" }}
-              >
-                <ListItem button divider>
-                  <Button variant="" startIcon={<DashboardIcon />}>
-                    Dashboard
-                  </Button>
-                </ListItem>
-              </Link>
-              <Link
-                href="/user/uploadsong"
-                style={{ textDecoration: "none", color: "orange" }}
-              >
-                <ListItem button divider>
-                  <Button variant="" startIcon={<UploadFileIcon />}>
-                    Upload Song
-                  </Button>
-                </ListItem>
-              </Link>
-              <Link
-                href="/user/profile"
-                style={{ textDecoration: "none", color: "orange" }}
-              >
-                <ListItem button>
-                  <Button variant="" startIcon={<AccountCircleIcon />}>
-                    Profile
-                  </Button>
-                </ListItem>
-              </Link>
-
-              <Divider light />
-              <Link
-                href="/user/editsong"
-                style={{ textDecoration: "none", color: "orange" }}
-              >
-                <ListItem button>
-                  <Button variant="" startIcon={<UploadFileIcon />}>
-                    Edit Song
-                  </Button>
-                </ListItem>
-              </Link>
-            </List>
-          </Box>
-          <Box sx={{display:"flex", marginTop:"30px", marginLeft:"50px"}}>
+          <DashboardNavs/>
+          <Box sx={dashboardInfo}>
             <Box
               sx={{
                 border: "10px solid #1976d2",
-                width: "100px",
+                width: { 
+                  sm:"100px",
+                  xs:"150px",
+                  xl:"200px",
+                  lg:"200px",
+                  md:"200px",
+                },
                 height: "100px",
                 backgroundColor: "#1976d2",
                 marginRight: "10px",
@@ -203,14 +115,22 @@ const Dashboard = () => {
                 fontFamily: "nexa",
                 color: "white",
                 borderRadius: "10px ",
+                alignItems:"center",
+                justifyItem:"center"
               }}
             >
-              Total Downloads
+              <Typography variant="p">Total Downloads</Typography>
             </Box>
             <Box
               sx={{
                 border: "10px solid #7fe792",
-                width: "100px",
+                width: { 
+                  sm:"100px",
+                  xs:"100px",
+                  xl:"200px",
+                  lg:"200px",
+                  md:"200px",
+                },
                 height: "100px",
                 backgroundColor: "#7fe792",
                 marginRight: "10px",
@@ -229,7 +149,13 @@ const Dashboard = () => {
             <Box
               sx={{
                 border: "10px solid #f96161",
-                width: "100px",
+                width: { 
+                  sm:"100px",
+                  xs:"100px",
+                  xl:"200px",
+                  lg:"200px",
+                  md:"200px",
+                },
                 height: "100px",
                 backgroundColor: "#f96161",
                 marginRight: "10px",
