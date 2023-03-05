@@ -11,7 +11,16 @@ import {
 import { PersonIcon, LockIcon } from "@mui/icons-material/";
 import { AccountCircleIcon } from "@mui/icons-material/AccountCircle";
 import { useAppContext } from "../context/AppContext";
-import { Alert, DashboardNavs, FormRowSelect, MobileNav, Subfooter } from "../components";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import SendIcon from '@mui/icons-material/Send';
+import {
+  Alert,
+  DashboardNavs,
+  FormRowSelect,
+  MobileNav,
+  Subfooter,
+} from "../components";
 
 const pageDesign = {
   marginTop: "60px",
@@ -26,14 +35,14 @@ const pageDesign = {
     xs: "640px",
   },
   bottom: "0",
-  display:"flex",
+  display: "flex",
   flexDirection: {
-    xs:"column",
-    lg:"row",
-    md:"row",
-    xl:"row",
-    sm:"row"
-  }
+    xs: "column",
+    lg: "row",
+    md: "row",
+    xl: "row",
+    sm: "row",
+  },
 };
 
 const formDesign = {
@@ -53,9 +62,11 @@ const initialState = {
   song: "",
 };
 const formText = {
-  fontSize: "100px",
+  fontSize: "30px",
   width: "300px",
   textColor: "white",
+  height:"50px",
+  borderRadius: "5px solid black",
 
   backgroundColor: "white",
 };
@@ -112,10 +123,43 @@ const UploadSong = () => {
     DefaultGenre,
     uploadMusic,
     uploadErrorHandler,
-    email
+    email,
   } = useAppContext();
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+  };
+  const uploadButton = {
+    width: "300px",
+    color: "black",
+    marginBottom:"5px",
+    backgroundColor: "orange",
+    "&:hover": {
+      backgroundColor: "black",
+      color: "orange",
+    },
+  };
+
+  const uploadButton2 = {
+    width: "300px",
+    color: "black",
+    
+    marginBottom:"5px",
+    backgroundColor: "orange",
+    "&:hover": {
+      backgroundColor: "black",
+      color: "orange",
+    },
+  };
+
+  const submitButton = {
+    width: "300px",
+    color: "white",
+    marginBottom:"10px",
+    backgroundColor: "orange",
+    "&:hover": {
+      backgroundColor: "black",
+      color: "orange",
+    },
   };
 
   const handleImageUpload = async (e) => {
@@ -129,9 +173,6 @@ const UploadSong = () => {
         message: "",
       });
     };
-
-
-  ;
 
     reader.readAsDataURL(file);
     // const newImagefile = e.target.files[0];
@@ -158,35 +199,37 @@ const UploadSong = () => {
   };
 
   const Uploadmusic = (e) => {
-
     e.preventDefault();
 
-    if(!values.title || !values.Genre || !values.artist || !values.description || !music.songfile || !image.file){
-      uploadErrorHandler()
-      return
+    if (
+      !values.title ||
+      !values.Genre ||
+      !values.artist ||
+      !values.description ||
+      !music.songfile ||
+      !image.file
+    ) {
+      uploadErrorHandler();
+      return;
     }
 
+    let formData = new FormData();
+    formData.append("file", image.file);
+    formData.append("file1", music.songfile);
+    formData.append("title", values.title);
+    formData.append("Genre", values.Genre);
+    formData.append("artist", values.artist);
+    formData.append("description", values.description);
+    formData.append("email", email);
+    console.log(formData);
+    uploadMusic({
+      formData,
+      alertText: "Song successfully upload and awaiting approval",
+    });
 
-      let formData = new FormData();
-      formData.append('file',image.file)
-      formData.append('file1',music.songfile)
-      formData.append("title",values.title)
-      formData.append("Genre",values.Genre)
-      formData.append("artist",values.artist)
-      formData.append("description",values.description)
-      formData.append("email",email)
-        console.log(formData)
-      uploadMusic({
-        formData,
-        alertText: "Song successfully upload and awaiting approval",
-      });
-
-      setImage({...image,file: ""})
-      setMusic({...music, songfile:""})
-      setValues({...values, title:""})
-
-
-
+    setImage({ ...image, file: "" });
+    setMusic({ ...music, songfile: "" });
+    setValues({ ...values, title: "" });
 
     // const { title, description, Genre } = values;
 
@@ -195,146 +238,172 @@ const UploadSong = () => {
     //   return;
     // }
     // const songDetails = { title, description, Genre, image };
-
   };
 
   return (
-    <><Box sx={{ display: "flex" }}>
-    <Box sx={pageDesign}>
-    <MobileNav/>
+    <>
+      <Box sx={{ display: "flex" }}>
+        <Box sx={pageDesign}>
+          <MobileNav />
 
-      <DashboardNavs/>
-    <Box sx={RegisterBox}>
-       <Box sx={formDesign}>
-      {showAlert && <Alert />}
-      {image.message && <h3>{image.message}</h3> }
-      <form>
-        <Typography variant="h6">Upload Song</Typography>
+          <DashboardNavs />
+          <Box sx={RegisterBox}>
+            <Box sx={formDesign}>
+              {showAlert && <Alert />}
+              {image.message && <h3>{image.message}</h3>}
+              <form>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    marginBottom: "5px",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Upload Song
+                </Typography>
 
-        {/* Title*/}
-       {image.userImage && <img
-          src={image.userImage}
-          sx={{ width: "10px", height: "10px" }}
-          alt=""
-        />}
-        <TextField
-        sx= {formText}
-          margin="normal"
-          required
-          fullWidth
-          id="title"
-          variant="standard"
-          label="title"
-          name="title"
-          value={values.title}
-          autoComplete="title"
-          autoFocus
-          onChange={handleChange}
-          InputLabelProps={{
-            style: { color: "black" },
-          }}
-          InputProps={{
-            style: {
-              color: "black",
-            },
-          }}
-        />
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<AddAPhotoIcon />}
+                  sx={uploadButton}
+                >
+                  Upload Cover art
+                  <input
+                    type="file"
+                    // accept=".png, .jpg, .jpeg"
+                    id="image"
+                    name="file"
+                    hidden
+                    onChange={handleImageUpload}
+                  />
+                </Button>
 
-        {/* Genre */}
-        <FormRowSelect
-          labelText="Genre"
-          sx= {formText}
-          variant="standard"
-          name="Genre"
-          value={values.Genre}
-          handleChange={handleChange}
-          list={Genre}
-          defaultValue={"Afrobeats"}
-          InputLabelProps={{
-            style: { color: "black" },
-          }}
-          InputProps={{
-            style: {
-              color: "black",
-            },
-          }}
-        />
+                {/* Title*/}
+                {image.userImage && (
+                  <img
+                    src={image.userImage}
+                    sx={{ width: "10px", height: "10px" }}
+                    alt=""
+                  />
+                )}
+                <TextField
+                  sx={formText}
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="title"
+                  variant="standard"
+                  label="title"
+                  name="title"
+                  value={values.title}
+                  autoComplete="title"
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    style: { color: "black" },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: "black",
+                    },
+                  }}
+                />
 
-        {/*Artiste*/}
+                {/* Genre */}
+                <FormRowSelect
+                  labelText="Genre"
+                  sx={formText}
+                  variant="standard"
+                  name="Genre"
+                  value={values.Genre}
+                  handleChange={handleChange}
+                  list={Genre}
+                  defaultValue={"Afrobeats"}
+                />
 
-        <TextField
-          margin="normal"
-          sx= {formText}
-          required
-          variant="standard"
-          fullWidth
-          id="artist"
-          label="artist"
-          name="artist"
-          value={values.artist}
-          autoComplete="artist"
-          autoFocus
-          onChange={handleChange}
-          InputLabelProps={{
-            style: { color: "black" },
-          }}
-          InputProps={{
-            style: {
-              color: "black",
-            },
-          }}
-        />
+                {/*Artiste*/}
 
-        <TextField
-          margin="normal"
-          sx= {formText}
-          required
-          fullWidth
-          variant="standard"
-          id="description"
-          label="Description of song "
-          name="description"
-          value={values.description}
-          autoComplete="description"
-          autoFocus
-          onChange={handleChange}
-          InputLabelProps={{
-            style: { color: "black" },
-          }}
-          InputProps={{
-            style: {
-              color: "black",
-            },
-          }}
-        />
-        <Box sx={{display:"flex" }}>
-        <Button variant="contained" component="label" sx={{marginRight:"10px"}}>
-          Upload image
-          <input
-            type="file"
-            // accept=".png, .jpg, .jpeg"
-            id="image"
-            name="file"
-            hidden
-            onChange={handleImageUpload}
-          />
+                <TextField
+                  margin="normal"
+                  sx={formText}
+                  required
+                  variant="standard"
+                  fullWidth
+                  id="artist"
+                  label="artist"
+                  name="artist"
+                  value={values.artist}
+                  autoComplete="artist"
+                  autoFocus
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    style: { color: "black" },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: "black",
+                    },
+                  }}
+                />
 
-        </Button>
-        <Button variant="contained"  component="label"  sx={{marginRight:"10px"}}>
-          Upload song
-          <input type="file" hidden id="song" multiple name="file1" onChange={handleSongUpload} />
-        </Button>
+                <TextField
+                  id="outlined-multiline-static"
+                  multiline
+                  rows={1}
+                  defaultValue="Default Value"
+                  margin="normal"
+                  sx={formText}
+                  required
+                  fullWidth
+                  variant="standard"
+                  label="Description of song "
+                  name="description"
+                  value={values.description}
+                  autoComplete="description"
+                  autoFocus
+                  onChange={handleChange}
+                  InputLabelProps={{
+                    style: { color: "black" },
+                  }}
+                  InputProps={{
+                    style: {
+                      color: "black",
+                    },
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  component="label"
+                  startIcon= {<LibraryMusicIcon/>}
+                  sx={uploadButton2}
+                >
+                  Upload Music File
+                  <input
+                    type="file"
+                    hidden
+                    id="song"
+                    multiple
+                    name="file1"
+                    onChange={handleSongUpload}
+                  />
+                </Button>
 
-        <Button variant="contained" onClick={Uploadmusic}  sx={{marginRight:"10px"}}>
-          submit song
-        </Button>
+                <Button
+                  variant="contained"
+                  sx={uploadButton}
+                  onClick={Uploadmusic}
+                  
+                  
+                >
+                  <Typography variant="p"> submit  </Typography> 
+                </Button>
+              </form>
+            </Box>
+          </Box>
         </Box>
-      </form>
       </Box>
-    </Box>
-    </Box>
-    </Box>
-    <Subfooter/>
+      <Subfooter />
     </>
   );
 };
