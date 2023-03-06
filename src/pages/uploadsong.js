@@ -12,8 +12,8 @@ import { PersonIcon, LockIcon } from "@mui/icons-material/";
 import { AccountCircleIcon } from "@mui/icons-material/AccountCircle";
 import { useAppContext } from "../context/AppContext";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import SendIcon from '@mui/icons-material/Send';
+import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import SendIcon from "@mui/icons-material/Send";
 import {
   Alert,
   DashboardNavs,
@@ -43,6 +43,11 @@ const pageDesign = {
     xl: "row",
     sm: "row",
   },
+
+  img: {
+    width: "100px",
+    height: "100px",
+  },
 };
 
 const formDesign = {
@@ -51,7 +56,7 @@ const formDesign = {
   margin: "auto",
   padding: "20px",
   color: "white",
-  backgroundColor: "#666",
+  backgroundColor: "white",
 };
 const DefaultGenre = "Afrobeats";
 const initialState = {
@@ -65,7 +70,8 @@ const formText = {
   fontSize: "30px",
   width: "300px",
   textColor: "white",
-  height:"50px",
+  height: "50px",
+  marginBottom: "20px",
   borderRadius: "5px solid black",
 
   backgroundColor: "white",
@@ -96,8 +102,14 @@ const RegisterBox = {
   width: {
     sm: "400px",
     lg: "600px",
-    xl: "800px",
+    xl: "1000px",
   },
+  marginLeft: {
+    xl: "100px",
+    lg: "100px",
+    md: "150px",
+  },
+  marginBottom: "100px",
 };
 
 const UploadSong = () => {
@@ -131,7 +143,7 @@ const UploadSong = () => {
   const uploadButton = {
     width: "300px",
     color: "black",
-    marginBottom:"5px",
+    marginBottom: "5px",
     backgroundColor: "orange",
     "&:hover": {
       backgroundColor: "black",
@@ -142,8 +154,8 @@ const UploadSong = () => {
   const uploadButton2 = {
     width: "300px",
     color: "black",
-    
-    marginBottom:"5px",
+
+    marginBottom: "5px",
     backgroundColor: "orange",
     "&:hover": {
       backgroundColor: "black",
@@ -154,7 +166,7 @@ const UploadSong = () => {
   const submitButton = {
     width: "300px",
     color: "white",
-    marginBottom:"10px",
+    marginBottom: "10px",
     backgroundColor: "orange",
     "&:hover": {
       backgroundColor: "black",
@@ -229,7 +241,7 @@ const UploadSong = () => {
 
     setImage({ ...image, file: "" });
     setMusic({ ...music, songfile: "" });
-    setValues({ ...values, title: "" });
+    setValues({ ...values, title: "", Genre: "", description: "", artist: "" });
 
     // const { title, description, Genre } = values;
 
@@ -258,6 +270,7 @@ const UploadSong = () => {
                     marginBottom: "5px",
                     justifyContent: "center",
                     alignItems: "center",
+                    color: "black",
                   }}
                 >
                   Upload Song
@@ -281,20 +294,13 @@ const UploadSong = () => {
                 </Button>
 
                 {/* Title*/}
-                {image.userImage && (
-                  <img
-                    src={image.userImage}
-                    sx={{ width: "10px", height: "10px" }}
-                    alt=""
-                  />
-                )}
+                {image.userImage && <img src={image.userImage} alt="" />}
                 <TextField
                   sx={formText}
                   margin="normal"
                   required
                   fullWidth
-                  id="title"
-                  variant="standard"
+                  id="outlined-required"
                   label="title"
                   name="title"
                   value={values.title}
@@ -313,8 +319,8 @@ const UploadSong = () => {
                 {/* Genre */}
                 <FormRowSelect
                   labelText="Genre"
-                  sx={formText}
-                  variant="standard"
+                  sx={{ width: "200px" }}
+                  id="outlined-required"
                   name="Genre"
                   value={values.Genre}
                   handleChange={handleChange}
@@ -328,9 +334,8 @@ const UploadSong = () => {
                   margin="normal"
                   sx={formText}
                   required
-                  variant="standard"
                   fullWidth
-                  id="artist"
+                  id="outlined-required"
                   label="artist"
                   name="artist"
                   value={values.artist}
@@ -375,7 +380,7 @@ const UploadSong = () => {
                 <Button
                   variant="contained"
                   component="label"
-                  startIcon= {<LibraryMusicIcon/>}
+                  startIcon={<LibraryMusicIcon />}
                   sx={uploadButton2}
                 >
                   Upload Music File
@@ -393,10 +398,8 @@ const UploadSong = () => {
                   variant="contained"
                   sx={uploadButton}
                   onClick={Uploadmusic}
-                  
-                  
                 >
-                  <Typography variant="p"> submit  </Typography> 
+                  <Typography variant="p"> submit </Typography>
                 </Button>
               </form>
             </Box>

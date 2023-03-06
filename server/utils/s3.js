@@ -24,6 +24,7 @@ try {
         Bucket: BUCKET_NAME,
         Key:Key,
         Body: imageData,
+        
     }).promise()
 
 

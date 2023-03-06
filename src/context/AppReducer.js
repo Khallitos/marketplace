@@ -207,7 +207,7 @@ import {
       return {
         ...state,
         showAlert: true,
-        alertText: "Pleasesss provide all details",
+        alertText: "Please provide all details",
         alertType: "danger",
       };
     }

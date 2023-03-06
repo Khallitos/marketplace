@@ -18,6 +18,11 @@ const sideMenu = {
     sm: "flex",
     lg: "flex",
   },
+
+  marginLeft: {
+    xl: "400px",
+    lg: "150px"
+  }
 };
 
 const style = {

@@ -9,6 +9,7 @@ import Chip from "@mui/material/Chip";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import axios from "axios";
 
 const linkStyle = {
   textDecoration: "none",
@@ -140,8 +141,31 @@ export default function singleSong() {
     getAllTrendingSongs,
     getAllRandomSongs,
     RandomSongs,
+    getMusicLinks
+    
   } = useAppContext();
-
+   const getMusicLink= (url,name)=> {
+    axios.get(url, {
+      headers: {
+        "Content-Type": "audio/mpeg",
+        "Content-Disposition": "attachment",
+         "filename" :`${name}.mp3`
+      },
+      responseType: "blob"
+    })
+      .then(response => {
+        const a = document.createElement("a");
+        const url = window.URL.createObjectURL(response.data);
+        a.href = url;
+        a.download = name+".mp3";
+        a.click();
+      })
+      .catch(err => {
+        console.log("error", err);
+      });
+  
+    // getMusicLinks(filename,songid)
+   }
   const getTrendingSongs = () => {
     getAllTrendingSongs();
   };
@@ -218,19 +242,23 @@ export default function singleSong() {
               type="audio/mpeg"
             />
           </audio>
+         
+
           <Link
-            href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`}
-            download={song?.title}
+            href={`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}` }
+            download
             sx={{ fontSize: "30px" }}
           >
+            download
+             </Link>
             <Button
-              onClick={() => downloadCount(song?._id)}
+              onClick={() => getMusicLink(`https://kanmusic.s3.eu-west-2.amazonaws.com/${song?.Key1}`,song?.title)}
               variant="contained"
               sx={DownloadBtnDesign}
-            >
+            > 
               Download
             </Button>
-          </Link>
+         
 
           {/* Random songs */}
 
@@ -271,6 +299,8 @@ export default function singleSong() {
           TRENDING SONGS
         </Typography>
         <div>
+
+          
           {TrendingSongs.map((song) => (
             <Link href={"/download/" + song._id} style={linkStyle}>
               <div>
