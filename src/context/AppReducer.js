@@ -40,6 +40,8 @@ import {
   UNSET_USERNAME,
   IS_USER_LOGGED_IN,
   IS_USER_LOGGED_OUT,
+  TOKEN_IS_SET,
+  TOKEN_IS_NOT_SET,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -362,13 +364,13 @@ import {
     }
     
   
-    if (action.type === UNSET_USERNAME
-      ) {
-      return {
-        ...state,
-        username: null,
-      };
-    }
+    // if (action.type === UNSET_USERNAME
+    //   ) {
+    //   return {
+    //     ...state,
+    //     username: null,
+    //   };
+    // }
     
     if (action.type === IS_USER_LOGGED_IN
       ) {
@@ -383,6 +385,28 @@ import {
       return {
         ...state,
         isUserLoggedIn: false,
+      };
+    }
+    
+
+
+
+    if (action.type === TOKEN_IS_SET
+      ) {
+      return {
+        ...state,
+        isUserLoggedIn: true,
+        isloading: false,
+      };
+    }
+    
+    
+    if (action.type === TOKEN_IS_NOT_SET
+      ) {
+      return {
+        ...state,
+        isUserLoggedIn: false,
+        isloading: false,
       };
     }
     

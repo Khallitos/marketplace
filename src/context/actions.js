@@ -50,6 +50,9 @@ export const UNSET_USERNAME = "UNSET_USERNAME"
 export const IS_USER_LOGGED_IN = "IS_USER_LOGGED_IN"
 export const  IS_USER_LOGGED_OUT= " IS_USER_LOGGED_OUT"
 export const  SET_INITIALSTATE= " SET_INITIALSTATE"
+export const  TOKEN_IS_SET= " TOKEN_IS_SET"
+export const  TOKEN_IS_NOT_SET= " TOKEN_IS_NOT_SET"
+
 
 
 

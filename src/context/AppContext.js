@@ -49,6 +49,9 @@ import {
   SET_LOADER,
   UNSET_USERNAME,
   SET_INITIALSTATE,
+  TOKEN_IS_SET,
+  TOKEN_IS_NOT_SET
+  
 } from "./actions";
 
 //https://kanmusic.onrender.com
@@ -79,6 +82,8 @@ const initialState = {
   PendingSongs: "",
   ApprovedSongs: "",
   totalDownloads: "",
+  token: "",
+  isUserLoggedIn: false,
 };
 
 export const AppContext = React.createContext();
@@ -119,7 +124,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem("username");
     localStorage.removeItem("isUserLoggedIn");
 
-    dispatch({ type: UNSET_USERNAME });
+    
   };
 
   // clear text
@@ -564,6 +569,22 @@ export const AppProvider = ({ children }) => {
     } catch (error) {}
   };
 
+  const tokenIsSet =  () => {
+    try {
+      const token = localStorage.getItem("token");
+      if(token){
+        dispatch({type: TOKEN_IS_SET})
+      }
+      else{
+        dispatch({type: TOKEN_IS_NOT_SET})
+      }
+    
+
+     
+    } catch (error) {}
+  };
+
+  
   return (
     <AppContext.Provider
       value={{
@@ -598,6 +619,7 @@ export const AppProvider = ({ children }) => {
         getAllRandomSongs,
         setLocalStorage,
         getMusicLinks,
+        tokenIsSet
       }}
     >
       {children}

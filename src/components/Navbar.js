@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import links from "../utils/links";
+import CircularProgress from "@mui/material/CircularProgress";
 // import SET_INITIALSTATE from "../context/"
 
 const phoneNavbar = {
@@ -113,13 +114,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-  const { username, logUserOff, token, setLocalStorage } = useAppContext();
+  const { username, logUserOff, token, setLocalStorage ,isloading,tokenIsSet,isUserLoggedIn} = useAppContext();
   const router = useRouter();
+  const { asPath } = useRouter();
   const logoutUser = () => {
     logUserOff();
     window.location.reload();
   };
 
+  const isTokenSet = () => {
+    tokenIsSet()
+
+  }
+
+useEffect(()=> {
+ 
+    isTokenSet()
+    
+    
+},[token,asPath])
+
+if (isloading)
+    return (
+      <CircularProgress
+        sx={{
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      />
+    );
   return (
     <>
     
@@ -150,7 +175,7 @@ const Navbar = () => {
                 
               }}
             >
-              Kanmuzic
+              Marketplace
             </Typography>
           </Link>
         </Box>
@@ -178,7 +203,7 @@ const Navbar = () => {
           ))}
         </Box>
 
-        {token && (
+        {isUserLoggedIn && (
           <Box>
             <Typography variant="h5">
               <AccountCircleIcon fontSize="small" /> {username}
@@ -186,7 +211,7 @@ const Navbar = () => {
 
             <Button
               variant="outlined"
-              onClick={logoutUser}
+              onClick={()=> logoutUser()}
               sx={{
                 backgroundColor: "white",
                 marginX: "30px",
@@ -200,14 +225,14 @@ const Navbar = () => {
             <Button
               variant="text"
               color="primary"
-              onClick={() => router.push("/")}
+             
             >
               <SettingsIcon fontSize="large" sx={{ color: "white" }} />
             </Button>
           </Box>
         )}
 
-        {!token && (
+        {!isUserLoggedIn && (
           <Box sx={loginButtonDesign}>
             <Button
               variant="outlined"
