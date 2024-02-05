@@ -89,6 +89,13 @@ const initialState = {
 export const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
+  const [currentStep, setStep] = useState(1);  
+  const [productData, setProductData] = useState([]);
+  const [cargoData, setCargoData] = useState({});
+  const [cargoData2, setCargoData2] = useState({});
+  const [finalData, setFinalData] = useState({});
+  const [isCompleted, setIsCompleted]= useState(false)
+
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const router = useRouter();
 
@@ -619,7 +626,21 @@ export const AppProvider = ({ children }) => {
         getAllRandomSongs,
         setLocalStorage,
         getMusicLinks,
-        tokenIsSet
+        tokenIsSet,
+        currentStep,
+        setStep,
+        productData, 
+        setProductData,
+        cargoData, 
+        setCargoData,
+        cargoData2,
+        setCargoData2,
+        finalData,
+         setFinalData,
+        isCompleted,
+        setIsCompleted
+        
+        
       }}
     >
       {children}
