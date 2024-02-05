@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import { Box, Step, StepLabel } from '@mui/material';
 import Stepper from "@mui/material/Stepper";
-import ReceivingForm from "../../components/forms/ReceivingFormComplete";
 import ProductForm from "../../components/forms/ProductForm";
-import ReceivingFormDouble from "../../components/forms/ReceivingFormDouble";
+import ProductDetailsForm from '@/components/forms/ProductDetailsForm';
 import { useAppContext } from '@/context/AppContext';
 
 
@@ -66,15 +65,12 @@ const dashboardDesign = {
         return <ProductForm />;
 
       case 2:
-        return <ReceivingFormDouble />;
-
-      case 3:
-        return <ReceivingForm />;
+        return <ProductDetailsForm />;
     }
   };
 
 useEffect(()=>{
-   setStep(1)
+  
 })
   return (
     <Box sx={dashboardDesign}>

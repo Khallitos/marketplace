@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
-import { useAppContext } from "../../context/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 import Checkbox from "@mui/material/Checkbox";
 import "react-toastify/dist/ReactToastify.css";
-
 import {
   Button,
   FormControl,
@@ -16,6 +14,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useAppContext } from "../../context/AppContext";
+import ProductType from "@/utils/productType";
 
 import { ProductValidationSchema } from "../validations/ProductValidationSchema";
 const formText = {
@@ -30,23 +30,12 @@ const formText = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const ProductForm = () => {
-  const {
-    setStep,
-    productData,
-    setProductData,
-    isSideBarReduce,
-    toggleSideBar,
-    showAlert,
-    parcel,
-    parcelType,
-    setFinalData,
-    finalData,
-  } = useAppContext();
+  const { setStep, productData, setProductData, setFinalData, finalData } =
+    useAppContext();
 
   const [isNegotiable, setIsNegotiable] = useState("");
 
   const NegotiableCheckBox = () => {
-   
     setProductData({ ...productData, Negotiable: "Yes" });
   };
 
@@ -54,47 +43,40 @@ const ProductForm = () => {
     const ProductFormData = {
       Location: productData["Location"],
       Title: productData["Title"],
-      productType: productData["productType"],
+      ProductType: productData["ProductType"],
       Description: productData["Description"],
       Price: productData["Price"],
     };
 
     const isValid = await ProductValidationSchema.isValid(ProductFormData);
 
+    if (isValid) {
+      const pushFinalData = setFinalData({
+        ...finalData,
+        ...ProductFormData,
+      });
 
-    if(isValid) {
-      if(parcelChecker === "Double"){
-        const pushFinalData = setFinalData({
-          ...finalData,
-          ...vesselFormData,
-        });
-        setStep(2)
-      }
-      else if(parcelChecker ==="Single"){
-        const pushFinalData = setFinalData({
-          ...finalData,
-          ...vesselFormData,
-        });
-        setStep(3)
-      }
-      else{
-        setStep(2)
-      }
-  
+      setStep(2);
     } else {
       toast.error("Invalid credentials", {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
-
-  
-   
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column" ,marginX:"100px", width:"50%",alignContent:"center",justifyContent:"center"}}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        marginX: "100px",
+        width: "50%",
+        alignContent: "center",
+        justifyContent: "center",
+      }}
+    >
       <ToastContainer />
-      {/* *************************************************************************NAME OF VESSEL***************************************************************************** */}
+     
       <Typography
         variant="p"
         sx={{
@@ -120,8 +102,7 @@ const ProductForm = () => {
       </Typography>
 } */}
 
-
-<Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
+      <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
       <Typography variant="p">
         Location
         <Typography component="span" sx={{ color: "red" }}>
@@ -165,7 +146,6 @@ const ProductForm = () => {
         }
       />
 
-
       {/* *************************************************************************TYPE OF PRODUCT***************************************************************************** */}
       <FormControl sx={{ width: "300px" }}>
         <InputLabel id="demo-simple-select-helper-label"></InputLabel>
@@ -176,98 +156,30 @@ const ProductForm = () => {
           </Typography>
         </Typography>
         <Select
-          value={productData["productType"]}
+          value={productData["ProductType"] || ''}
           displayEmpty
-          name="productType"
+          name="ProductType"
           label="Product Type"
           onChange={(e) =>
-            setProductData({ ...productData, productType: e.target.value })
+            setProductData({ ...productData, ProductType: e.target.value })
           }
         >
-          <MenuItem value="">
+          {/* <MenuItem value="">
             <em>None</em>
-          </MenuItem>
-          <MenuItem value="Gasoil">Gasoil</MenuItem>
-          <MenuItem value="Gasoiline">Gasoline</MenuItem>
-          <MenuItem value="Gasoiline">HFO</MenuItem>
-          <MenuItem value="Bitumen">Bitumen</MenuItem>
+          </MenuItem> */}
+          {ProductType.map((product) =>
+          <MenuItem  key = {product.id} value={product.title}>{product.title}</MenuItem>
+          )}
+          
+          
         </Select>
       </FormControl>
-
-     
-      <Typography variant="p" sx={{ marginTop: "30px" }}>
-        <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
-       Negotiable
-        <Typography component="span" sx={{ color: "red" }}>
-          *
-        </Typography>
-      </Typography>
-
-      <Typography variant="p" color="initial">
-        Check if not available
-        <Checkbox
-          {...label}
-          onChange={NegotiableCheckBox}
-          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-        />
-      </Typography>
       <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
-
-      {/* *************************************************************************ARRIVAL FIGURES***************************************************************************** */}
-
-     
-
-      <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
-      <Typography variant="p">
-        Description
-        <Typography component="span" sx={{ color: "red" }}>
-          *
-        </Typography>
-      </Typography>
-      <TextField
-        sx={formText}
-        margin="normal"
-        required
-        fullWidth
-        name="Description"
-        id="outlined-basic"
-        label="Description"
-        variant="outlined"
-        value={productData["Description"]}
-        onChange={(e) =>
-          setProductData({ ...productData, Description: e.target.value })
-        }
-      />
-
-<Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
-      <Typography variant="p">
-        Price
-        <Typography component="span" sx={{ color: "red" }}>
-          *
-        </Typography>
-      </Typography>
-      <TextField
-        sx={formText}
-        margin="normal"
-        required
-        fullWidth
-        name="Price"
-        id="outlined-basic"
-        label="Price"
-        variant="outlined"
-        value={productData["Price"]}
-        onChange={(e) =>
-          setProductData({ ...productData, Price: e.target.value })
-        }
-      />
-
-      
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button onClick={ProductValidation}>Next</Button>
       </Box>
     </Box>
   );
 };
-
 
 export default ProductForm;
