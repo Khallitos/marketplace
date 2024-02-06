@@ -50,7 +50,8 @@ import {
   UNSET_USERNAME,
   SET_INITIALSTATE,
   TOKEN_IS_SET,
-  TOKEN_IS_NOT_SET
+  TOKEN_IS_NOT_SET,
+  SET_PRODUCT_TYPE
   
 } from "./actions";
 
@@ -84,6 +85,7 @@ const initialState = {
   totalDownloads: "",
   token: "",
   isUserLoggedIn: false,
+  ProductTypeInfo: null,
 };
 
 export const AppContext = React.createContext();
@@ -591,6 +593,18 @@ export const AppProvider = ({ children }) => {
     } catch (error) {}
   };
 
+  const ProductMatching = (ProductTypeInfo) => {
+  
+    try {
+      dispatch({type: SET_PRODUCT_TYPE,payload:{
+        ProductTypeInfo:ProductTypeInfo
+      }})
+    }
+    catch(e){
+
+    }
+
+  }
   
   return (
     <AppContext.Provider
@@ -638,7 +652,8 @@ export const AppProvider = ({ children }) => {
         finalData,
          setFinalData,
         isCompleted,
-        setIsCompleted
+        setIsCompleted,
+        ProductMatching
         
         
       }}

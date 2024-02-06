@@ -42,6 +42,7 @@ import {
   IS_USER_LOGGED_OUT,
   TOKEN_IS_SET,
   TOKEN_IS_NOT_SET,
+  SET_PRODUCT_TYPE,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -407,6 +408,17 @@ import {
         ...state,
         isUserLoggedIn: false,
         isloading: false,
+      };
+    }
+
+    
+
+    
+    if (action.type === SET_PRODUCT_TYPE
+      ) {
+      return {
+        ...state,
+        ProductTypeInfo: action.payload.ProductTypeInfo
       };
     }
     

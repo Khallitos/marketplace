@@ -41,6 +41,7 @@ const ProductDetailsForm = () => {
     isCompleted,
     setProductData,
     setFinalData,
+    ProductTypeInfo
   } = useAppContext();
 
   const ProductFormValidation = async (e) => {
@@ -48,22 +49,7 @@ const ProductDetailsForm = () => {
     const ProductDetails = {
       receivingTerminalGOV: cargoData2["receivingTerminalGOV"],
       receivingTerminal: cargoData2["receivingTerminal"],
-      receivingTerminalDensity: cargoData2["receivingTerminalDensity"],
-      receivingTerminalWCF: cargoData2["receivingTerminalWCF"],
-      receivingTerminalTemperature: cargoData2["receivingTerminalTemperature"],
-      receivingTerminalVCF: cargoData2["receivingTerminalVCF"],
-      receivingTerminalGSV: cargoData2["receivingTerminalGSV"],
-      receivingTerminalMTVAC: cargoData2["receivingTerminalMTVAC"],
-      receivingTerminalMTAIR: cargoData2["receivingTerminalMTAIR"],
-      receivingTerminalGSV20: cargoData2["receivingTerminalGSV20"],
-      receivingTerminalMTVAC20: cargoData2["receivingTerminalMTVAC20"],
-      receivingTerminalMTAIR20: cargoData2["receivingTerminalMTAIR20"],
-      mogsFlowmeterReading: cargoData2["mogsFlowmeterReading"],
-      mogsTerminalDensity20: cargoData2["mogsTerminalDensity20"],
-      mogsTerminalVCF: cargoData2["mogsTerminalVCF"],
-      mogsTerminalGSV20: cargoData2["mogsTerminalGSV20"],
-      mogsTerminalMTVAC20: cargoData2["mogsTerminalMTVAC20"],
-      mogsTerminalMTAIR20: cargoData2["mogsTerminalMTAIR20"],
+      
     };
     try {
       const isValidProductDetails =

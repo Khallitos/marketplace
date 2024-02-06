@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import { ToastContainer, toast } from "react-toastify";
@@ -30,10 +30,18 @@ const formText = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const ProductForm = () => {
-  const { setStep, productData, setProductData, setFinalData, finalData } =
-    useAppContext();
+  const {
+    setStep,
+    productData,
+    setProductData,
+    setFinalData,
+    finalData,
+    ProductTypeInfo,
+    ProductMatching,
+  } = useAppContext();
 
   const [isNegotiable, setIsNegotiable] = useState("");
+  const [isProductCategoryState ,setProductCategoryState ] = useState(false)
 
   const NegotiableCheckBox = () => {
     setProductData({ ...productData, Negotiable: "Yes" });
@@ -50,6 +58,11 @@ const ProductForm = () => {
 
     const isValid = await ProductValidationSchema.isValid(ProductFormData);
 
+    const ProductTypeInfo = productData["ProductType"];
+
+    ProductMatching(ProductTypeInfo);
+    setProductCategoryState(true)
+
     if (isValid) {
       const pushFinalData = setFinalData({
         ...finalData,
@@ -64,6 +77,16 @@ const ProductForm = () => {
     }
   };
 
+  useEffect(() => {
+    const ProductTypeInfo = productData["ProductType"];
+    if(isProductCategoryState){
+      alert(ProductTypeInfo)
+      }
+    }
+    
+   
+  , [isProductCategoryState]);
+
   return (
     <Box
       sx={{
@@ -76,7 +99,7 @@ const ProductForm = () => {
       }}
     >
       <ToastContainer />
-     
+
       <Typography
         variant="p"
         sx={{
@@ -156,7 +179,7 @@ const ProductForm = () => {
           </Typography>
         </Typography>
         <Select
-          value={productData["ProductType"] || ''}
+          value={productData["ProductType"] || ""}
           displayEmpty
           name="ProductType"
           label="Product Type"
@@ -167,11 +190,11 @@ const ProductForm = () => {
           {/* <MenuItem value="">
             <em>None</em>
           </MenuItem> */}
-          {ProductType.map((product) =>
-          <MenuItem  key = {product.id} value={product.title}>{product.title}</MenuItem>
-          )}
-          
-          
+          {ProductType.map((product) => (
+            <MenuItem key={product.id} value={product.title}>
+              {product.title}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />

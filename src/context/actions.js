@@ -52,6 +52,8 @@ export const  IS_USER_LOGGED_OUT= " IS_USER_LOGGED_OUT"
 export const  SET_INITIALSTATE= " SET_INITIALSTATE"
 export const  TOKEN_IS_SET= " TOKEN_IS_SET"
 export const  TOKEN_IS_NOT_SET= " TOKEN_IS_NOT_SET"
+export const  SET_PRODUCT_TYPE= " SET_PRODUCT_TYPE"
+
 
 
 
