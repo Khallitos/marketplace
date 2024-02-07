@@ -10,15 +10,25 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Step,
   TextField,
   Typography,
 } from "@mui/material";
 import { useAppContext } from "../../context/AppContext";
-import ProductType from "@/utils/productType";
-import ElectronicsSubCategory from "@/utils/ElectronicsSubcategory";
+import {
+  productType,
+  Babycategory,
+  ClothingCategory,
+  EducationCategory,
+  ElectronicsCategory,
+  FoodCategory,
+  FurnitureCategory,
+  HobbiesCategory,
+   ServicesCategory,
+    VehiclesCategory
+} from "@/utils/productType";
 
 import { ProductValidationSchema } from "../validations/ProductValidationSchema";
+
 const formText = {
   fontSize: "100px",
   marginTop: "10px",
@@ -39,6 +49,7 @@ const ProductForm = () => {
     finalData,
     ProductTypeInfo,
     ProductMatching,
+    MatchProduct,
   } = useAppContext();
 
   const [isNegotiable, setIsNegotiable] = useState("");
@@ -56,13 +67,11 @@ const ProductForm = () => {
       Description: productData["Description"],
       Price: productData["Price"],
     };
-    
+
     const setProductTypeInfo = productData["ProductType"];
     ProductMatching(setProductTypeInfo);
     setProductCategoryState(true);
     const isValid = await ProductValidationSchema.isValid(ProductFormData);
-
-   
 
     if (isValid) {
       const pushFinalData = setFinalData({
@@ -79,12 +88,38 @@ const ProductForm = () => {
   };
 
   useEffect(() => {
-    if (isProductCategoryState) {
-      if(ProductTypeInfo === "Electronics & Electrical Appliances"){
-       MatchProduct(ElectronicsSubCategory)
-     
-      }
+   
+    switch (ProductTypeInfo) {
+      case "Electronics & Electrical Appliances":
+        MatchProduct(ElectronicsCategory);
+        break;
+      case "Babies & Kids":
+        MatchProduct(Babycategory);
+        break;
+      case "Clothing Health & Beauty":
+        MatchProduct(ClothingCategory);
+        break;
+      case "Education":
+        MatchProduct(EducationCategory);
+        break;
+      case "Food & Agric":
+        MatchProduct(FoodCategory);
+        break;
+      case "Hobbies & Sport":
+        MatchProduct(HobbiesCategory);
+        break;
+      case "Services":
+        MatchProduct(ServicesCategory);
+        break;
+      case "Vehicles":
+        MatchProduct(VehiclesCategory);
+        break;
+      default:
+        // Default case
+        break;
     }
+    
+
   }, [isProductCategoryState]);
 
   return (
@@ -190,7 +225,7 @@ const ProductForm = () => {
           {/* <MenuItem value="">
             <em>None</em>
           </MenuItem> */}
-          {ProductType.map((product) => (
+          {productType.map((product) => (
             <MenuItem key={product.id} value={product.title}>
               {product.title}
             </MenuItem>

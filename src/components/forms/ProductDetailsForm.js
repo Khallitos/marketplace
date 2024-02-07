@@ -19,7 +19,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import ProductType from "@/utils/productType";
-import SubCategory from "@/utils/SubCategory";
+
 import condition from "@/utils/condition";
 
 const formText = {
@@ -41,7 +41,9 @@ const ProductDetailsForm = () => {
     isCompleted,
     setProductData,
     setFinalData,
-    ProductTypeInfo
+    ProductTypeInfo,
+    PopulatedSubcategory
+
   } = useAppContext();
 
   const ProductFormValidation = async (e) => {
@@ -97,7 +99,7 @@ const ProductDetailsForm = () => {
               setProductData({ ...productData, SubCategory: e.target.value })
             }
           >
-            {SubCategory.map((category) => (
+            {PopulatedSubcategory?.map((category) => (
               <MenuItem key={category.id} value={category.title}>
                 {category.title}
               </MenuItem>

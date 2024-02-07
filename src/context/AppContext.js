@@ -51,7 +51,8 @@ import {
   SET_INITIALSTATE,
   TOKEN_IS_SET,
   TOKEN_IS_NOT_SET,
-  SET_PRODUCT_TYPE
+  SET_PRODUCT_TYPE,
+  SET_PRODUCT_SUBCATEGORY
   
 } from "./actions";
 
@@ -87,6 +88,7 @@ const initialState = {
   isUserLoggedIn: false,
   ProductTypeInfo: null,
   setProductTypeInfo: null,
+  PopulatedSubcategory: null,
 };
 
 export const AppContext = React.createContext();
@@ -607,11 +609,11 @@ export const AppProvider = ({ children }) => {
 
   }
 
-  const  MatchProduct = () => {
+  const  MatchProduct = (data) => {
     
     try {
-      dispatch({type: SET_PRODUCT_TYPE,payload:{
-        setProductTypeInfo:setProductTypeInfo
+      dispatch({type: SET_PRODUCT_SUBCATEGORY,payload:{
+       SubCategoryInfo:data
       }})
     }
     catch(e){
@@ -619,6 +621,7 @@ export const AppProvider = ({ children }) => {
     }
 
   }
+
   
   return (
     <AppContext.Provider

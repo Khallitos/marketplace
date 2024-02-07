@@ -43,6 +43,7 @@ import {
   TOKEN_IS_SET,
   TOKEN_IS_NOT_SET,
   SET_PRODUCT_TYPE,
+  SET_PRODUCT_SUBCATEGORY,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -422,6 +423,19 @@ import {
         ProductTypeInfo: action.payload.setProductTypeInfo
       };
     }
+
+       
+    if (action.type === SET_PRODUCT_SUBCATEGORY
+      ) {
+   
+      return {
+        ...state,
+        PopulatedSubcategory: action.payload.SubCategoryInfo
+      };
+    }
+
+
+    
     
     throw new Error(`${action.type} does not exist`);
   }
