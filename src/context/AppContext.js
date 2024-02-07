@@ -86,6 +86,7 @@ const initialState = {
   token: "",
   isUserLoggedIn: false,
   ProductTypeInfo: null,
+  setProductTypeInfo: null,
 };
 
 export const AppContext = React.createContext();
@@ -593,11 +594,24 @@ export const AppProvider = ({ children }) => {
     } catch (error) {}
   };
 
-  const ProductMatching = (ProductTypeInfo) => {
-  
+  const ProductMatching = (setProductTypeInfo) => {
+    
     try {
       dispatch({type: SET_PRODUCT_TYPE,payload:{
-        ProductTypeInfo:ProductTypeInfo
+        setProductTypeInfo:setProductTypeInfo
+      }})
+    }
+    catch(e){
+
+    }
+
+  }
+
+  const  MatchProduct = () => {
+    
+    try {
+      dispatch({type: SET_PRODUCT_TYPE,payload:{
+        setProductTypeInfo:setProductTypeInfo
       }})
     }
     catch(e){
@@ -653,7 +667,8 @@ export const AppProvider = ({ children }) => {
          setFinalData,
         isCompleted,
         setIsCompleted,
-        ProductMatching
+        ProductMatching,
+        MatchProduct
         
         
       }}

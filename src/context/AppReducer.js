@@ -416,9 +416,10 @@ import {
     
     if (action.type === SET_PRODUCT_TYPE
       ) {
+   
       return {
         ...state,
-        ProductTypeInfo: action.payload.ProductTypeInfo
+        ProductTypeInfo: action.payload.setProductTypeInfo
       };
     }
     

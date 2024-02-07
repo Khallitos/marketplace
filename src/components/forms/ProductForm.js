@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useAppContext } from "../../context/AppContext";
 import ProductType from "@/utils/productType";
+import ElectronicsSubCategory from "@/utils/ElectronicsSubcategory";
 
 import { ProductValidationSchema } from "../validations/ProductValidationSchema";
 const formText = {
@@ -41,7 +42,7 @@ const ProductForm = () => {
   } = useAppContext();
 
   const [isNegotiable, setIsNegotiable] = useState("");
-  const [isProductCategoryState ,setProductCategoryState ] = useState(false)
+  const [isProductCategoryState, setProductCategoryState] = useState(false);
 
   const NegotiableCheckBox = () => {
     setProductData({ ...productData, Negotiable: "Yes" });
@@ -55,13 +56,13 @@ const ProductForm = () => {
       Description: productData["Description"],
       Price: productData["Price"],
     };
-
+    
+    const setProductTypeInfo = productData["ProductType"];
+    ProductMatching(setProductTypeInfo);
+    setProductCategoryState(true);
     const isValid = await ProductValidationSchema.isValid(ProductFormData);
 
-    const ProductTypeInfo = productData["ProductType"];
-
-    ProductMatching(ProductTypeInfo);
-    setProductCategoryState(true)
+   
 
     if (isValid) {
       const pushFinalData = setFinalData({
@@ -78,14 +79,13 @@ const ProductForm = () => {
   };
 
   useEffect(() => {
-    const ProductTypeInfo = productData["ProductType"];
-    if(isProductCategoryState){
-      alert(ProductTypeInfo)
+    if (isProductCategoryState) {
+      if(ProductTypeInfo === "Electronics & Electrical Appliances"){
+       MatchProduct(ElectronicsSubCategory)
+     
       }
     }
-    
-   
-  , [isProductCategoryState]);
+  }, [isProductCategoryState]);
 
   return (
     <Box
