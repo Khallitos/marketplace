@@ -52,7 +52,10 @@ import {
   TOKEN_IS_SET,
   TOKEN_IS_NOT_SET,
   SET_PRODUCT_TYPE,
-  SET_PRODUCT_SUBCATEGORY
+  SET_PRODUCT_SUBCATEGORY,
+  SET_SURBERB_REGION,
+  SET_BRAND_INFO
+  
   
 } from "./actions";
 
@@ -87,8 +90,9 @@ const initialState = {
   token: "",
   isUserLoggedIn: false,
   ProductTypeInfo: null,
-  setProductTypeInfo: null,
   PopulatedSubcategory: null,
+  Surberb: null,
+  Brand: null,
 };
 
 export const AppContext = React.createContext();
@@ -96,10 +100,10 @@ export const AppContext = React.createContext();
 export const AppProvider = ({ children }) => {
   const [currentStep, setStep] = useState(1);  
   const [productData, setProductData] = useState([]);
-  const [cargoData, setCargoData] = useState({});
-  const [cargoData2, setCargoData2] = useState({});
-  const [finalData, setFinalData] = useState({});
-  const [isCompleted, setIsCompleted]= useState(false)
+  // const [cargoData, setCargoData] = useState({});
+  // const [cargoData2, setCargoData2] = useState({});
+  // const [finalData, setFinalData] = useState({});
+  // const [isCompleted, setIsCompleted]= useState(false)
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const router = useRouter();
@@ -622,6 +626,27 @@ export const AppProvider = ({ children }) => {
 
   }
 
+  const MatchSuberb = (data) => {
+    try {
+        dispatch({type: SET_SURBERB_REGION,payload:{
+          SurberbData:data
+        }})
+    }
+    catch(e){
+
+    }
+  }
+
+  const MatchBrands = (data) => {
+    try {
+        dispatch({type: SET_BRAND_INFO,payload:{
+          BrandData:data
+        }})
+    }
+    catch(e){
+
+    }
+  }
   
   return (
     <AppContext.Provider
@@ -662,16 +687,10 @@ export const AppProvider = ({ children }) => {
         setStep,
         productData, 
         setProductData,
-        cargoData, 
-        setCargoData,
-        cargoData2,
-        setCargoData2,
-        finalData,
-         setFinalData,
-        isCompleted,
-        setIsCompleted,
         ProductMatching,
-        MatchProduct
+        MatchProduct,
+        MatchSuberb,
+        MatchBrands
         
         
       }}

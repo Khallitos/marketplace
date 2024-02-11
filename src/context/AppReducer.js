@@ -44,6 +44,8 @@ import {
   TOKEN_IS_NOT_SET,
   SET_PRODUCT_TYPE,
   SET_PRODUCT_SUBCATEGORY,
+  SET_SURBERB_REGION,
+  SET_BRAND_INFO,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -434,7 +436,25 @@ import {
       };
     }
 
+    if (action.type === SET_SURBERB_REGION
+      ) {
+   
+      return {
+        ...state,
+        Surberb: action.payload.SurberbData
+      };
+    }
 
+
+    if (action.type === SET_BRAND_INFO
+      ) {
+   
+      return {
+        ...state,
+        Brand: action.payload.BrandData
+      };
+    }
+   
     
     
     throw new Error(`${action.type} does not exist`);

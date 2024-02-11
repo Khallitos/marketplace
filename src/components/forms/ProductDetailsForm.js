@@ -18,7 +18,14 @@ import { useAppContext } from "../../context/AppContext";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import ProductType from "@/utils/productType";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import ProductType, {
+  laptopBrands,
+  audioBrands,
+  phoneBrands,
+  homeApplianceBrands,
+  tvBrands,
+} from "@/utils/productType";
 
 import condition from "@/utils/condition";
 
@@ -31,6 +38,18 @@ const formText = {
   backgroundColor: "white",
 };
 
+const uploadButton = {
+  width: "300px",
+  color: "black",
+  marginBottom: "5px",
+  backgroundColor: "orange",
+  "&:hover": {
+    backgroundColor: "black",
+    color: "orange",
+  },
+};
+
+
 const ProductDetailsForm = () => {
   const {
     setStep,
@@ -42,16 +61,85 @@ const ProductDetailsForm = () => {
     setProductData,
     setFinalData,
     ProductTypeInfo,
-    PopulatedSubcategory
-
+    MatchBrands,
+    PopulatedSubcategory,
+    Brand
   } = useAppContext();
 
+  const [isBrand, setIsBrand] = useState(true);
+  const [isNegotiable, setIsNegotiable] = useState(true);
+  const [isSwap, setIsSwap] = useState(true);
+
+  const handleImageUpload = async (e) => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    reader.onloadend = () => {
+      setImage({
+        ...image,
+        file: file,
+        userImage: reader.result,
+        message: "",
+      });
+    };
+
+    reader.readAsDataURL(file);
+    // const newImagefile = e.target.files[0];
+    // // const base64data = await getBase64.fromFile(newImagefile);
+    // setImage(newImagefile);
+  };
+
+  const isNegotiableChecker = () => {
+    setIsNegotiable(!isNegotiable)
+    setProductData({...productData, Negotiable: isNegotiable})
+  }
+
+  const isSwapChecker = () => {
+    setIsSwap(!isSwap)
+    setProductData({...productData, Swapped: isSwap})
+  }
+
+  const matchBrand = (e) => {
+    setProductData({ ...productData, SubCategory: e.target.value });
+    const SubCategoryInfo = e.target.value;
+
+    switch (SubCategoryInfo) {
+      case "Audio & Video Equipment":
+        setIsBrand(false);
+        MatchBrands(audioBrands);
+        break;
+
+      case "Mobile Phones & Accessories":
+        setIsBrand(false);
+        MatchBrands(phoneBrands);
+        break;
+
+      case "Home Appliances":
+        setIsBrand(false);
+        MatchBrands(homeApplianceBrands);
+        break;
+
+      case "Computers & Accessories":
+        setIsBrand(false);
+        MatchBrands(laptopBrands);
+        break;
+
+      case "TV's":
+        setIsBrand(false);
+        MatchBrands(tvBrands);
+        break;
+
+      default:
+        setIsBrand(true);
+        break;
+    }
+  };
+
+  const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const ProductFormValidation = async (e) => {
     e.preventDefault();
     const ProductDetails = {
       receivingTerminalGOV: cargoData2["receivingTerminalGOV"],
       receivingTerminal: cargoData2["receivingTerminal"],
-      
     };
     try {
       const isValidProductDetails =
@@ -64,7 +152,7 @@ const ProductDetailsForm = () => {
       // }
     } catch (e) {
       if (e instanceof yup.ValidationError) {
-        toast.error("IIIInvalid credentials", {
+        toast.error("Invalid credentials", {
           position: toast.POSITION.TOP_RIGHT,
         });
       } else {
@@ -82,57 +170,69 @@ const ProductDetailsForm = () => {
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <ToastContainer />
 
-        <FormControl sx={{ width: "300px" }}>
-          <InputLabel id="demo-simple-select-helper-label"></InputLabel>
-          <Typography variant="p">
-            SubCategory
-            <Typography component="span" sx={{ color: "red" }}>
-              *
-            </Typography>
-          </Typography>
-          <Select
+        <div>
+          <label htmlFor="productType">SubCategory:</label>
+          <select
+            id="productType"
+            name="ProductType"
             value={productData["SubCategory"] || ""}
-            displayEmpty
-            name="SubCategory"
-            label="SubCategory"
-            onChange={(e) =>
-              setProductData({ ...productData, SubCategory: e.target.value })
-            }
+            onChange={(e) => matchBrand(e)}
           >
+            <option value="">None</option>
+            {/* Map over productType array to generate options */}
             {PopulatedSubcategory?.map((category) => (
-              <MenuItem key={category.id} value={category.title}>
+              <option key={category.id} value={category.title}>
                 {category.title}
-              </MenuItem>
+              </option>
             ))}
-            ;
-          </Select>
-        </FormControl>
+          </select>
+        </div>
 
-        <Typography variant="p" sx={{ marginTop: "10px" }}>
-          Brand
-          <Typography
-            component="span"
-            sx={{ color: "red", marginBottom: "0px" }}
-          >
-            *
-          </Typography>
-        </Typography>
+        {isBrand ? (
+          <Box>
+            <Typography variant="p" sx={{ marginTop: "10px" }}>
+              Brand
+              <Typography
+                component="span"
+                sx={{ color: "red", marginBottom: "0px" }}
+              >
+                *
+              </Typography>
+            </Typography>
 
-        <TextField
-          sx={formText}
-          margin="normal"
-          required
-          fullWidth
-          autoFocus
+            <TextField
+              sx={formText}
+              margin="normal"
+              required
+              fullWidth
+              autoFocus
+              name="Brand"
+              id="outlined-basic"
+              label="Brand"
+              variant="outlined"
+              value={productData["Brand"]}
+              onChange={(e) =>
+                setProductData({ ...productData, Brand: e.target.value })
+              }
+            />
+          </Box>
+        ): <div>
+        <label htmlFor="Brand">Brand:</label>
+        <select
+          id="Brand"
           name="Brand"
-          id="outlined-basic"
-          label="Brand"
-          variant="outlined"
-          value={productData["Brand"]}
-          onChange={(e) =>
-            setProductData({ ...productData, Brand: e.target.value })
-          }
-        />
+          value={productData["Brand"] || ""}
+          onChange={(e) => setProductData({ ...productData, Brand: e.target.value })}
+        >
+          <option value="">None</option>
+          {/* Map over Brand array to generate options */}
+          {Brand?.map((type) => (
+            <option key={type.id} value={type.name}>
+              {type.name}
+            </option>
+          ))}
+        </select>
+      </div>}
 
         <Typography variant="p" sx={{ marginTop: "10px" }}>
           Description
@@ -185,16 +285,15 @@ const ProductDetailsForm = () => {
             setProductData({ ...productData, Price: e.target.value })
           }
         />
-         <Box sx={{display:"flex"}}>
-          <Typography variant="p">Swap Allowed</Typography>
-          <FormGroup>
-            <FormControlLabel
-              required
-              control={<Checkbox />}
-              label="Required"
-            />
-          </FormGroup>
-        </Box>
+      
+        <Typography variant="p" color="initial">
+        Swap Allowed
+        <Checkbox
+          {...label}
+          onChange={(e) => isSwapChecker()}
+          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+        />
+      </Typography>
 
         <FormControl sx={{ width: "300px" }}>
           <InputLabel id="demo-simple-select-helper-label"></InputLabel>
@@ -222,16 +321,32 @@ const ProductDetailsForm = () => {
           </Select>
         </FormControl>
 
-        <Box sx={{display:"flex"}}>
-          <Typography variant="p">Negotiable</Typography>
-          <FormGroup>
-            <FormControlLabel
-              required
-              control={<Checkbox />}
-              label="Required"
-            />
-          </FormGroup>
-        </Box>
+        <Typography variant="p" color="initial">
+        Negotiable
+        <Checkbox
+          {...label}
+          onChange={(e) => isNegotiableChecker()}
+          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+        />
+      </Typography>
+
+
+      <Button
+                  variant="contained"
+                  component="label"
+                  startIcon={<AddAPhotoIcon />}
+                  sx={uploadButton}
+                >
+                  Add Image
+                  <input
+                    type="file"
+                    // accept=".png, .jpg, .jpeg"
+                    id="image"
+                    name="file"
+                    hidden
+                    onChange={handleImageUpload}
+                  />
+                </Button>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button

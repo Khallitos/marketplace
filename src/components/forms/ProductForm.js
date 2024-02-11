@@ -23,10 +23,17 @@ import {
   FoodCategory,
   FurnitureCategory,
   HobbiesCategory,
-   ServicesCategory,
-    VehiclesCategory
+  ServicesCategory,
+  VehiclesCategory,
 } from "@/utils/productType";
+import {
+  GreaterAccraSuburbs,
+  AshantiSuburbs,
+  CentralSuburbs,
+  EasternSuburbs,
+} from "@/utils/location";
 
+import { allRegions } from "@/utils/location";
 import { ProductValidationSchema } from "../validations/ProductValidationSchema";
 
 const formText = {
@@ -50,6 +57,8 @@ const ProductForm = () => {
     ProductTypeInfo,
     ProductMatching,
     MatchProduct,
+    Surberb,
+    MatchSuberb,
   } = useAppContext();
 
   const [isNegotiable, setIsNegotiable] = useState("");
@@ -61,24 +70,16 @@ const ProductForm = () => {
 
   const ProductValidation = async (e) => {
     const ProductFormData = {
-      Location: productData["Location"],
+      Region: productData["Region"],
+      RegionSurberb: productData["RegionSurberb"],
       Title: productData["Title"],
       ProductType: productData["ProductType"],
-      Description: productData["Description"],
-      Price: productData["Price"],
     };
 
-    const setProductTypeInfo = productData["ProductType"];
-    ProductMatching(setProductTypeInfo);
     setProductCategoryState(true);
     const isValid = await ProductValidationSchema.isValid(ProductFormData);
 
     if (isValid) {
-      const pushFinalData = setFinalData({
-        ...finalData,
-        ...ProductFormData,
-      });
-
       setStep(2);
     } else {
       toast.error("Invalid credentials", {
@@ -87,12 +88,49 @@ const ProductForm = () => {
     }
   };
 
-  useEffect(() => {
-   
-    switch (ProductTypeInfo) {
+  const matchRegion = (e) => {
+
+    const Region = e.target.value;
+    setProductData({ ...productData, Region: e.target.value });
+
+    switch (Region) {
+      case "Greater Accra":
+        MatchSuberb(GreaterAccraSuburbs);
+        break;
+
+      case "Ashanti":
+          MatchSuberb(AshantiSuburbs);
+          break;
+        
+       case "Central":
+            MatchSuberb(CentralSuburbs);
+            break;
+
+      case "Eastern":
+              MatchSuberb(EasternSuburbs);
+              break;
+
+              default:
+                // Default case
+                break;
+    }
+  };
+
+  const matchSubcategories = (e) => {
+    const setProductTypeInfo = e.target.value;
+
+    setProductData({ ...productData, ProductType: e.target.value });
+    ProductMatching(setProductTypeInfo);
+
+    switch (setProductTypeInfo) {
       case "Electronics & Electrical Appliances":
         MatchProduct(ElectronicsCategory);
         break;
+
+      case "Furniture & Kitchen Appliances":
+        MatchProduct(FurnitureCategory);
+        break;
+
       case "Babies & Kids":
         MatchProduct(Babycategory);
         break;
@@ -118,9 +156,9 @@ const ProductForm = () => {
         // Default case
         break;
     }
-    
+  };
 
-  }, [isProductCategoryState]);
+  useEffect(() => {}, []);
 
   return (
     <Box
@@ -160,9 +198,54 @@ const ProductForm = () => {
       </Typography>
 } */}
 
-      <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
-      <Typography variant="p">
+      <Typography variant="p" sx={{ marginTop: "10px" }}>
         Location
+        <Typography component="span" sx={{ color: "red", marginBottom: "0px" }}>
+          *
+        </Typography>
+      </Typography>
+
+      <div>
+        <select
+          id="Region"
+          name="Region"
+          value={productData["Region"]}
+          onChange={(e) => matchRegion(e)}
+        >
+          <option value="">None</option>
+          {allRegions.map((region) => (
+            <option key={region.id} value={region.name}>
+              {region.name} {/* Display the region name as text content */}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <Typography variant="p" sx={{ marginTop: "10px" }}>
+        Suberb
+        <Typography component="span" sx={{ color: "red", marginBottom: "0px" }}>
+          *
+        </Typography>
+      </Typography>
+
+      <div>
+        <select
+          id="RegionSurberb"
+          name="RegionSurberb"
+          value={productData["RegionSurberb"]}
+          onChange={(e) =>  setProductData({...productData,RegionSurberb : e.target.value})}
+        >
+          <option value="">None</option>
+          {Surberb?.map((sub) => (
+            <option key={sub.id} value={sub.name}>
+              {sub.name} {/* Display the region name as text content */}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <Typography variant="p">
+        Title
         <Typography component="span" sx={{ color: "red" }}>
           *
         </Typography>
@@ -172,28 +255,6 @@ const ProductForm = () => {
         margin="normal"
         required
         fullWidth
-        name="Location"
-        id="outlined-basic"
-        label="Location"
-        variant="outlined"
-        value={productData["Location"]}
-        onChange={(e) =>
-          setProductData({ ...productData, Location: e.target.value })
-        }
-      />
-      <Typography variant="p" sx={{ marginTop: "10px" }}>
-        Title
-        <Typography component="span" sx={{ color: "red", marginBottom: "0px" }}>
-          *
-        </Typography>
-      </Typography>
-
-      <TextField
-        sx={formText}
-        margin="normal"
-        required
-        fullWidth
-        autoFocus
         name="Title"
         id="outlined-basic"
         label="Title"
@@ -204,34 +265,29 @@ const ProductForm = () => {
         }
       />
 
-      {/* *************************************************************************TYPE OF PRODUCT***************************************************************************** */}
-      <FormControl sx={{ width: "300px" }}>
-        <InputLabel id="demo-simple-select-helper-label"></InputLabel>
-        <Typography variant="p">
-          Type of Product
-          <Typography component="span" sx={{ color: "red" }}>
-            *
-          </Typography>
+      <Typography variant="p" sx={{ marginTop: "10px" }}>
+        Type of Product
+        <Typography component="span" sx={{ color: "red", marginBottom: "0px" }}>
+          *
         </Typography>
-        <Select
-          value={productData["ProductType"] || ""}
-          displayEmpty
+      </Typography>
+      <div>
+        <select
+          id="productType"
           name="ProductType"
-          label="Product Type"
-          onChange={(e) =>
-            setProductData({ ...productData, ProductType: e.target.value })
-          }
+          value={productData["ProductType"]}
+          onChange={(e) => matchSubcategories(e)}
         >
-          {/* <MenuItem value="">
-            <em>None</em>
-          </MenuItem> */}
+          <option value="">None</option>
+          {/* Map over productType array to generate options */}
           {productType.map((product) => (
-            <MenuItem key={product.id} value={product.title}>
+            <option key={product.id} value={product.title}>
               {product.title}
-            </MenuItem>
+            </option>
           ))}
-        </Select>
-      </FormControl>
+        </select>
+      </div>
+
       <Divider variant="horizontal" sx={{ borderBottomWidth: "20px" }} />
       <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button onClick={ProductValidation}>Next</Button>
