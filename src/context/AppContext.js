@@ -54,7 +54,9 @@ import {
   SET_PRODUCT_TYPE,
   SET_PRODUCT_SUBCATEGORY,
   SET_SURBERB_REGION,
-  SET_BRAND_INFO
+  SET_BRAND_INFO,
+  IMAGE_EXISTS_ERR,
+  FILE_SIZE_ERR
   
   
 } from "./actions";
@@ -161,6 +163,16 @@ export const AppProvider = ({ children }) => {
   };
   const displayPasswordMismatchErr = () => {
     dispatch({ type: PASSWORD_ERR });
+    clearText();
+  };
+
+  const displayImageExistErr = () => {
+    dispatch({ type: IMAGE_EXISTS_ERR });
+    clearText();
+  };
+
+  const displayFileSizeErr = () => {
+    dispatch({ type: FILE_SIZE_ERR });
     clearText();
   };
 
@@ -690,7 +702,9 @@ export const AppProvider = ({ children }) => {
         ProductMatching,
         MatchProduct,
         MatchSuberb,
-        MatchBrands
+        MatchBrands,
+        displayImageExistErr,
+        displayFileSizeErr
         
         
       }}

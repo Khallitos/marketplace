@@ -63,30 +63,49 @@ const ProductDetailsForm = () => {
     ProductTypeInfo,
     MatchBrands,
     PopulatedSubcategory,
-    Brand
+    Brand,
+    showAlert
   } = useAppContext();
 
   const [isBrand, setIsBrand] = useState(true);
   const [isNegotiable, setIsNegotiable] = useState(true);
   const [isSwap, setIsSwap] = useState(true);
+  const [selectedImages, setSelectedImages] = useState([])
 
   const handleImageUpload = async (e) => {
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      setImage({
-        ...image,
-        file: file,
-        userImage: reader.result,
-        message: "",
-      });
-    };
+    const selectedFiles = e.target.files;
+    const selectedFilesArray = Array.from(selectedFiles);
+  
+    
+    const existingImages = selectedImages.filter((image) => {
+      return selectedFilesArray.some((file) => file.name === image.name && file.size === image.size);
+    });
+  
+  
+    const oversizedImages = selectedFilesArray.filter((file) => {
+      return file.size > 5 * 1024 * 1024; // 5MB limit
+    });
+  
+  
+    if (existingImages.length > 0 ) {
+   
+      yourContextFunctionForError(existingImages.length > 0 ? "Image already exists." : "Image size exceeds 5MB.");
+      return; // Stop further processing
+    }
 
-    reader.readAsDataURL(file);
-    // const newImagefile = e.target.files[0];
-    // // const base64data = await getBase64.fromFile(newImagefile);
-    // setImage(newImagefile);
+    if (oversizedImages.length > 0) {
+   
+      yourContextFunctionForError(existingImages.length > 0 ? "Image already exists." : "Image size exceeds 5MB.");
+      return; // Stop further processing
+    }
+  
+  
+    // Convert valid images to URLs and add them to selectedImages
+    const imagesArray = selectedFilesArray.map((file) => URL.createObjectURL(file));
+    setSelectedImages((prevImages) => [...prevImages, ...imagesArray]);
   };
+  
+  
 
   const isNegotiableChecker = () => {
     setIsNegotiable(!isNegotiable)
@@ -340,13 +359,27 @@ const ProductDetailsForm = () => {
                   Add Image
                   <input
                     type="file"
-                    // accept=".png, .jpg, .jpeg"
+                    accept=".png, .jpg, .jpeg"
                     id="image"
                     name="file"
+                    multiple 
                     hidden
                     onChange={handleImageUpload}
                   />
                 </Button>
+            <Box>
+            {showAlert && <Alert />}
+              {image.message && <h3>{image.message}</h3>}
+              {selectedImages && selectedImages.map((image, index)=>{
+                return (
+                  <Box key={image}> 
+                    <img src ={image} height="200" />
+                    <button onClick={()=> setSelectedImages(selectedImages.filter((e) => e !== image))}>
+                      Delete Image</button>
+                  </Box>
+                )
+              })}
+            </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button

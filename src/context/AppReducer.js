@@ -46,6 +46,8 @@ import {
   SET_PRODUCT_SUBCATEGORY,
   SET_SURBERB_REGION,
   SET_BRAND_INFO,
+  IMAGE_EXISTS_ERR,
+  FILE_SIZE_ERR,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -177,6 +179,22 @@ import {
         ...state,
         showAlert: true,
         alertText: "Password do not match",
+        alertType: "danger",
+      };
+    }
+    if (action.type === IMAGE_EXISTS_ERR) {
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "Image already exist",
+        alertType: "danger",
+      };
+    }
+    if (action.type === FILE_SIZE_ERR) {
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "File Size should not exceed 5mb",
         alertType: "danger",
       };
     }
