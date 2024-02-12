@@ -82,7 +82,7 @@ const ProductForm = () => {
     if (isValid) {
       setStep(2);
     } else {
-      toast.error("Invalid credentials", {
+      toast.error("Please fill in all the required fields", {
         position: toast.POSITION.TOP_RIGHT,
       });
     }

@@ -58,7 +58,7 @@ export const  SET_SURBERB_REGION= " SET_SURBERB_REGION"
 export const  SET_BRAND_INFO= " SET_BRAND_INFO"
 export const  IMAGE_EXISTS_ERR= " IMAGE_EXISTS_ERR"
 export const  FILE_SIZE_ERR= " FILE_SIZE_ERR"
-
+export const  IMAGE_COUNT_ERR= " IMAGE_COUNT_ERR"
 
 
 

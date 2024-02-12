@@ -56,7 +56,8 @@ import {
   SET_SURBERB_REGION,
   SET_BRAND_INFO,
   IMAGE_EXISTS_ERR,
-  FILE_SIZE_ERR
+  FILE_SIZE_ERR,
+  IMAGE_COUNT_ERR
   
   
 } from "./actions";
@@ -156,6 +157,9 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: EMPTY_ERR });
     clearText();
   };
+
+
+  
   //Invalid user error
   const invalidUsernameErr = () => {
     dispatch({ type: INVALID_USER_ERR });
@@ -166,15 +170,7 @@ export const AppProvider = ({ children }) => {
     clearText();
   };
 
-  const displayImageExistErr = () => {
-    dispatch({ type: IMAGE_EXISTS_ERR });
-    clearText();
-  };
 
-  const displayFileSizeErr = () => {
-    dispatch({ type: FILE_SIZE_ERR });
-    clearText();
-  };
 
   const setupUser = async ({ userDetails, alertText }) => {
     try {
@@ -703,8 +699,7 @@ export const AppProvider = ({ children }) => {
         MatchProduct,
         MatchSuberb,
         MatchBrands,
-        displayImageExistErr,
-        displayFileSizeErr
+   
         
         
       }}

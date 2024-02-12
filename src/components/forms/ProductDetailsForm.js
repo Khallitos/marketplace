@@ -26,8 +26,11 @@ import ProductType, {
   homeApplianceBrands,
   tvBrands,
 } from "@/utils/productType";
+import { Alert } from "../../components";
 
 import condition from "@/utils/condition";
+import { Description } from "@mui/icons-material";
+import { ProductDetailsInfoValidationSchema } from "../../components/validations/ProductDetailsInfoValidationSchema";
 
 const formText = {
   fontSize: "100px",
@@ -49,73 +52,85 @@ const uploadButton = {
   },
 };
 
+const DescriptionForm = {
+  fontSize: "100px",
+  marginTop: "10px",
+  marginBottom: "20px",
+  width: "300px",
+  height: "80%",
+  textColor: "white",
+  backgroundColor: "white",
+};
 
 const ProductDetailsForm = () => {
   const {
     setStep,
     productData,
-    cargoData2,
-    finalData,
-    setIsCompleted,
-    isCompleted,
     setProductData,
-    setFinalData,
-    ProductTypeInfo,
     MatchBrands,
     PopulatedSubcategory,
     Brand,
-    showAlert
+    showAlert,
   } = useAppContext();
 
   const [isBrand, setIsBrand] = useState(true);
   const [isNegotiable, setIsNegotiable] = useState(true);
   const [isSwap, setIsSwap] = useState(true);
-  const [selectedImages, setSelectedImages] = useState([])
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageUpload = async (e) => {
     const selectedFiles = e.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
-  
-    
-    const existingImages = selectedImages.filter((image) => {
-      return selectedFilesArray.some((file) => file.name === image.name && file.size === image.size);
+
+    // Check for duplicate images
+    const existingImages = selectedFilesArray.filter(file => {
+      return !selectedImages.some(selectedImage => selectedImage.name === file.name && selectedImage.size === file.size);
     });
-  
-  
     const oversizedImages = selectedFilesArray.filter((file) => {
       return file.size > 5 * 1024 * 1024; // 5MB limit
     });
-  
-  
-    if (existingImages.length > 0 ) {
-   
-      yourContextFunctionForError(existingImages.length > 0 ? "Image already exists." : "Image size exceeds 5MB.");
+
+    if (existingImages.length > 0) {
+      toast.error("Please upload at least three images for the product", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
       return; // Stop further processing
     }
+    if (existingImages) {
+      toast.error("Please select unique images", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+
+      return; // Stop further processing
+    }
+
+     
 
     if (oversizedImages.length > 0) {
-   
-      yourContextFunctionForError(existingImages.length > 0 ? "Image already exists." : "Image size exceeds 5MB.");
+      toast.error("Image size should not exceed 5mb", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
       return; // Stop further processing
     }
-  
-  
+
     // Convert valid images to URLs and add them to selectedImages
-    const imagesArray = selectedFilesArray.map((file) => URL.createObjectURL(file));
+    const imagesArray = selectedFilesArray.map((file) =>
+      URL.createObjectURL(file)
+    );
     setSelectedImages((prevImages) => [...prevImages, ...imagesArray]);
+    setProductData({ ...productData, Images: imagesArray });
   };
-  
-  
 
   const isNegotiableChecker = () => {
-    setIsNegotiable(!isNegotiable)
-    setProductData({...productData, Negotiable: isNegotiable})
-  }
+    setIsNegotiable(!isNegotiable);
+    setProductData({ ...productData, Negotiable: isNegotiable });
+  };
 
   const isSwapChecker = () => {
-    setIsSwap(!isSwap)
-    setProductData({...productData, Swapped: isSwap})
-  }
+    setIsSwap(!isSwap);
+    setProductData({ ...productData, Swapped: isSwap });
+  };
 
   const matchBrand = (e) => {
     setProductData({ ...productData, SubCategory: e.target.value });
@@ -156,19 +171,46 @@ const ProductDetailsForm = () => {
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const ProductFormValidation = async (e) => {
     e.preventDefault();
-    const ProductDetails = {
-      receivingTerminalGOV: cargoData2["receivingTerminalGOV"],
-      receivingTerminal: cargoData2["receivingTerminal"],
+
+    
+
+  //   if (
+  //     !productData["SubCategory"] &&
+  //     !productData["Brand"] &&
+  //     !productData["Description"] &&
+  //     !productData["Price"] &&
+  //     !productData["Condition"]
+  //   ) {
+  //  alert("Yoooo")
+  //   }
+
+    const ProductDetailsInfo = {
+      SubCategory: productData["SubCategory"],
+      Brand: productData["Brand"],
+      Description: productData["Description"],
+      Price: productData["Price"],
+      Condition: productData["Condition"],
     };
+
     try {
       const isValidProductDetails =
-        await ProductDetailsValidationSchema.isValid(ProductDetails);
+        await ProductDetailsInfoValidationSchema.isValid(ProductDetailsInfo);
 
-      // } else {
-      //   toast.error("Invalid credentials", {
-      //     position: toast.POSITION.TOP_RIGHT,
-      //   });
-      // }
+      if (isValidProductDetails) {
+        if (selectedImages.length < 3) {
+          //  imageCountErr()
+
+          toast.error("Please upload at least three images for the product", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      }
+      else{
+        
+        toast.error("Please fill in all the required fields", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
     } catch (e) {
       if (e instanceof yup.ValidationError) {
         toast.error("Invalid credentials", {
@@ -235,23 +277,27 @@ const ProductDetailsForm = () => {
               }
             />
           </Box>
-        ): <div>
-        <label htmlFor="Brand">Brand:</label>
-        <select
-          id="Brand"
-          name="Brand"
-          value={productData["Brand"] || ""}
-          onChange={(e) => setProductData({ ...productData, Brand: e.target.value })}
-        >
-          <option value="">None</option>
-          {/* Map over Brand array to generate options */}
-          {Brand?.map((type) => (
-            <option key={type.id} value={type.name}>
-              {type.name}
-            </option>
-          ))}
-        </select>
-      </div>}
+        ) : (
+          <div>
+            <label htmlFor="Brand">Brand:</label>
+            <select
+              id="Brand"
+              name="Brand"
+              value={productData["Brand"] || ""}
+              onChange={(e) =>
+                setProductData({ ...productData, Brand: e.target.value })
+              }
+            >
+              <option value="">None</option>
+              {/* Map over Brand array to generate options */}
+              {Brand?.map((type) => (
+                <option key={type.id} value={type.name}>
+                  {type.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <Typography variant="p" sx={{ marginTop: "10px" }}>
           Description
@@ -264,7 +310,7 @@ const ProductDetailsForm = () => {
         </Typography>
 
         <TextField
-          sx={formText}
+          sx={DescriptionForm}
           margin="normal"
           required
           fullWidth
@@ -304,15 +350,15 @@ const ProductDetailsForm = () => {
             setProductData({ ...productData, Price: e.target.value })
           }
         />
-      
+
         <Typography variant="p" color="initial">
-        Swap Allowed
-        <Checkbox
-          {...label}
-          onChange={(e) => isSwapChecker()}
-          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-        />
-      </Typography>
+          Swap Allowed
+          <Checkbox
+            {...label}
+            onChange={(e) => isSwapChecker()}
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+          />
+        </Typography>
 
         <FormControl sx={{ width: "300px" }}>
           <InputLabel id="demo-simple-select-helper-label"></InputLabel>
@@ -341,45 +387,52 @@ const ProductDetailsForm = () => {
         </FormControl>
 
         <Typography variant="p" color="initial">
-        Negotiable
-        <Checkbox
-          {...label}
-          onChange={(e) => isNegotiableChecker()}
-          sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-        />
-      </Typography>
+          Negotiable
+          <Checkbox
+            {...label}
+            onChange={(e) => isNegotiableChecker()}
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+          />
+        </Typography>
 
+        <Button
+          variant="contained"
+          component="label"
+          startIcon={<AddAPhotoIcon />}
+          sx={uploadButton}
+        >
+          Add Image
+          <input
+            type="file"
+            accept=".png, .jpg, .jpeg"
+            id="image"
+            name="file"
+            multiple
+            hidden
+            onChange={handleImageUpload}
+          />
+        </Button>
+        <Box>
+          {showAlert && <Alert />}
 
-      <Button
-                  variant="contained"
-                  component="label"
-                  startIcon={<AddAPhotoIcon />}
-                  sx={uploadButton}
-                >
-                  Add Image
-                  <input
-                    type="file"
-                    accept=".png, .jpg, .jpeg"
-                    id="image"
-                    name="file"
-                    multiple 
-                    hidden
-                    onChange={handleImageUpload}
-                  />
-                </Button>
-            <Box>
-            {showAlert && <Alert />}
-              {image.message && <h3>{image.message}</h3>}
-              {selectedImages && selectedImages.map((image, index)=>{
-                return (
-                  <Box key={image}> 
-                    <img src ={image} height="200" />
-                    <button onClick={()=> setSelectedImages(selectedImages.filter((e) => e !== image))}>
-                      Delete Image</button>
-                  </Box>
-                )
-              })}
-            </Box>
+          {selectedImages &&
+            selectedImages.map((image, index) => {
+              return (
+                <Box key={image}>
+                  <img src={image} height="200" />
+                  <button
+                    onClick={() =>
+                      setSelectedImages(
+                        selectedImages.filter((e) => e !== image)
+                      )
+                    }
+                  >
+                    Delete Image
+                  </button>
+                </Box>
+              );
+            })}
+        </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button

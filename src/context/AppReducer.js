@@ -48,6 +48,7 @@ import {
   SET_BRAND_INFO,
   IMAGE_EXISTS_ERR,
   FILE_SIZE_ERR,
+  IMAGE_COUNT_ERR,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -182,22 +183,18 @@ import {
         alertType: "danger",
       };
     }
-    if (action.type === IMAGE_EXISTS_ERR) {
+
+  
+
+    if (action.type === IMAGE_COUNT_ERR) {
       return {
         ...state,
         showAlert: true,
-        alertText: "Image already exist",
+        alertText: "Please upload at least three images for the product",
         alertType: "danger",
       };
     }
-    if (action.type === FILE_SIZE_ERR) {
-      return {
-        ...state,
-        showAlert: true,
-        alertText: "File Size should not exceed 5mb",
-        alertType: "danger",
-      };
-    }
+
   
     if (action.type === PASSWORD_CHANGED_SUCCESS) {
       return {
@@ -472,6 +469,8 @@ import {
         Brand: action.payload.BrandData
       };
     }
+
+    
    
     
     
