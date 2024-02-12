@@ -319,9 +319,27 @@ export const AppProvider = ({ children }) => {
       });
     }
 
+    // clearText(); 
+  };
+  const uploadProduct = async ({formData }) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/api/v1/upload/uploadmusic`,
+        formData,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      );
+
+   
+   
+    } catch (error) {
+      console.log(error.message)
+    }
+
     // clearText();
   };
-
+  
   //Get songs context
 
   const getSongs = async ({ userDetails }) => {
@@ -699,6 +717,7 @@ export const AppProvider = ({ children }) => {
         MatchProduct,
         MatchSuberb,
         MatchBrands,
+        uploadProduct
    
         
         

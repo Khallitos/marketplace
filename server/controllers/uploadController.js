@@ -12,76 +12,77 @@ const uploadmusic = async (req, res) => {
   // if (req.tokenData.admin) {
   //   res.status(500).json();
   // }
-  const { title, Genre, artist, description, email } = req.body;
+  // const data = req.body;
+  // console.log("This the " , data)
 
-  if (!title || !Genre || !artist || !description) {
-    throw new BadRequestError("Please provide all values");
-  }
+  // if (!title || !Genre || !artist || !description) {
+  //   throw new BadRequestError("Please provide all values");
+  // }
 
-  if (!req.files) {
-    throw new BadRequestError("Please upload image and music files");
-  }
-  const files = req.files;
-  // console.log(files);
+  // if (!req.files) {
+  //   throw new BadRequestError("Please upload image and music files");
+  // }
+  // const files = req.files;
+  // // console.log(files);
 
-  const size = files.file[0].size;
-  const mimetype = files.file[0].mimetype;
-  const mimevalue = mimetype.split("/")[0];
-  const dataType = mimetype.replace("image/", "");
-  const Key = nanoid() + "." + dataType;
-  const size1 = files.file1[0].size;
-  const mimetype1 = files.file1[0].mimetype;
-  const mimevalue1 = mimetype1.split("/")[0];
-  const dataType1 = mimetype1.replace("audio/", "");
-  const Key1 = nanoid() + "." + dataType1;
+  // const size = files.file[0].size;
+  // const mimetype = files.file[0].mimetype;
+  // const mimevalue = mimetype.split("/")[0];
+  // const dataType = mimetype.replace("image/", "");
+  // const Key = nanoid() + "." + dataType;
+  // const size1 = files.file1[0].size;
+  // const mimetype1 = files.file1[0].mimetype;
+  // const mimevalue1 = mimetype1.split("/")[0];
+  // const dataType1 = mimetype1.replace("audio/", "");
+  // const Key1 = nanoid() + "." + dataType1;
 
-  if (size > 5000000) {
-    throw new BadRequestError("Image file should be less than 5mb");
-  }
+  // if (size > 5000000) {
+  //   throw new BadRequestError("Image file should be less than 5mb");
+  // }
 
-  if (mimevalue !== "image") {
-    throw new BadRequestError("Image should be in jpg/png/jpeg format");
-  }
+  // if (mimevalue !== "image") {
+  //   throw new BadRequestError("Image should be in jpg/png/jpeg format");
+  // }
 
-  if (size1 > 6000000) {
-    throw new BadRequestError("Music file should be less than 10mb");
-  }
+  // if (size1 > 6000000) {
+  //   throw new BadRequestError("Music file should be less than 10mb");
+  // }
 
-  if (mimevalue1 !== "audio") {
-    throw new BadRequestError("audio should be in a mp3/mp4/wav/mpeg format");
-  }
-  const buffer = files.file[0].buffer;
-  const buffer1 = files.file1[0].buffer;
+  // if (mimevalue1 !== "audio") {
+  //   throw new BadRequestError("audio should be in a mp3/mp4/wav/mpeg format");
+  // }
+  // const buffer = files.file[0].buffer;
+  // const buffer1 = files.file1[0].buffer;
 
-  const upload = uploadFile(buffer, Key);
-  console.log(upload);
+  // const upload = uploadFile(buffer, Key);
+  // console.log(upload);
 
-  if (!upload) {
-    throw new BadRequestError("Please upload image files");
-  }
+  // if (!upload) {
+  //   throw new BadRequestError("Please upload image files");
+  // }
 
-  const upload1 = uploadFile(buffer1, Key1);
-  console.log(upload1);
+  // const upload1 = uploadFile(buffer1, Key1);
+  // console.log(upload1);
 
-  if (!upload1) {
-    throw new BadRequestError("Please upload music files");
-  }
+  // if (!upload1) {
+  //   throw new BadRequestError("Please upload music files");
+  // }
 
-  const uploadData = await Upload.create({
-    title,
-    Genre,
-    artist,
-    Key1,
-    Key,
-    email,
-    description,
-  });
+  // const uploadData = await Upload.create({
+  //   title,
+  //   Genre,
+  //   artist,
+  //   Key1,
+  //   Key,
+  //   email,
+  //   description,
+  // });
 
-  if (!uploadData) {
-    throw new BadRequestError("Please contact your system administrator");
-  }
+  // if (!uploadData) {
+  //   throw new BadRequestError("Please contact your system administrator");
+  // }
 
-  res.status(200).json({ success: "success" });
+  // res.status(200).json({ success: "success" });
 };
 
 const songInfo = async (req, res) => {

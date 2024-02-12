@@ -19,25 +19,17 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import ProductType, {
-  laptopBrands,
-  audioBrands,
-  phoneBrands,
-  homeApplianceBrands,
-  tvBrands,
-} from "@/utils/productType";
 import { Alert } from "../../components";
-
 import condition from "@/utils/condition";
 import { Description } from "@mui/icons-material";
 import { ProductDetailsInfoValidationSchema } from "../../components/validations/ProductDetailsInfoValidationSchema";
 
 const formText = {
-  fontSize: "100px",
+  fontSize: "16px",
   marginTop: "10px",
   marginBottom: "20px",
   width: "300px",
-  textColor: "white",
+  textColor: "black", // Change as per your requirement
   backgroundColor: "white",
 };
 
@@ -53,14 +45,16 @@ const uploadButton = {
 };
 
 const DescriptionForm = {
-  fontSize: "100px",
+  fontSize: "16px",
   marginTop: "10px",
   marginBottom: "20px",
   width: "300px",
   height: "80%",
-  textColor: "white",
+  textColor: "black", // Change as per your requirement
   backgroundColor: "white",
 };
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const ProductDetailsForm = () => {
   const {
@@ -71,41 +65,37 @@ const ProductDetailsForm = () => {
     PopulatedSubcategory,
     Brand,
     showAlert,
+    uploadProduct
   } = useAppContext();
 
   const [isBrand, setIsBrand] = useState(true);
   const [isNegotiable, setIsNegotiable] = useState(true);
   const [isSwap, setIsSwap] = useState(true);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [formData, setFormData] = useState(null);
 
-  const handleImageUpload = async (e) => {
+  const getFileExtension = (fileName) => {
+    return fileName.split('.').pop();
+  };
+
+  const handleImageDelete = (index) => {
+    const updatedImages = [...selectedImages];
+    updatedImages.splice(index, 1);
+    setSelectedImages(updatedImages);
+
+    const updatedFormData = new FormData();
+    updatedImages.forEach((file, i) => {
+      updatedFormData.append(`image-${i}`, file);
+    });
+    setFormData(updatedFormData);
+  };
+  const handleImageUpload = (e) => {
     const selectedFiles = e.target.files;
     const selectedFilesArray = Array.from(selectedFiles);
 
-    // Check for duplicate images
-    const existingImages = selectedFilesArray.filter(file => {
-      return !selectedImages.some(selectedImage => selectedImage.name === file.name && selectedImage.size === file.size);
-    });
     const oversizedImages = selectedFilesArray.filter((file) => {
       return file.size > 5 * 1024 * 1024; // 5MB limit
     });
-
-    if (existingImages.length > 0) {
-      toast.error("Please upload at least three images for the product", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-
-      return; // Stop further processing
-    }
-    if (existingImages) {
-      toast.error("Please select unique images", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-
-      return; // Stop further processing
-    }
-
-     
 
     if (oversizedImages.length > 0) {
       toast.error("Image size should not exceed 5mb", {
@@ -114,13 +104,13 @@ const ProductDetailsForm = () => {
       return; // Stop further processing
     }
 
-    // Convert valid images to URLs and add them to selectedImages
-    const imagesArray = selectedFilesArray.map((file) =>
-      URL.createObjectURL(file)
-    );
-    setSelectedImages((prevImages) => [...prevImages, ...imagesArray]);
-    setProductData({ ...productData, Images: imagesArray });
+    setSelectedImages((prevImages) => [...prevImages, ...selectedFilesArray]);
+
+ 
+  
+   
   };
+
 
   const isNegotiableChecker = () => {
     setIsNegotiable(!isNegotiable);
@@ -169,20 +159,9 @@ const ProductDetailsForm = () => {
   };
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
   const ProductFormValidation = async (e) => {
     e.preventDefault();
-
-    
-
-  //   if (
-  //     !productData["SubCategory"] &&
-  //     !productData["Brand"] &&
-  //     !productData["Description"] &&
-  //     !productData["Price"] &&
-  //     !productData["Condition"]
-  //   ) {
-  //  alert("Yoooo")
-  //   }
 
     const ProductDetailsInfo = {
       SubCategory: productData["SubCategory"],
@@ -196,41 +175,50 @@ const ProductDetailsForm = () => {
       const isValidProductDetails =
         await ProductDetailsInfoValidationSchema.isValid(ProductDetailsInfo);
 
-      if (isValidProductDetails) {
-        if (selectedImages.length < 3) {
-          //  imageCountErr()
-
-          toast.error("Please upload at least three images for the product", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-        }
-      }
-      else{
-        
+      if (!isValidProductDetails) {
         toast.error("Please fill in all the required fields", {
           position: toast.POSITION.TOP_RIGHT,
         });
+        return;
       }
+
+      if (selectedImages.length < 3) {
+        toast.error("Please upload at least three images for the product", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        return;
+      }
+
+ 
+     console.log("Selected Images:", selectedImages);
+
+     let formData = new FormData();
+     for (let i = 0; i < selectedImages.length; i++) {
+      formData.append(`image-${i}`, selectedImages[i]);
+    }
+
+ 
+     
+     uploadProduct({formData})
+  
+
     } catch (e) {
-      if (e instanceof yup.ValidationError) {
-        toast.error("Invalid credentials", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      } else {
-        toast.error("Invalid credentials", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
+      toast.error(e.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
 
-  useEffect(() => {});
+  useEffect(() => {
+    // Any side effects on component mount
+  }, []);
 
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <ToastContainer />
 
+        {/* Subcategory selection */}
         <div>
           <label htmlFor="productType">SubCategory:</label>
           <select
@@ -240,7 +228,6 @@ const ProductDetailsForm = () => {
             onChange={(e) => matchBrand(e)}
           >
             <option value="">None</option>
-            {/* Map over productType array to generate options */}
             {PopulatedSubcategory?.map((category) => (
               <option key={category.id} value={category.title}>
                 {category.title}
@@ -249,6 +236,7 @@ const ProductDetailsForm = () => {
           </select>
         </div>
 
+        {/* Brand selection */}
         {isBrand ? (
           <Box>
             <Typography variant="p" sx={{ marginTop: "10px" }}>
@@ -289,7 +277,6 @@ const ProductDetailsForm = () => {
               }
             >
               <option value="">None</option>
-              {/* Map over Brand array to generate options */}
               {Brand?.map((type) => (
                 <option key={type.id} value={type.name}>
                   {type.name}
@@ -299,6 +286,7 @@ const ProductDetailsForm = () => {
           </div>
         )}
 
+        {/* Description */}
         <Typography variant="p" sx={{ marginTop: "10px" }}>
           Description
           <Typography
@@ -325,6 +313,7 @@ const ProductDetailsForm = () => {
           }
         />
 
+        {/* Price */}
         <Typography variant="p" sx={{ marginTop: "10px" }}>
           Price
           <Typography
@@ -351,6 +340,7 @@ const ProductDetailsForm = () => {
           }
         />
 
+        {/* Swap Allowed */}
         <Typography variant="p" color="initial">
           Swap Allowed
           <Checkbox
@@ -360,6 +350,7 @@ const ProductDetailsForm = () => {
           />
         </Typography>
 
+        {/* Condition */}
         <FormControl sx={{ width: "300px" }}>
           <InputLabel id="demo-simple-select-helper-label"></InputLabel>
           <Typography variant="p">
@@ -382,10 +373,10 @@ const ProductDetailsForm = () => {
                 {category.title}
               </MenuItem>
             ))}
-            ;
           </Select>
         </FormControl>
 
+        {/* Negotiable */}
         <Typography variant="p" color="initial">
           Negotiable
           <Checkbox
@@ -395,6 +386,7 @@ const ProductDetailsForm = () => {
           />
         </Typography>
 
+        {/* Add Image */}
         <Button
           variant="contained"
           component="label"
@@ -412,37 +404,28 @@ const ProductDetailsForm = () => {
             onChange={handleImageUpload}
           />
         </Button>
+
+        {/* Display selected images */}
         <Box>
           {showAlert && <Alert />}
 
           {selectedImages &&
-            selectedImages.map((image, index) => {
-              return (
-                <Box key={image}>
-                  <img src={image} height="200" />
-                  <button
-                    onClick={() =>
-                      setSelectedImages(
-                        selectedImages.filter((e) => e !== image)
-                      )
-                    }
-                  >
-                    Delete Image
-                  </button>
-                </Box>
-              );
-            })}
+            selectedImages.map((image, index) => (
+              <Box key={index}>
+                <img src={URL.createObjectURL(image)} height="200" />
+                <button
+                onClick={() => handleImageDelete(index)}
+                >
+                  Delete Image
+                </button>
+              </Box>
+            ))}
         </Box>
 
+        {/* Form navigation buttons */}
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            onClick={() => {
-              setStep(1);
-            }}
-          >
-            Back
-          </Button>
-          <Button onClick={ProductFormValidation}>Completed</Button>
+          <Button onClick={() => setStep(1)}>Back</Button>
+          <Button onClick={(e) =>ProductFormValidation(e)}>Completed</Button>
         </Box>
       </Box>
     </>
