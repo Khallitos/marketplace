@@ -23,6 +23,7 @@ import { Alert } from "../../components";
 import condition from "@/utils/condition";
 import { Description } from "@mui/icons-material";
 import { ProductDetailsInfoValidationSchema } from "../../components/validations/ProductDetailsInfoValidationSchema";
+import { audioBrands, phoneBrands, homeApplianceBrands, laptopBrands, tvBrands } from "../../utils/productType"; // Adjust the path as per your project structure
 
 const formText = {
   fontSize: "16px",
@@ -53,6 +54,7 @@ const DescriptionForm = {
   textColor: "black", // Change as per your requirement
   backgroundColor: "white",
 };
+
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -194,10 +196,10 @@ const ProductDetailsForm = () => {
 
      let formData = new FormData();
      for (let i = 0; i < selectedImages.length; i++) {
-      formData.append(`image-${i}`, selectedImages[i]);
+      formData.append(`file${i}`, selectedImages[i]);
     }
-
- 
+ console.log(selectedImages)
+  formData.append("file","hello")
      
      uploadProduct({formData})
   

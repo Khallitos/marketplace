@@ -9,6 +9,10 @@ import musicFile from "../utils/musicFile.js";
 import { request } from "express";
 
 const uploadmusic = async (req, res) => {
+
+    const data = req.files;
+  console.log("This the " , data)
+ 
   // if (req.tokenData.admin) {
   //   res.status(500).json();
   // }

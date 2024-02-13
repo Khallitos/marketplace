@@ -23,7 +23,7 @@ app.use(
 );
 dotenv.config();
 const PORT = process.env.PORT_NO || 6000;
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production"){
   app.use(morgan("dev"));
 }
 
@@ -87,7 +87,7 @@ const upload = multer({
     cb(null, true);
   },
 });
-const multipleUpload = upload.fields([{ name: "file" }, { name: "file1" }]);
+const multipleUpload = upload.fields([{ name: "file0" }, { name: "file1" },{ name: "file2" } ]);
 
 app.use(express.static("./public"));
 app.use("/api/v1/auth", authRouter);
