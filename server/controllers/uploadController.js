@@ -7,11 +7,57 @@ import mongoose from "mongoose";
 import uploadFile from "../utils/s3.js";
 import musicFile from "../utils/musicFile.js";
 import { request } from "express";
+import {formvalidationSchema} from "../validations/formvalidationSchema.js"
 
 const uploadmusic = async (req, res) => {
 
-    const data = req.files;
-  console.log("This the " , data)
+
+  try{
+    const imagesData = req.files;
+  const bodydata = req.body
+  const{Region,RegionSurberb,Title,ProductType,SubCategory,Brand,Description,Price,Condition,Swapped,Negotiable } = bodydata
+
+  const isFormDataValid = await formvalidationSchema.validate(
+    bodydata
+  );
+
+  if(isFormDataValid){
+     
+    if(imagesData.length <  3){
+
+      console.log("error")
+    }
+    else{
+      
+      
+  
+  console.log(imagesData)
+  // const mimetype = files.file[0].mimetype;
+  // const mimevalue = mimetype.split("/")[0];
+  // const dataType = mimetype.replace("image/", "");
+  // const Key = nanoid() + "." + dataType;
+  // const size1 = files.file1[0].size;
+  // const mimetype1 = files.file1[0].mimetype;
+  // const mimevalue1 = mimetype1.split("/")[0];
+  // const dataType1 = mimetype1.replace("audio/", "");
+  // const Key1 = nanoid() + "." + dataType1;
+    }
+
+
+
+  }
+  else{
+   
+  }
+}
+
+
+catch(e){
+
+  console.log(e.message)
+}
+  
+
  
   // if (req.tokenData.admin) {
   //   res.status(500).json();
@@ -29,16 +75,16 @@ const uploadmusic = async (req, res) => {
   // const files = req.files;
   // // console.log(files);
 
-  // const size = files.file[0].size;
-  // const mimetype = files.file[0].mimetype;
-  // const mimevalue = mimetype.split("/")[0];
-  // const dataType = mimetype.replace("image/", "");
-  // const Key = nanoid() + "." + dataType;
-  // const size1 = files.file1[0].size;
-  // const mimetype1 = files.file1[0].mimetype;
-  // const mimevalue1 = mimetype1.split("/")[0];
-  // const dataType1 = mimetype1.replace("audio/", "");
-  // const Key1 = nanoid() + "." + dataType1;
+  const size = files.file[0].size;
+  const mimetype = files.file[0].mimetype;
+  const mimevalue = mimetype.split("/")[0];
+  const dataType = mimetype.replace("image/", "");
+  const Key = nanoid() + "." + dataType;
+  const size1 = files.file1[0].size;
+  const mimetype1 = files.file1[0].mimetype;
+  const mimevalue1 = mimetype1.split("/")[0];
+  const dataType1 = mimetype1.replace("audio/", "");
+  const Key1 = nanoid() + "." + dataType1;
 
   // if (size > 5000000) {
   //   throw new BadRequestError("Image file should be less than 5mb");

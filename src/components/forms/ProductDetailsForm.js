@@ -13,7 +13,6 @@ import {
   Select,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { ComputerFormSchema } from "../validations/ComputerFormSchema";
 import { useAppContext } from "../../context/AppContext";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -198,9 +197,10 @@ const ProductDetailsForm = () => {
      for (let i = 0; i < selectedImages.length; i++) {
       formData.append(`file${i}`, selectedImages[i]);
     }
- console.log(selectedImages)
-  formData.append("file","hello")
-     
+
+    Object.entries(productData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
      uploadProduct({formData})
   
 
