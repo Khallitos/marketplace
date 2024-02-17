@@ -27,8 +27,8 @@ try {
         
     }).promise()
 
-
-    console.log(uploadResult);
+console.log(uploadResult);
+    // 
     // return ({`URL: https://${BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${fileKey}, res: await uploadResult` });
 
 }

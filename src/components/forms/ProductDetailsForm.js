@@ -20,6 +20,8 @@ import Checkbox from "@mui/material/Checkbox";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Alert } from "../../components";
 import condition from "@/utils/condition";
+import choice from "@/utils/choice";
+import choices from "@/utils/choices";
 import { Description } from "@mui/icons-material";
 import { ProductDetailsInfoValidationSchema } from "../../components/validations/ProductDetailsInfoValidationSchema";
 import { audioBrands, phoneBrands, homeApplianceBrands, laptopBrands, tvBrands } from "../../utils/productType"; // Adjust the path as per your project structure
@@ -38,6 +40,7 @@ const uploadButton = {
   color: "black",
   marginBottom: "5px",
   backgroundColor: "orange",
+  marginTop:"10px",
   "&:hover": {
     backgroundColor: "black",
     color: "orange",
@@ -66,13 +69,15 @@ const ProductDetailsForm = () => {
     PopulatedSubcategory,
     Brand,
     showAlert,
-    uploadProduct
+    uploadProduct,
+    setSelectedImages,
+    selectedImages,
+
   } = useAppContext();
 
   const [isBrand, setIsBrand] = useState(true);
-  const [isNegotiable, setIsNegotiable] = useState(true);
-  const [isSwap, setIsSwap] = useState(true);
-  const [selectedImages, setSelectedImages] = useState([]);
+ 
+
   const [formData, setFormData] = useState(null);
 
   const getFileExtension = (fileName) => {
@@ -105,11 +110,7 @@ const ProductDetailsForm = () => {
       return; // Stop further processing
     }
 
-    setSelectedImages((prevImages) => [...prevImages, ...selectedFilesArray]);
-
- 
-  
-   
+    setSelectedImages((prevImages) => [...prevImages, ...selectedFilesArray]); 
   };
 
 
@@ -170,6 +171,8 @@ const ProductDetailsForm = () => {
       Description: productData["Description"],
       Price: productData["Price"],
       Condition: productData["Condition"],
+      Swappable: productData["Swappable"] ,
+      Negotiable: productData["Negotiable"]
     };
 
     try {
@@ -342,15 +345,7 @@ const ProductDetailsForm = () => {
           }
         />
 
-        {/* Swap Allowed */}
-        <Typography variant="p" color="initial">
-          Swap Allowed
-          <Checkbox
-            {...label}
-            onChange={(e) => isSwapChecker()}
-            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-          />
-        </Typography>
+       
 
         {/* Condition */}
         <FormControl sx={{ width: "300px" }}>
@@ -379,14 +374,58 @@ const ProductDetailsForm = () => {
         </FormControl>
 
         {/* Negotiable */}
-        <Typography variant="p" color="initial">
-          Negotiable
-          <Checkbox
-            {...label}
-            onChange={(e) => isNegotiableChecker()}
-            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-          />
-        </Typography>
+           
+           <FormControl sx={{ width: "300px" }}>
+          <InputLabel id="demo-simple-select-helper-label"></InputLabel>
+          <Typography variant="p">
+            Negotiable
+            <Typography component="span" sx={{ color: "red" }}>
+              *
+            </Typography>
+          </Typography>
+          <Select
+            value={productData["Negotiable"] || ""}
+            displayEmpty
+            name="Negotiable"
+            label="Negotiable"
+            onChange={(e) =>
+              setProductData({ ...productData, Negotiable: e.target.value })
+            }
+          >
+            {choice.map((category) => (
+              <MenuItem key={category.id} value={category.title}>
+                {category.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+          {/* Swapped allowed */}
+           
+          <FormControl sx={{ width: "300px" }}>
+          <InputLabel id="demo-simple-select-helper-label"></InputLabel>
+          <Typography variant="p">
+           Swap Allowed
+            <Typography component="span" sx={{ color: "red" }}>
+              *
+            </Typography>
+          </Typography>
+          <Select
+            value={productData["Swappable"] || ""}
+            displayEmpty
+            name="Swappable"
+            label="Swappable"
+            onChange={(e) =>
+              setProductData({ ...productData, Swappable: e.target.value })
+            }
+          >
+            {choices.map((category) => (
+              <MenuItem key={category.id} value={category.title}>
+                {category.title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         {/* Add Image */}
         <Button

@@ -80,49 +80,7 @@ const sidebar = {
   },
   width: "300px",
 };
-// const dsgSingleSong = {
-//   marginTop: {
-//     xs:"10px"
-//   },
-//   display: "flex",
-//   flexDirection: "column",
-//   marginBottom: "20%",
-//   marginX: {
-//     xs: "auto",
-//   },
-//   img: {
-//     xs:{
-//       borderRadius: "1rem",
-//       marginX:"auto",
-//       marginTop: "2%",
-//       width: "575px",
-//       height: "400px",
-//       objectFit: "cover",
-//       filter: "brightness(70%)"
-//     }
 
-//   },
-//   p: {
-//     marginTop: "",
-//     fontSize: "20px",
-//   },
-//   a: {
-//     textDecoration: "none",
-//     color: "white",
-//     fontWeight: "bold",
-//   },
-
-//   button: {
-//     width: "400px",
-//     height: "70px",
-//     color: "#fff",
-//   },
-//   width:
-//   {
-
-//   } ,
-//   padding:"30px"
-// };
 
 export default function singleSong() {
   const router = useRouter();

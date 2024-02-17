@@ -5,6 +5,7 @@ import "express-async-errors";
 import connectDb from "./db/connectDb.js";
 import authRouter from "./routes/authRoutes.js";
 import uploadRouter from "./routes/uploadRoutes.js";
+import productsRouter from "./routes/productsRoutes.js"
 import adminRouter from "./routes/adminRoutes.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import multer from "multer";
@@ -93,6 +94,7 @@ app.use(express.static("./public"));
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/adminauth", jwtChecker, adminRouter);
 app.use("/api/v1/upload", jwtChecker, multipleUpload, uploadRouter);
+app.use("/api/v1/products", jwtChecker, productsRouter);
 
 app.use(errorHandlerMiddleware);
 

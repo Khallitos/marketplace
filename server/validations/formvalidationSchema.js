@@ -10,5 +10,7 @@ export const formvalidationSchema = yup.object().shape({
     Description: yup.string().required(),
     Price: yup.number().required(),
     Condition: yup.string().required(),
+    Swappable: yup.string().required(),
+    Negotiable: yup.string().required(),
 });
 

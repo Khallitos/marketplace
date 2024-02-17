@@ -43,7 +43,7 @@ const cardDesign = {
   },
 };
 
-const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
+const Cards = ({ Title, Price, ImageKey }) => {
   const {
     getAllSongs,
     AllSongs,
@@ -92,16 +92,9 @@ const Cards = ({ title, artist, Genre, description, songId, ImageKey }) => {
           component="div"
           sx={{ marginLeft: "4px", color: "white" ,fontSize:"16px"}}
         >
-          {artist} - {title}
+          {Title} - {Price}
         </Typography>
-        <Typography
-          gutterBottom
-          variant="p"
-          component="div"
-          sx={{ marginLeft: "4px", color: "white", fontSize:"13px" }}
-        >
-          Duration 3:12
-        </Typography>
+      
         <Typography variant="body2" color="text.secondary"></Typography>
       </Box>
       {/* <CardActions>

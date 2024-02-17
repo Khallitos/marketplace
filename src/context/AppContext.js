@@ -57,9 +57,8 @@ import {
   SET_BRAND_INFO,
   IMAGE_EXISTS_ERR,
   FILE_SIZE_ERR,
-  IMAGE_COUNT_ERR
-  
-  
+  IMAGE_COUNT_ERR,
+  GET_ALL_PRODUCTS
 } from "./actions";
 
 //https://kanmusic.onrender.com
@@ -78,11 +77,14 @@ const initialState = {
   DefaultGenre: "Afrobeat",
   songDetails: [],
   AllSongs: [],
+  allProducts: [],
+
   TrendingSongs: [],
   singleSongDetails: [],
   RandomSongs: [],
   page: 1,
   totalSongs: 0,
+  totalProducts: 0,
   numOfPages: 1,
   isloading: true,
   isreloaded: false,
@@ -101,12 +103,12 @@ const initialState = {
 export const AppContext = React.createContext();
 
 export const AppProvider = ({ children }) => {
-  const [currentStep, setStep] = useState(1);  
+  const [currentStep, setStep] = useState(1);
   const [productData, setProductData] = useState([]);
-  // const [cargoData, setCargoData] = useState({});
-  // const [cargoData2, setCargoData2] = useState({});
-  // const [finalData, setFinalData] = useState({});
-  // const [isCompleted, setIsCompleted]= useState(false)
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [isNegotiable, setIsNegotiable] = useState(true);
+  const [isSwap, setIsSwap] = useState(true);
+
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
   const router = useRouter();
@@ -142,8 +144,6 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem("email");
     localStorage.removeItem("username");
     localStorage.removeItem("isUserLoggedIn");
-
-    
   };
 
   // clear text
@@ -158,8 +158,6 @@ export const AppProvider = ({ children }) => {
     clearText();
   };
 
-
-  
   //Invalid user error
   const invalidUsernameErr = () => {
     dispatch({ type: INVALID_USER_ERR });
@@ -169,8 +167,6 @@ export const AppProvider = ({ children }) => {
     dispatch({ type: PASSWORD_ERR });
     clearText();
   };
-
-
 
   const setupUser = async ({ userDetails, alertText }) => {
     try {
@@ -301,7 +297,7 @@ export const AppProvider = ({ children }) => {
   const uploadMusic = async ({ formData }) => {
     try {
       const { data } = await axios.post(
-        `http://localhost:6000/api/v1/upload/uploadmusic`,
+        `http://localhost:6000/api/v1/upload/uploadproduct`,
         formData,
         {
           "Content-Type": "multipart/form-data",
@@ -319,27 +315,24 @@ export const AppProvider = ({ children }) => {
       });
     }
 
-    // clearText(); 
+    // clearText();
   };
-  const uploadProduct = async ({formData }) => {
+  const uploadProduct = async ({ formData }) => {
     try {
       const { data } = await axios.post(
-        `http://localhost:3001/api/v1/upload/uploadmusic`,
+        `http://localhost:3001/api/v1/upload/uploadproduct`,
         formData,
         {
           "Content-Type": "multipart/form-data",
         }
       );
-
-   
-   
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
 
     // clearText();
   };
-  
+
   //Get songs context
 
   const getSongs = async ({ userDetails }) => {
@@ -407,6 +400,23 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  const getAllSingleProductDetails = async (productid) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/api/v1/products/singleProductInfo`,
+        {
+          id: productid,
+        }
+      );
+      dispatch({ type: LOAD_PAGE });
+      return data.data;
+    } catch (error) {
+      dispatch({ type: SET_SINGLE_SONG_ERROR });
+    }
+  };
+
+
+
   // CHANGE PAGE
   const changePage = (page) => {
     console.log(page);
@@ -418,7 +428,7 @@ export const AppProvider = ({ children }) => {
 
   // GET ALL SONGS
   const getAllSongs = async () => {
-    Spinner();
+    // Spinner();
     try {
       const page = state.page;
 
@@ -434,7 +444,33 @@ export const AppProvider = ({ children }) => {
           totalSongs: totalSongs,
         },
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message)
+    }
+  };
+
+  const getAllProducts = async () => {
+   
+    try {
+      const page = state.page;
+
+      const { data } = await axios.get(
+        `http://localhost:3001/api/v1/products/allproducts?page=${page}`
+      );
+      const { allProducts, numOfPages, totalProducts} = data;
+      dispatch({
+        type: GET_ALL_PRODUCTS,
+        payload: {
+          allProducts: allProducts,
+          numOfPages: numOfPages,
+          totalProducts: totalProducts,
+        },
+      });
+    } catch (error) {
+
+      console.log(error.message)
+
+    }
   };
 
   // GET ALL UNVERIFIED SONGS FOR ADMIN
@@ -546,9 +582,7 @@ export const AppProvider = ({ children }) => {
         `/api/v1/upload/downloadcounter?id=${id}`,
         userDetails
       );
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   // get admin dashboard
@@ -604,76 +638,69 @@ export const AppProvider = ({ children }) => {
   const getMusicLinks = async (filename, songid) => {
     try {
       const userDetails = { filename, songid };
-      console.log(userDetails)
+      console.log(userDetails);
       const data = await axios.post(
-        `http://localhost:6000/api/v1/upload/getSignUrl`,userDetails
+        `http://localhost:6000/api/v1/upload/getSignUrl`,
+        userDetails
       );
     } catch (error) {}
   };
 
-  const tokenIsSet =  () => {
+  const tokenIsSet = () => {
     try {
       const token = localStorage.getItem("token");
-      if(token){
-        dispatch({type: TOKEN_IS_SET})
+      if (token) {
+        dispatch({ type: TOKEN_IS_SET });
+      } else {
+        dispatch({ type: TOKEN_IS_NOT_SET });
       }
-      else{
-        dispatch({type: TOKEN_IS_NOT_SET})
-      }
-    
-
-     
     } catch (error) {}
   };
 
   const ProductMatching = (setProductTypeInfo) => {
-    
     try {
-      dispatch({type: SET_PRODUCT_TYPE,payload:{
-        setProductTypeInfo:setProductTypeInfo
-      }})
-    }
-    catch(e){
+      dispatch({
+        type: SET_PRODUCT_TYPE,
+        payload: {
+          setProductTypeInfo: setProductTypeInfo,
+        },
+      });
+    } catch (e) {}
+  };
 
-    }
-
-  }
-
-  const  MatchProduct = (data) => {
-    
+  const MatchProduct = (data) => {
     try {
-      dispatch({type: SET_PRODUCT_SUBCATEGORY,payload:{
-       SubCategoryInfo:data
-      }})
-    }
-    catch(e){
-
-    }
-
-  }
+      dispatch({
+        type: SET_PRODUCT_SUBCATEGORY,
+        payload: {
+          SubCategoryInfo: data,
+        },
+      });
+    } catch (e) {}
+  };
 
   const MatchSuberb = (data) => {
     try {
-        dispatch({type: SET_SURBERB_REGION,payload:{
-          SurberbData:data
-        }})
-    }
-    catch(e){
-
-    }
-  }
+      dispatch({
+        type: SET_SURBERB_REGION,
+        payload: {
+          SurberbData: data,
+        },
+      });
+    } catch (e) {}
+  };
 
   const MatchBrands = (data) => {
     try {
-        dispatch({type: SET_BRAND_INFO,payload:{
-          BrandData:data
-        }})
-    }
-    catch(e){
+      dispatch({
+        type: SET_BRAND_INFO,
+        payload: {
+          BrandData: data,
+        },
+      });
+    } catch (e) {}
+  };
 
-    }
-  }
-  
   return (
     <AppContext.Provider
       value={{
@@ -711,16 +738,18 @@ export const AppProvider = ({ children }) => {
         tokenIsSet,
         currentStep,
         setStep,
-        productData, 
+        productData,
         setProductData,
         ProductMatching,
         MatchProduct,
         MatchSuberb,
         MatchBrands,
-        uploadProduct
-   
-        
-        
+        uploadProduct,
+        selectedImages,
+        setSelectedImages,
+        getAllProducts,
+        getAllSingleProductDetails
+    
       }}
     >
       {children}

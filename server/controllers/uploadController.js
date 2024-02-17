@@ -7,132 +7,106 @@ import mongoose from "mongoose";
 import uploadFile from "../utils/s3.js";
 import musicFile from "../utils/musicFile.js";
 import { request } from "express";
-import {formvalidationSchema} from "../validations/formvalidationSchema.js"
+import { formvalidationSchema } from "../validations/formvalidationSchema.js";
 
-const uploadmusic = async (req, res) => {
-
-
-  try{
+const uploadproduct = async (req, res) => {
+  try {
     const imagesData = req.files;
-  const bodydata = req.body
-  const{Region,RegionSurberb,Title,ProductType,SubCategory,Brand,Description,Price,Condition,Swapped,Negotiable } = bodydata
+    const bodydata = req.body;
+    const {
+      Region,
+      RegionSurberb,
+      Title,
+      ProductType,
+      SubCategory,
+      Brand,
+      Description,
+      Price,
+      Condition,
+      Swappable,
+      Negotiable,
+    } = bodydata;
 
-  const isFormDataValid = await formvalidationSchema.validate(
-    bodydata
-  );
+    const isFormDataValid = await formvalidationSchema.validate(bodydata);
 
-  if(isFormDataValid){
-     
-    if(imagesData.length <  3){
+    if (isFormDataValid) {
+      if (imagesData.length < 3) {
+        throw new BadRequestError("Please upload at least three images");
+      } else {
+        const sizeOfFile1 = imagesData.file0[0].size;
+        const sizeOfFile2 = imagesData.file1[0].size;
+        const sizeOfFile3 = imagesData.file2[0].size;
 
-      console.log("error")
+        const mimetype1 = imagesData.file0[0].mimetype;
+        const mimevalue1 = mimetype1.split("/")[0];
+
+        const mimetype2 = imagesData.file1[0].mimetype;
+        const mimevalue2 = mimetype2.split("/")[0];
+
+        const mimetype3 = imagesData.file2[0].mimetype;
+        const mimevalue3 = mimetype3.split("/")[0];
+
+        if (
+          sizeOfFile1 > 5000000 ||
+          sizeOfFile2 > 5000000 ||
+          sizeOfFile2 > 5000000
+        ) {
+          throw new BadRequestError("Image file should be less than 5mb");
+        }
+        if (
+          mimevalue1 !== "image" ||
+          mimevalue2 !== "image" ||
+          mimevalue3 !== "image"
+        ) {
+          throw new BadRequestError("Image should be in jpg/png/jpeg format");
+        }
+        const filename1 = mimetype1.replace("audio/", "");
+        const filename2 = mimetype2.replace("audio/", "");
+        const filename3 = mimetype3.replace("audio/", "");
+
+        const buffer1 = imagesData.file1[0].buffer;
+        const buffer2 = imagesData.file1[0].buffer;
+        const buffer3 = imagesData.file2[0].buffer;
+
+        const Key1 = nanoid() + "." + filename1;
+        const Key2 = nanoid() + "." + filename2;
+        const Key3 = nanoid() + "." + filename3;
+
+        const upload1 = uploadFile(buffer1, Key1);
+        const upload2 = uploadFile(buffer2, Key2);
+        const upload3 = uploadFile(buffer3, Key3);
+
+        const uploadData = await Upload.create({
+          Region,
+          RegionSurberb,
+          Title,
+          ProductType,
+          SubCategory,
+          Brand,
+          Description,
+          Price,
+          Condition,
+          Swappable,
+          Negotiable,
+          Key1,
+          Key2,
+          Key3
+        });
+
+        if(uploadData){
+          console.log("successful")
+
+          if(upload1 && upload2 && upload3){
+              console.log("i go")
+          }
+        }
+      }
+    } else {
     }
-    else{
-      
-      
-  
-  console.log(imagesData)
-  // const mimetype = files.file[0].mimetype;
-  // const mimevalue = mimetype.split("/")[0];
-  // const dataType = mimetype.replace("image/", "");
-  // const Key = nanoid() + "." + dataType;
-  // const size1 = files.file1[0].size;
-  // const mimetype1 = files.file1[0].mimetype;
-  // const mimevalue1 = mimetype1.split("/")[0];
-  // const dataType1 = mimetype1.replace("audio/", "");
-  // const Key1 = nanoid() + "." + dataType1;
-    }
-
-
-
+  } catch (e) {
+    console.log(e.message);
   }
-  else{
-   
-  }
-}
 
-
-catch(e){
-
-  console.log(e.message)
-}
-  
-
- 
-  // if (req.tokenData.admin) {
-  //   res.status(500).json();
-  // }
-  // const data = req.body;
-  // console.log("This the " , data)
-
-  // if (!title || !Genre || !artist || !description) {
-  //   throw new BadRequestError("Please provide all values");
-  // }
-
-  // if (!req.files) {
-  //   throw new BadRequestError("Please upload image and music files");
-  // }
-  // const files = req.files;
-  // // console.log(files);
-
-  const size = files.file[0].size;
-  const mimetype = files.file[0].mimetype;
-  const mimevalue = mimetype.split("/")[0];
-  const dataType = mimetype.replace("image/", "");
-  const Key = nanoid() + "." + dataType;
-  const size1 = files.file1[0].size;
-  const mimetype1 = files.file1[0].mimetype;
-  const mimevalue1 = mimetype1.split("/")[0];
-  const dataType1 = mimetype1.replace("audio/", "");
-  const Key1 = nanoid() + "." + dataType1;
-
-  // if (size > 5000000) {
-  //   throw new BadRequestError("Image file should be less than 5mb");
-  // }
-
-  // if (mimevalue !== "image") {
-  //   throw new BadRequestError("Image should be in jpg/png/jpeg format");
-  // }
-
-  // if (size1 > 6000000) {
-  //   throw new BadRequestError("Music file should be less than 10mb");
-  // }
-
-  // if (mimevalue1 !== "audio") {
-  //   throw new BadRequestError("audio should be in a mp3/mp4/wav/mpeg format");
-  // }
-  // const buffer = files.file[0].buffer;
-  // const buffer1 = files.file1[0].buffer;
-
-  // const upload = uploadFile(buffer, Key);
-  // console.log(upload);
-
-  // if (!upload) {
-  //   throw new BadRequestError("Please upload image files");
-  // }
-
-  // const upload1 = uploadFile(buffer1, Key1);
-  // console.log(upload1);
-
-  // if (!upload1) {
-  //   throw new BadRequestError("Please upload music files");
-  // }
-
-  // const uploadData = await Upload.create({
-  //   title,
-  //   Genre,
-  //   artist,
-  //   Key1,
-  //   Key,
-  //   email,
-  //   description,
-  // });
-
-  // if (!uploadData) {
-  //   throw new BadRequestError("Please contact your system administrator");
-  // }
-
-  // res.status(200).json({ success: "success" });
 };
 
 const songInfo = async (req, res) => {
@@ -388,14 +362,13 @@ const getRandomSongs = async (req, res) => {
 };
 
 const getSignUrl = async (req, res) => {
-  const{filename, songid} = req.body
+  const { filename, songid } = req.body;
 
-  const url = musicFile(filename,songid)
-  
+  const url = musicFile(filename, songid);
 };
 
 export {
-  uploadmusic,
+  uploadproduct,
   songInfo,
   SingleSongInfo,
   getAllSongs,

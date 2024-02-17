@@ -59,6 +59,7 @@ export const  SET_BRAND_INFO= " SET_BRAND_INFO"
 export const  IMAGE_EXISTS_ERR= " IMAGE_EXISTS_ERR"
 export const  FILE_SIZE_ERR= " FILE_SIZE_ERR"
 export const  IMAGE_COUNT_ERR= " IMAGE_COUNT_ERR"
+export const GET_ALL_PRODUCTS =  "GET_ALL_PRODUCTS"
 
 
 

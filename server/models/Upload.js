@@ -4,57 +4,80 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const UploadSchema = new mongoose.Schema({
-  title: {
+  Region: {
     type: String,
     minlength: 3,
   },
 
-  description: {
+  RegionSurberb: {
     type: String,
     minlength: 3,
   },
 
-  Genre: {
-    type: String,
-    minlength: 3,
-
-  },
-  artist: {
+  Title: {
     type: String,
     minlength: 3,
 
   },
 
-  Key: {
+  ProductType: {
     type: String,
     minlength: 3,
 
+  },
+
+  SubCategory: {
+    type: String,
+    minlength: 3,
+
+  },
+
+  Brand: {
+    type: String,
+    
+  },
+
+  Description: {
+    type: String,
+    minlength: 3,
+  },
+
+
+  Price: {
+    type: String,
+    
+  },
+
+  Condition: {
+    type: String,
+    
+  },
+
+  Swappable: {
+    type: String,
+  },
+
+  Verified: {
+    type: Boolean,
+    default: true,
+  },
+
+  Negotiable: {
+    type: String,
+    
   },
 
   Key1: {
     type: String,
-    minlength: 3,
   },
 
-  verified: {
-    type: Boolean,
-    default:false,
-  },
-
-
-  email: {
+  Key2: {
     type: String,
-
   },
 
-  downloadCount: {
-    type: Number,
-    default: 0,
-  },
-
-  username: {
+  Key3: {
     type: String,
   }
 });
 
-export default mongoose.model("Songs", UploadSchema);
+export default mongoose.model("Products", UploadSchema);

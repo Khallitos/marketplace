@@ -49,6 +49,7 @@ import {
   IMAGE_EXISTS_ERR,
   FILE_SIZE_ERR,
   IMAGE_COUNT_ERR,
+  GET_ALL_PRODUCTS,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -280,6 +281,16 @@ import {
         AllSongs: action.payload.allSongs,
         numOfPages: action.payload.numOfPages,
         totalSongs: action.payload.totalSongs,
+        isloading: false,
+      };
+    }
+
+    if (action.type === GET_ALL_PRODUCTS) {
+      return {
+        ...state,
+        allProducts: action.payload.allProducts,
+        numOfPages: action.payload.numOfPages,
+        totalProducts: action.payload.totalProducts,
         isloading: false,
       };
     }
