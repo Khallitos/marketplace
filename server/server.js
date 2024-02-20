@@ -10,9 +10,7 @@ import adminRouter from "./routes/adminRoutes.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import multer from "multer";
 import { nanoid } from "nanoid";
-import path from "path";
-import bodyParser from "body-parser";
-import jwtChecker from "./middleware/jwtChecker.js";
+import verifyToken  from "./middleware/verifyToken.js";
 import cors from "cors";
 
 const app = express();
@@ -92,9 +90,10 @@ const multipleUpload = upload.fields([{ name: "file0" }, { name: "file1" },{ nam
 
 app.use(express.static("./public"));
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/adminauth", jwtChecker, adminRouter);
-app.use("/api/v1/upload", jwtChecker, multipleUpload, uploadRouter);
-app.use("/api/v1/products", jwtChecker, productsRouter);
+app.use("/api/v1/authentication", adminRouter);
+app.use("/api/v1/adminauth", adminRouter);
+app.use("/api/v1/upload", verifyToken, multipleUpload, uploadRouter);
+app.use("/api/v1/products", productsRouter);
 
 app.use(errorHandlerMiddleware);
 

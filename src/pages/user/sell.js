@@ -4,9 +4,14 @@ import Stepper from "@mui/material/Stepper";
 import ProductForm from "../../components/forms/ProductForm";
 import ProductDetailsForm from '@/components/forms/ProductDetailsForm';
 import { useAppContext } from '@/context/AppContext';
+import { useRouter } from "next/router";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 const Sell = () => {
+
+  const router = useRouter();
+  const [isloading,setIsLoading] = useState(true)
    
 const dashboardDesign = {
     display: "flex",
@@ -69,9 +74,27 @@ const dashboardDesign = {
     }
   };
 
-useEffect(()=>{
-  
-})
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const isUserLoggedIn = !!localStorage.getItem('token');
+    if (!token || !isUserLoggedIn) {
+      router.push('/login');
+    } else {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isloading)
+  return (
+    <CircularProgress
+      sx={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    />
+  );
   return (
     <Box sx={dashboardDesign}>
             

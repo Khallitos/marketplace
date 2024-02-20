@@ -23,7 +23,7 @@ import {
   CHANGE_PAGE,
   GET_ALL_SONGS,
   SEARCH_ERROR,
-  GET_SEARCHED_SONG,
+  GET_SEARCHED_PRODUCT,
   SONG_DELETED,
   SONG_EDIT_SUCCESS,
   INVALID_USER_ERR,
@@ -50,6 +50,7 @@ import {
   FILE_SIZE_ERR,
   IMAGE_COUNT_ERR,
   GET_ALL_PRODUCTS,
+  ADMIN_LOGIN_USER_SUCCESS,
   SET_INITIALSTATE } from "./actions";
 
   
@@ -100,6 +101,8 @@ import {
         isloading:true
       };
     }
+
+    
     if (action.type === SETUP_USER_SUCCESS) {
       return {
         ...state,
@@ -138,6 +141,21 @@ import {
         username: action.payload.username,
       };
     }
+
+     
+    if (action.type === ADMIN_LOGIN_USER_SUCCESS) {
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "Login successful",
+        alertType: "success",
+        username: action.payload.username,
+      //  token:  action.payload.token,
+      //  email: action.payload.email,
+      //  isTest: action.payload.isTest,
+      };
+    }
+
     if (action.type === VERIFIED_SUCCESS) {
       return {
         ...state,
@@ -314,12 +332,12 @@ import {
         alertText: "No songs found",
       };
     }
-    if (action.type === GET_SEARCHED_SONG) {
+    if (action.type === GET_SEARCHED_PRODUCT) {
       return {
         ...state,
-        AllSongs: action.payload.SearchedSong,
+        allProducts: action.payload.SearchedProduct,
         numOfPages: action.payload.numOfPages,
-        totalSongs: action.payload.totalSongs,
+        totalProducts: action.payload.totalProducts,
       };
     }
   

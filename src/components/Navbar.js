@@ -180,28 +180,7 @@ if (isloading)
           </Link>
         </Box>
 
-        <Box sx={linkDesign}>
-          {links.map((link) => (
-            <Link
-              href={link.path}
-              style={{ textDecoration: "none" }}
-              key={link.id}
-            >
-              <Button
-                key={link.id}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                }}
-              >
-                {link.title}
-              </Button>
-            </Link>
-          ))}
-        </Box>
+   
 
         {isUserLoggedIn && (
           <Box>
@@ -231,12 +210,34 @@ if (isloading)
             </Button>
           </Box>
         )}
-
+<Box sx={loginButtonDesign}>
         {!isUserLoggedIn && (
-          <Box sx={loginButtonDesign}>
+          
             <Button
               variant="outlined"
               onClick={() => router.push("/login")}
+              sx={{
+                backgroundColor: "orange",
+                fontWeight: "bold",
+                fontSize: "13px",
+                color: "white",
+                width: "70px",
+
+                padding: "2px",
+                "&:hover": {
+                  borderRadius: "10px solid black",
+                  color: "white",
+                  background: "#e9b150",
+                },
+              }}
+            >
+              Login
+            </Button>
+       
+        )}
+<Button
+              variant="outlined"
+              onClick={() => router.push("/user/sell")}
               sx={{
                 backgroundColor: "orange",
                 marginX: "30px",
@@ -253,10 +254,11 @@ if (isloading)
                 },
               }}
             >
-              Login
+              Sell
             </Button>
-          </Box>
-        )}
+</Box>
+
+
       </Box>
     </>
   );

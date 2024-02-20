@@ -368,21 +368,6 @@ const getSignUrl = async (req, res) => {
 };
 
 export {
-  uploadproduct,
-  songInfo,
-  SingleSongInfo,
-  getAllSongs,
-  searchSong,
-  deleteSong,
-  editSong,
-  userInfo,
-  approveSong,
-  getAllUnverifiedSongs,
-  getSongsForAdmin,
-  searchSongForAdmin,
-  downloadCounter,
-  getAdminDashboard,
-  getTrendingSongs,
-  getRandomSongs,
-  getSignUrl,
+  uploadproduct
+
 };

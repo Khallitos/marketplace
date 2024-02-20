@@ -59,7 +59,7 @@ const UploadSchema = new mongoose.Schema({
 
   Verified: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 
   Negotiable: {

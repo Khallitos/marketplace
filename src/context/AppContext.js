@@ -58,7 +58,10 @@ import {
   IMAGE_EXISTS_ERR,
   FILE_SIZE_ERR,
   IMAGE_COUNT_ERR,
-  GET_ALL_PRODUCTS
+  GET_ALL_PRODUCTS,
+  GET_SEARCHED_PRODUCT,
+  SET_ISLOADING,
+  ADMIN_LOGIN_USER_SUCCESS
 } from "./actions";
 
 //https://kanmusic.onrender.com
@@ -129,13 +132,27 @@ export const AppProvider = ({ children }) => {
     token,
     email,
     verified,
-    isUserLoggedIn
+    isUserLoggedIn,
+    isTest
   ) => {
     localStorage.setItem("username", username);
     localStorage.setItem("token", token);
     localStorage.setItem("email", email);
     localStorage.setItem("verified", verified);
     localStorage.setItem("isUserLoggedIn", isUserLoggedIn);
+    localStorage.setItem("isTest", isTest);
+  };
+
+  const addAdminToLocalStorage = (
+    username,
+    token,
+    email,
+    isTest
+  ) => {
+    localStorage.setItem("username", username);
+    localStorage.setItem("token", token);
+    localStorage.setItem("email", email);
+    localStorage.setItem("isTest", isTest);
   };
   // logout User
   const logUserOff = () => {
@@ -144,6 +161,7 @@ export const AppProvider = ({ children }) => {
     localStorage.removeItem("email");
     localStorage.removeItem("username");
     localStorage.removeItem("isUserLoggedIn");
+    localStorage.removeItem("isTest");
   };
 
   // clear text
@@ -158,6 +176,10 @@ export const AppProvider = ({ children }) => {
     clearText();
   };
 
+  const isLoadingSet = () => {
+    dispatch({ type: SET_ISLOADING });
+    
+  };
   //Invalid user error
   const invalidUsernameErr = () => {
     dispatch({ type: INVALID_USER_ERR });
@@ -171,7 +193,7 @@ export const AppProvider = ({ children }) => {
   const setupUser = async ({ userDetails, alertText }) => {
     try {
       const { data } = await axios.post(
-        `https://kanmusic.onrender.com/api/v1/auth/register`,
+        `http://localhost:3001/api/v1/auth/register`,
         userDetails
       );
       const { email, username } = data;
@@ -190,7 +212,7 @@ export const AppProvider = ({ children }) => {
   const loginUser = async ({ userDetails, alertText }) => {
     try {
       const { data } = await axios.post(
-        `https://kanmusic.onrender.com/api/v1/auth/login`,
+        `http://localhost:3001/api/v1/auth/login`,
         userDetails
       );
       const { username, email, verified, token } = data;
@@ -207,7 +229,30 @@ export const AppProvider = ({ children }) => {
     clearText();
   };
 
+  
   //login admin
+
+  const loginAdminUser = async ({ userDetails, alertText }) => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/api/v1/authentication/admin`,
+        userDetails
+      );
+    
+      const { username, email, verified, token,isTest } = data;
+      const isUserLoggedIn = true;
+      console.log(data)
+      addAdminToLocalStorage(username, token, email, isTest);
+      dispatch({ type: ADMIN_LOGIN_USER_SUCCESS, payload: { username,token,email,isTest } });
+      router.push("/admin/dashboard");
+    } catch (error) {
+      dispatch({
+        type: LOGIN_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearText();
+  };
 
   const loginAdmin = async ({ userDetails, alertText }) => {
     try {
@@ -215,10 +260,12 @@ export const AppProvider = ({ children }) => {
         `/api/v1/adminauth/adminLogin`,
         userDetails
       );
-      const { username, token } = data;
+      const { username, token,isTest,email } = data;
       dispatch({ type: ADMIN_LOGIN_SUCCESS });
       localStorage.setItem("username", username);
       localStorage.setItem("token", token);
+      localStorage.setItem("email", email);
+      localStorage.setItem("isTest", isTest);
     } catch (error) {
       dispatch({
         type: LOGIN_USER_ERROR,
@@ -504,19 +551,25 @@ export const AppProvider = ({ children }) => {
 
   const searchSong = async (search) => {
     try {
-      const { data } = await axios.get(
-        `https://kanmusic.onrender.com/api/v1/upload/searchSong?song=${search}`
+      const { data } = await axios.post(
+        `http://localhost:3001/api/v1/products/searchProduct?product=${search}`
       );
-      const { numOfPages, SearchedSong, totalSongs } = data;
+      const { numOfPages, SearchedProduct, totalProducts } = data;
       dispatch({
-        type: GET_SEARCHED_SONG,
+        type: GET_SEARCHED_PRODUCT,
         payload: {
-          SearchedSong: SearchedSong,
+          SearchedProduct: SearchedProduct,
           numOfPages: numOfPages,
-          totalSongs: totalSongs,
+          totalProducts: totalProducts,
         },
       });
-    } catch (e) {}
+
+    } 
+    catch (e) 
+    {
+
+      
+    }
   };
 
   // search engine for admin
@@ -748,7 +801,9 @@ export const AppProvider = ({ children }) => {
         selectedImages,
         setSelectedImages,
         getAllProducts,
-        getAllSingleProductDetails
+        getAllSingleProductDetails,
+        loginAdminUser,
+        isLoadingSet
     
       }}
     >

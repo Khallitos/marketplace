@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import Admin from "../models/Admin.js";
 import BadRequestError from "../errors/bad-request.js";
 import sendMail from "../utils/emailSender.js";
 import { StatusCodes } from "http-status-codes";
@@ -11,12 +11,13 @@ import bcrypt from "bcryptjs";
 // login Administrator
 
 const loginAdmin = async (req, res) => {
-  const { username, password } = req.body;
-  if (username !== "admin") {
-    throw new BadRequestError("invalid credentials please contact the system administrator");
-  }
-  const user = await User.findOne({ username }).select("+password");
+  const {  email, password } = req.body;
 
+  if (!email || !password) {
+    throw new BadRequestError("Please Provide all values");
+  }
+
+  const user = await Admin.findOne({ email }).select("+password");
   if (!user) {
     throw new BadRequestError("invalid credentials");
   }
@@ -26,14 +27,18 @@ const loginAdmin = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new BadRequestError("invalid credentials");
   }
-
   const token = user.createJWT();
+  user.password = undefined;
+  const GoldenHive = true;
 
   res
     .status(StatusCodes.OK)
     .json({
       username: user.username,
-      token : token
+      token,
+      isTest:GoldenHive,
+      email: user.email,
+      verified: user.verified,
     });
 };
 

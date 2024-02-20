@@ -98,8 +98,7 @@ const DsgsearchText = {
 
 export default function home() {
   const {
-    getAllSongs,
-    AllSongs,
+    getAllProducts,
     page,
     searchSong,
     isloading,
@@ -107,7 +106,8 @@ export default function home() {
     getAllTrendingSongs,
     getAllRandomSongs,
     RandomSongs,
-    totalSongs,
+    totalProducts,
+    allProducts,
   } = useAppContext();
 
   const [search, setSearch] = useState("");
@@ -117,8 +117,8 @@ export default function home() {
     setIsSuggestions(true);
   };
 
-  const getSongs = () => {
-    getAllSongs();
+  const getProducts = () => {
+    getAllProducts();
   };
 
   const handleKeypress = (e) => {
@@ -136,7 +136,7 @@ export default function home() {
   };
 
   useEffect(() => {
-    getSongs();
+    getProducts();
   }, [page]);
 
   useEffect(() => {
@@ -145,9 +145,9 @@ export default function home() {
   }, []);
 
   useEffect(() => {
-    if (search.length < 1) {
-      getSongs();
-    }
+    // if (search.length < 1) {
+    //   getSongs();
+    // }
   }, [search.length]);
 
   if (isloading)
@@ -178,7 +178,7 @@ export default function home() {
             inputProps={{ "aria-label": "Search for a song" }}
             name="search"
             value={search}
-            autoFocus
+            
             // onKeyDown= {Search}
             onKeyPress={handleKeypress}
             onChange={(e) => setSearch(e.target.value)}
@@ -195,7 +195,7 @@ export default function home() {
         </Paper>
 
         <div>
-          {!totalSongs && (
+          {!totalProducts && (
             <Typography
               variant="h5"
               color="initial"
@@ -205,19 +205,17 @@ export default function home() {
             </Typography>
           )}
 
-          {AllSongs.map((song) => (
+          {allProducts.map((product) => (
             <Link
-              href={"/download/" + song._id}
+              href={"/productinfo/" + product._id}
               style={linkStyle}
-              key={song._id}
+              key={product._id}
             >
               <Cards
-                key={song._id}
-                title={song.title}
-                artist={song.artist}
-                Genre={song.Genre}
-                description={song.description}
-                ImageKey={song.Key}
+                key={product._id}
+                Title={product.Title}
+                Price={product.Price}        
+                ImageKey={product.Key1}
               />
             </Link>
           ))}

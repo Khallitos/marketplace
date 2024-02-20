@@ -171,11 +171,13 @@ const ProductDetailsForm = () => {
       Description: productData["Description"],
       Price: productData["Price"],
       Condition: productData["Condition"],
+      Negotiable: productData["Negotiable"],
       Swappable: productData["Swappable"] ,
-      Negotiable: productData["Negotiable"]
+      
     };
 
     try {
+      console.log(ProductDetailsInfo)
       const isValidProductDetails =
         await ProductDetailsInfoValidationSchema.isValid(ProductDetailsInfo);
 
